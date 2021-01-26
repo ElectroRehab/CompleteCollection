@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1600047889 source:d:\school\fall2020\csc-234-0901 - advanced c++ programming\module 2\m2lab2\m2lab2\main.cpp
+	<string>
+	<iostream>
+	<vector>
+

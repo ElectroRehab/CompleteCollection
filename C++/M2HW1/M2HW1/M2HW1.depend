@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1600012804 source:d:\school\fall2020\csc-234-0901 - advanced c++ programming\module 2\m2lab2\m2lab2\main.cpp
+	<string>
+	<iostream>
+	<vector>
+
+1600461617 source:d:\school\fall2020\csc-234-0901 - advanced c++ programming\module 2\m2hw1\m2hw1\main.cpp
+	<string>
+	<iostream>
+	<vector>
+
+1600461617 source:d:\school\fall2020\csc-234-0901 - advanced c++ programming\module 2\m2hw1\m2hw1 - copy\main.cpp
+	<string>
+	<iostream>
+	<vector>
+
