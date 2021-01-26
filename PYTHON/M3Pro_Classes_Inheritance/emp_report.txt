@@ -1,0 +1,5 @@
+
+First Name	Last Name	Email(Company Name)		Position	Full/Part Time	Salary
+------------------------------------------------------------------------------------------------------------
+Jon             King            Jon.King@company.com            Manager         Full            $100000.00           
+Jimmy           Hendrix         Jimmy.Hendrix@company.com       Band            Part            $500000.00           
