@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1602901452 source:d:\school\fall2020\csc-234-0901 - advanced c++ programming\module 3\m3lab2\m3lab2_kingjon\main.cpp
+	<iostream>
+	<vector>
+
+1602959395 source:d:\school\fall2020\csc-234-0901 - advanced c++ programming\module 3\m3lab2\silver\m3lab2_kingjon\main.cpp
+	<iostream>
+	<vector>
+
+1602959395 source:d:\school\fall2020\csc-234-0901 - advanced c++ programming\module 3\m3lab2\gold\m3lab2_kingjon\main.cpp
+	<iostream>
+	<vector>
+
