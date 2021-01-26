@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1598040476 source:h:\school\fall2020\csc-234-0901 - advanced c++ programming\module 1\m1hw\main.cpp
+	<iostream>
+	<cstdlib>
+
