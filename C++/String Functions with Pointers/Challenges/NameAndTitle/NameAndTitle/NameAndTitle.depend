@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1604859739 source:d:\school\fall2020\csc-234-0901 - advanced c++ programming\zybooks\chapter 8\string functions with pointers\challenges\nameandtitle\nameandtitle\main.cpp
+	<iostream>
+	<cstring>
+

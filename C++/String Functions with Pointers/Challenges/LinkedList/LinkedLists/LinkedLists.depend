@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1604860949 source:d:\school\fall2020\csc-234-0901 - advanced c++ programming\zybooks\chapter 8\string functions with pointers\challenges\linkedlist\linkedlists\main.cpp
+	<iostream>
+	<iostream>
+	<iostream>
+	<iostream>
+	<cstdlib>
+
