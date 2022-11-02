@@ -1,0 +1,2 @@
+javac Calculations.java
+java Calculations
