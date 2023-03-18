@@ -258,6 +258,39 @@ namespace Finance_App
                 }
             }
         }
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            // Ensure a user is selected to do calculations
+            if (textBox30.Text == "")
+            {
+                MessageBox.Show("Select A User.");
+            }
+            // User is available to complete calculations
+            else 
+            { 
+                if (MessageBox.Show("Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    try
+                    {
+                        // Combine all the expenses into a single variable.
+                        double expensesCalc = double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
+                             + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
+                              + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                        // Find the difference between what is available to what expenses are being used.
+                        double differenceCalc = double.Parse(textBox34.Text) - expensesCalc;
+                        // Display all expenses
+                        textBox28.Text = expensesCalc.ToString();
+                        // Display the difference
+                        textBox29.Text = differenceCalc.ToString();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Calculations could not be performed");
+                    }
+
+                }
+            }
+        }
         // Check to see users available in database
         private void ComboBox1_Click(object sender, EventArgs e)
         {
@@ -349,6 +382,100 @@ namespace Finance_App
             {
                 MessageBox.Show("No Connection");
             }
-        }        
+        }
+        // Check to see users available in database
+        private void ComboBox2_Click(object sender, EventArgs e)
+        {
+            // Database location string
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+            // Run database connection
+            using (SqlConnection dropDownConn = new SqlConnection(connectionString))
+            {
+                dropDownConn.Open();
+                // Run SQL statement 
+                string query = "SELECT First FROM People";
+                SqlCommand cmm = new SqlCommand(query, dropDownConn);
+                // Read the results of statement and add all users into combobox
+                using (SqlDataReader reader = cmm.ExecuteReader())
+                {
+                    // Clear out combobox to avoid duplicates
+                    comboBox2.Items.Clear();
+                    // Populate combobox with updated material
+                    while (reader.Read())
+                    {
+                        string names = reader.GetString(0);
+                        comboBox2.Items.Add(names);
+                    }
+                }
+                // Close Current Connection
+                dropDownConn.Close();
+            }
+        }
+
+        private void ComboBoxTextChangeTwo(object sender, EventArgs e)
+        {
+            // Initiate SQL items for when the text is changed within the ComboBox
+            string sqlStatement;
+            string connectionString;
+
+            // Attempt to determine the User and populate fields from totals
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                // Run database connection
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    // Search for ID from selected user in ComboBox
+                    using (SqlCommand cmd = new SqlCommand("SELECT Id FROM People WHERE First = @name"))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = con;
+                        con.Open();
+                        cmd.Parameters.AddWithValue("@name", comboBox2.SelectedItem);
+                        // Insert the ID from People Database
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            sdr.Read();
+                            textBox30.Text = sdr["Id"].ToString();
+                        }
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM Money WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox30.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox31.Text = sdr["Donation"].ToString();
+                    textBox32.Text = sdr["Savings"].ToString();
+                    textBox33.Text = sdr["GOKF"].ToString();
+                    textBox34.Text = sdr["Spending"].ToString();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
+
+        
     }
 }
