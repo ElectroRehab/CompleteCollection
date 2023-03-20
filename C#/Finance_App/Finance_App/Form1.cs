@@ -39,14 +39,14 @@ namespace Finance_App
                 cmd.Parameters.Add(new SqlParameter("@state", SqlDbType.Char, 2));
                 cmd.Parameters.Add(new SqlParameter("@zip", SqlDbType.Char, 10));
                 // Set user inputted values within the database
-                cmd.Parameters["@firstname"].Value = textBox11.Text;
-                cmd.Parameters["@lastname"].Value = textBox12.Text;
-                cmd.Parameters["@email"].Value = textBox13.Text;
-                cmd.Parameters["@address1"].Value = textBox14.Text;
-                cmd.Parameters["@address2"].Value = textBox15.Text;
-                cmd.Parameters["@city"].Value = textBox16.Text;
-                cmd.Parameters["@state"].Value = stateBox1.Text;
-                cmd.Parameters["@zip"].Value = textBox17.Text;
+                cmd.Parameters["@firstname"].Value = textBox11.Text.Trim();
+                cmd.Parameters["@lastname"].Value = textBox12.Text.Trim();
+                cmd.Parameters["@email"].Value = textBox13.Text.Trim();
+                cmd.Parameters["@address1"].Value = textBox14.Text.Trim();
+                cmd.Parameters["@address2"].Value = textBox15.Text.Trim();
+                cmd.Parameters["@city"].Value = textBox16.Text.Trim();
+                cmd.Parameters["@state"].Value = stateBox1.Text.Trim();
+                cmd.Parameters["@zip"].Value = textBox17.Text.Trim();
                 // Open Database
                 cn.Open();
                 if (textBox13.Text.Contains("@"))
@@ -287,11 +287,15 @@ namespace Finance_App
                             + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text)+ double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
                              + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
                               + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                        // Main Expense Totals
+                        double mainExpense = double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
+                             + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
+                              + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
                         // Find the difference between what is available to what expenses are being used.
                         double differenceCalc = double.Parse(textBox34.Text) - expensesCalc;
                         // Display all expenses
                         textBox28.Text = expensesCalc.ToString();
-                        
+                        textBox60.Text = mainExpense.ToString();
                         // Display the difference
                         if (differenceCalc < 0)
                         {
@@ -334,11 +338,15 @@ namespace Finance_App
                             + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
                              + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
                               + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                        // Additional Expenses Total
+                        double additionalExpenses = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
+                            + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
+                            + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text);
                         // Find the difference between what is available to what expenses are being used.
                         double differenceCalc = double.Parse(textBox51.Text) - expensesCalc;
                         // Display all expenses
                         textBox45.Text = expensesCalc.ToString();
-
+                        textBox61.Text = additionalExpenses.ToString();
                         // Display the difference
                         if (differenceCalc < 0)
                         {
@@ -636,6 +644,104 @@ namespace Finance_App
                 MessageBox.Show("No Connection");
             }
         }
+        private void ComboBoxFive_Click(object sender, EventArgs e)
+        {
+            
+            {
+                // Database location string
+                string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                // Run database connection
+                using (SqlConnection dropDownConn = new SqlConnection(connectionString))
+                {
+                    dropDownConn.Open();
+                    // Run SQL statement 
+                    string query = "SELECT First FROM People";
+                    SqlCommand cmm = new SqlCommand(query, dropDownConn);
+                    // Read the results of statement and add all users into combobox
+                    using (SqlDataReader reader = cmm.ExecuteReader())
+                    {
+                        // Clear out combobox to avoid duplicates
+                        comboBox5.Items.Clear();
+                        // Populate combobox with updated material
+                        while (reader.Read())
+                        {
+                            string names = reader.GetString(0);
+                            comboBox5.Items.Add(names);
+                        }
+                    }
+                    // Close Current Connection
+                    dropDownConn.Close();
+                }
+            }
+            
+        }
+        private void ComboBoxTextChangeFive(object sender, EventArgs e) 
+        {
+            // Initiate SQL items for when the text is changed within the ComboBox
+            string sqlStatement;
+            string connectionString;
+
+            // Attempt to determine the User and populate fields from totals
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                // Run database connection
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    // Search for ID from selected user in ComboBox
+                    using (SqlCommand cmd = new SqlCommand("SELECT Id FROM People WHERE First = @name"))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = con;
+                        con.Open();
+                        cmd.Parameters.AddWithValue("@name", comboBox5.SelectedItem);
+                        // Insert the ID from People Database
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            sdr.Read();
+                            textBox59.Text = sdr["Id"].ToString();
+                        }
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM People WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox59.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox52.Text = sdr["First"].ToString();
+                    textBox53.Text = sdr["Last"].ToString();
+                    textBox54.Text = sdr["Email"].ToString();
+                    textBox55.Text = sdr["Address1"].ToString();
+                    textBox56.Text = sdr["Address2"].ToString();
+                    textBox57.Text = sdr["City"].ToString();
+                    comboBox4.Text = sdr["State"].ToString();
+                    textBox58.Text = sdr["Zip"].ToString();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
         private void ChangeTabs(object sender, EventArgs e)
         {
             // Combine all the expenses into a single variable.
@@ -649,5 +755,67 @@ namespace Finance_App
             textBox28.Text = expensesCalc.ToString();
         }
 
+        private void Button6_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Confirm Updaing User?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                // Initiate SQL items for when the text is changed within the ComboBox
+                string sqlStatement;
+                string connectionString;
+                try
+                {
+
+                    string moneyString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                    SqlConnection conn = new SqlConnection(moneyString);
+                    conn.Open();
+
+                    string updateQuery = "UPDATE People SET First='" + textBox52.Text.Trim() + "',Last='" + textBox53.Text.Trim() + 
+                        "',Email='" + textBox54.Text.Trim() + "',Address1='" + textBox55.Text.Trim() + "',Address2='" + textBox56.Text.Trim() + 
+                        "',City='" + textBox57.Text.Trim() + "',State='" + comboBox4.Text.Trim() + "',Zip='" + textBox58.Text.Trim() + "' WHERE Id = " + textBox59.Text;
+                    SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+
+
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+
+                // Attempt to populate fields from Money Database
+                try
+                {
+                    // Database location string
+                    connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                    SqlConnection cnn = new SqlConnection(connectionString);
+                    cnn.Open();
+                    // Run SQL statement 
+                    sqlStatement = "SELECT * FROM People WHERE Id = @id";
+                    SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                    // Use ID populated to confirm proper insertion
+                    cmd.Parameters.AddWithValue("@id", textBox59.Text);
+                    // Read through database and insert fields into TextBoxes
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sdr.Read();
+                        textBox52.Text = sdr["First"].ToString();
+                        textBox53.Text = sdr["Last"].ToString();
+                        textBox54.Text = sdr["Email"].ToString();
+                        textBox55.Text = sdr["Address1"].ToString();
+                        textBox56.Text = sdr["Address2"].ToString();
+                        textBox57.Text = sdr["City"].ToString();
+                        comboBox4.Text = sdr["State"].ToString();
+                        textBox58.Text = sdr["Zip"].ToString();
+                    }
+                    cnn.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+            }
         }
+    }
 }
