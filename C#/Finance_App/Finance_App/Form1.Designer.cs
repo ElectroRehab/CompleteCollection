@@ -48,6 +48,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.button7 = new System.Windows.Forms.Button();
             this.label65 = new System.Windows.Forms.Label();
             this.textBox59 = new System.Windows.Forms.TextBox();
             this.label64 = new System.Windows.Forms.Label();
@@ -176,7 +177,8 @@
             this.label55 = new System.Windows.Forms.Label();
             this.textBox35 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.button7 = new System.Windows.Forms.Button();
+            this.label68 = new System.Windows.Forms.Label();
+            this.comboBox6 = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -466,6 +468,17 @@
             this.tabPage6.Text = "View Users";
             this.tabPage6.UseVisualStyleBackColor = true;
             // 
+            // button7
+            // 
+            this.button7.Font = new System.Drawing.Font("Arial", 14.25F);
+            this.button7.Location = new System.Drawing.Point(733, 231);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(127, 45);
+            this.button7.TabIndex = 89;
+            this.button7.Text = "Delete User";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.Button7_Click);
+            // 
             // label65
             // 
             this.label65.AutoSize = true;
@@ -715,6 +728,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.comboBox6);
+            this.tabPage2.Controls.Add(this.label68);
             this.tabPage2.Controls.Add(this.button3);
             this.tabPage2.Controls.Add(this.button2);
             this.tabPage2.Controls.Add(this.label12);
@@ -774,7 +789,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(656, 15);
+            this.label12.Location = new System.Drawing.Point(611, 15);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(19, 16);
             this.label12.TabIndex = 70;
@@ -783,7 +798,7 @@
             // textBox6
             // 
             this.textBox6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox6.Location = new System.Drawing.Point(659, 31);
+            this.textBox6.Location = new System.Drawing.Point(614, 31);
             this.textBox6.Name = "textBox6";
             this.textBox6.ReadOnly = true;
             this.textBox6.Size = new System.Drawing.Size(186, 29);
@@ -814,7 +829,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(656, 305);
+            this.label14.Location = new System.Drawing.Point(611, 305);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(92, 16);
             this.label14.TabIndex = 66;
@@ -823,7 +838,7 @@
             // textBox10
             // 
             this.textBox10.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox10.Location = new System.Drawing.Point(659, 321);
+            this.textBox10.Location = new System.Drawing.Point(614, 321);
             this.textBox10.Name = "textBox10";
             this.textBox10.ReadOnly = true;
             this.textBox10.Size = new System.Drawing.Size(186, 29);
@@ -833,7 +848,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(656, 234);
+            this.label15.Location = new System.Drawing.Point(611, 234);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(169, 16);
             this.label15.TabIndex = 64;
@@ -842,7 +857,7 @@
             // textBox9
             // 
             this.textBox9.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox9.Location = new System.Drawing.Point(659, 250);
+            this.textBox9.Location = new System.Drawing.Point(614, 250);
             this.textBox9.Name = "textBox9";
             this.textBox9.ReadOnly = true;
             this.textBox9.Size = new System.Drawing.Size(186, 29);
@@ -852,7 +867,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(656, 159);
+            this.label16.Location = new System.Drawing.Point(611, 159);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(83, 16);
             this.label16.TabIndex = 62;
@@ -861,7 +876,7 @@
             // textBox8
             // 
             this.textBox8.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox8.Location = new System.Drawing.Point(659, 175);
+            this.textBox8.Location = new System.Drawing.Point(614, 175);
             this.textBox8.Name = "textBox8";
             this.textBox8.ReadOnly = true;
             this.textBox8.Size = new System.Drawing.Size(186, 29);
@@ -882,7 +897,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(656, 86);
+            this.label17.Location = new System.Drawing.Point(611, 86);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(89, 16);
             this.label17.TabIndex = 59;
@@ -891,7 +906,7 @@
             // textBox7
             // 
             this.textBox7.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox7.Location = new System.Drawing.Point(659, 102);
+            this.textBox7.Location = new System.Drawing.Point(614, 102);
             this.textBox7.Name = "textBox7";
             this.textBox7.ReadOnly = true;
             this.textBox7.Size = new System.Drawing.Size(186, 29);
@@ -1847,16 +1862,29 @@
             this.tabPage4.Text = "Long Term Saving Plan";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // button7
+            // label68
             // 
-            this.button7.Font = new System.Drawing.Font("Arial", 14.25F);
-            this.button7.Location = new System.Drawing.Point(733, 231);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(127, 45);
-            this.button7.TabIndex = 89;
-            this.button7.Text = "Delete User";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.Button7_Click);
+            this.label68.AutoSize = true;
+            this.label68.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label68.Location = new System.Drawing.Point(835, 233);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(72, 16);
+            this.label68.TabIndex = 75;
+            this.label68.Text = "Cap Out @";
+            // 
+            // comboBox6
+            // 
+            this.comboBox6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox6.FormattingEnabled = true;
+            this.comboBox6.Items.AddRange(new object[] {
+            "2000",
+            "3000",
+            "4000",
+            "5000"});
+            this.comboBox6.Location = new System.Drawing.Point(838, 249);
+            this.comboBox6.Name = "comboBox6";
+            this.comboBox6.Size = new System.Drawing.Size(148, 30);
+            this.comboBox6.TabIndex = 76;
             // 
             // Form1
             // 
@@ -2032,6 +2060,8 @@
         private System.Windows.Forms.Label label67;
         private System.Windows.Forms.TextBox textBox61;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.Label label68;
     }
 }
 

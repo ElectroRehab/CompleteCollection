@@ -110,7 +110,7 @@ namespace Finance_App
         {
             double input = 0;
             // Check if user is selected prior to calculations
-            if (textBox6.Text != "")
+            if (textBox6.Text != "" && comboBox6.Text != "")
             {
                 // Initial Input Calculations
                 try
@@ -128,28 +128,28 @@ namespace Finance_App
                 }
                 else
                 {
-                    // Check to see if God Only Knows Fund has reached or will reach $3000
+                    // Check to see if God Only Knows Fund has reached or will reach set cap.
                     double checkAmount = double.Parse(textBox9.Text);
                     double preCheck = double.Parse(textBox9.Text) + (input * 0.25);
                     // Calculate Remaining Sections
                     textBox2.Text = Decimal.Round((decimal)(input * 0.10), 2).ToString();
                     textBox3.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
-                    // If God Only Knows Fund is already at $3000, take remainder and add it to Spending Section
-                    if (checkAmount >= 3000)
+                    // If God Only Knows Fund is already at set cap, take remainder and add it to Spending Section
+                    if (checkAmount >= double.Parse(comboBox6.Text))
                     {
                         textBox4.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
                         double remainder = double.Parse(textBox4.Text);
                         textBox4.Text = 0.00.ToString();
-                        textBox5.Text = Decimal.Round((decimal)((input * 0.40)+remainder), 2).ToString();
+                        textBox5.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString();
                     }
-                    // If God Only Knows Fund deposit reaches $3000, take remainder and add it to Spending Section
-                    else if (preCheck >= 3000)
+                    // If God Only Knows Fund deposit reaches set cap, take remainder and add it to Spending Section
+                    else if (preCheck >= double.Parse(comboBox6.Text))
                     {
-                        double remainder = preCheck - 3000;
+                        double remainder = preCheck - double.Parse(comboBox6.Text);
                         textBox4.Text = Decimal.Round((decimal)((input * 0.25) - remainder), 2).ToString();
                         textBox5.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString();
                     }
-                    // If neither calculation reaches the maximum amount of $3000 in the GOKF, complete calulations without anyt changes.
+                    // If neither calculation reaches the maximum amount of set cap in the GOKF, complete calulations without any changes.
                     else
                     {
                         textBox4.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
@@ -160,7 +160,7 @@ namespace Finance_App
             // Alert user that they need to select an account prior to completing any calculations
             else 
             {
-                MessageBox.Show("Select User");
+                MessageBox.Show("Select User & Set Cap for \nGod Only Knows Fund");
             }                       
         }
         private void Button2_Click(object sender, EventArgs e)
