@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Drawing;
 using System.Reflection.Emit;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -126,10 +128,33 @@ namespace Finance_App
                 }
                 else
                 {
+                    // Check to see if God Only Knows Fund has reached or will reach $3000
+                    double checkAmount = double.Parse(textBox9.Text);
+                    double preCheck = double.Parse(textBox9.Text) + (input * 0.25);
+                    // Calculate Remaining Sections
                     textBox2.Text = Decimal.Round((decimal)(input * 0.10), 2).ToString();
                     textBox3.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
-                    textBox4.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
-                    textBox5.Text = Decimal.Round((decimal)(input * 0.40), 2).ToString();
+                    // If God Only Knows Fund is already at $3000, take remainder and add it to Spending Section
+                    if (checkAmount >= 3000)
+                    {
+                        textBox4.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
+                        double remainder = double.Parse(textBox4.Text);
+                        textBox4.Text = 0.00.ToString();
+                        textBox5.Text = Decimal.Round((decimal)((input * 0.40)+remainder), 2).ToString();
+                    }
+                    // If God Only Knows Fund deposit reaches $3000, take remainder and add it to Spending Section
+                    else if (preCheck >= 3000)
+                    {
+                        double remainder = preCheck - 3000;
+                        textBox4.Text = Decimal.Round((decimal)((input * 0.25) - remainder), 2).ToString();
+                        textBox5.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString();
+                    }
+                    // If neither calculation reaches the maximum amount of $3000 in the GOKF, complete calulations without anyt changes.
+                    else
+                    {
+                        textBox4.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
+                        textBox5.Text = Decimal.Round((decimal)(input * 0.40), 2).ToString();
+                    }                    
                 }
             }
             // Alert user that they need to select an account prior to completing any calculations
@@ -184,10 +209,10 @@ namespace Finance_App
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
                         sdr.Read();
-                        textBox7.Text = sdr["Donation"].ToString();
-                        textBox8.Text = sdr["Savings"].ToString();
-                        textBox9.Text = sdr["GOKF"].ToString();
-                        textBox10.Text = sdr["Spending"].ToString();
+                        textBox7.Text = sdr["Donation"].ToString().Trim();
+                        textBox8.Text = sdr["Savings"].ToString().Trim();
+                        textBox9.Text = sdr["GOKF"].ToString().Trim();
+                        textBox10.Text = sdr["Spending"].ToString().Trim();
                         textBox7.BackColor = Color.Green;
                         textBox8.BackColor = Color.Green;
                         textBox9.BackColor = Color.Green;
@@ -200,6 +225,9 @@ namespace Finance_App
                     MessageBox.Show("No Connection");
                 }
             }
+            else {
+                MessageBox.Show("Action Cancelled");
+            }            
         }
 
         // Undo last transaction from Deposit
@@ -249,10 +277,10 @@ namespace Finance_App
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
                         sdr.Read();
-                        textBox7.Text = sdr["Donation"].ToString();
-                        textBox8.Text = sdr["Savings"].ToString();
-                        textBox9.Text = sdr["GOKF"].ToString();
-                        textBox10.Text = sdr["Spending"].ToString();
+                        textBox7.Text = sdr["Donation"].ToString().Trim();
+                        textBox8.Text = sdr["Savings"].ToString().Trim();
+                        textBox9.Text = sdr["GOKF"].ToString().Trim();
+                        textBox10.Text = sdr["Spending"].ToString().Trim();
                         textBox7.BackColor = Color.White;
                         textBox8.BackColor = Color.White;
                         textBox9.BackColor = Color.White;
@@ -388,7 +416,7 @@ namespace Finance_App
                     // Populate combobox with updated material
                     while (reader.Read())
                     {
-                        string names = reader.GetString(0);
+                        string names = reader.GetString(0).Trim();
                         comboBox1.Items.Add(names);
                     }
                 }
@@ -448,10 +476,10 @@ namespace Finance_App
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    textBox7.Text = sdr["Donation"].ToString();
-                    textBox8.Text = sdr["Savings"].ToString();
-                    textBox9.Text = sdr["GOKF"].ToString();
-                    textBox10.Text = sdr["Spending"].ToString();
+                    textBox7.Text = sdr["Donation"].ToString().Trim();
+                    textBox8.Text = sdr["Savings"].ToString().Trim();
+                    textBox9.Text = sdr["GOKF"].ToString().Trim();
+                    textBox10.Text = sdr["Spending"].ToString().Trim();
                 }
                 cnn.Close();
             }
@@ -480,7 +508,7 @@ namespace Finance_App
                     // Populate combobox with updated material
                     while (reader.Read())
                     {
-                        string names = reader.GetString(0);
+                        string names = reader.GetString(0).Trim();
                         comboBox2.Items.Add(names);
                     }
                 }
@@ -508,7 +536,7 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0);
+                            string names = reader.GetString(0).Trim();
                             comboBox3.Items.Add(names);
                         }
                     }
@@ -543,7 +571,7 @@ namespace Finance_App
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             sdr.Read();
-                            textBox30.Text = sdr["Id"].ToString();
+                            textBox30.Text = sdr["Id"].ToString().Trim();
                         }
                         con.Close();
                     }
@@ -569,10 +597,10 @@ namespace Finance_App
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    textBox31.Text = sdr["Donation"].ToString();
-                    textBox32.Text = sdr["Savings"].ToString();
-                    textBox33.Text = sdr["GOKF"].ToString();
-                    textBox34.Text = sdr["Spending"].ToString();
+                    textBox31.Text = sdr["Donation"].ToString().Trim();
+                    textBox32.Text = sdr["Savings"].ToString().Trim();
+                    textBox33.Text = sdr["GOKF"].ToString().Trim();
+                    textBox34.Text = sdr["Spending"].ToString().Trim();
                 }
                 cnn.Close();
             }
@@ -606,7 +634,7 @@ namespace Finance_App
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             sdr.Read();
-                            textBox47.Text = sdr["Id"].ToString();
+                            textBox47.Text = sdr["Id"].ToString().Trim();
                         }
                         con.Close();
                     }
@@ -632,10 +660,10 @@ namespace Finance_App
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    textBox48.Text = sdr["Donation"].ToString();
-                    textBox49.Text = sdr["Savings"].ToString();
-                    textBox50.Text = sdr["GOKF"].ToString();
-                    textBox51.Text = sdr["Spending"].ToString();
+                    textBox48.Text = sdr["Donation"].ToString().Trim();
+                    textBox49.Text = sdr["Savings"].ToString().Trim();
+                    textBox50.Text = sdr["GOKF"].ToString().Trim();
+                    textBox51.Text = sdr["Spending"].ToString().Trim();
                 }
                 cnn.Close();
             }
@@ -665,7 +693,7 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0);
+                            string names = reader.GetString(0).Trim();
                             comboBox5.Items.Add(names);
                         }
                     }
@@ -700,9 +728,9 @@ namespace Finance_App
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             sdr.Read();
-                            textBox59.Text = sdr["Id"].ToString();
+                            textBox59.Text = sdr["Id"].ToString().Trim();
+                            con.Close();
                         }
-                        con.Close();
                     }
                 }
             }
@@ -726,14 +754,14 @@ namespace Finance_App
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    textBox52.Text = sdr["First"].ToString();
-                    textBox53.Text = sdr["Last"].ToString();
-                    textBox54.Text = sdr["Email"].ToString();
-                    textBox55.Text = sdr["Address1"].ToString();
-                    textBox56.Text = sdr["Address2"].ToString();
-                    textBox57.Text = sdr["City"].ToString();
-                    comboBox4.Text = sdr["State"].ToString();
-                    textBox58.Text = sdr["Zip"].ToString();
+                    textBox52.Text = sdr["First"].ToString().Trim();
+                    textBox53.Text = sdr["Last"].ToString().Trim();
+                    textBox54.Text = sdr["Email"].ToString().Trim();
+                    textBox55.Text = sdr["Address1"].ToString().Trim();
+                    textBox56.Text = sdr["Address2"].ToString().Trim();
+                    textBox57.Text = sdr["City"].ToString().Trim();
+                    comboBox4.Text = sdr["State"].ToString().Trim();
+                    textBox58.Text = sdr["Zip"].ToString().Trim();
                 }
                 cnn.Close();
             }
@@ -800,14 +828,14 @@ namespace Finance_App
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
                         sdr.Read();
-                        textBox52.Text = sdr["First"].ToString();
-                        textBox53.Text = sdr["Last"].ToString();
-                        textBox54.Text = sdr["Email"].ToString();
-                        textBox55.Text = sdr["Address1"].ToString();
-                        textBox56.Text = sdr["Address2"].ToString();
-                        textBox57.Text = sdr["City"].ToString();
-                        comboBox4.Text = sdr["State"].ToString();
-                        textBox58.Text = sdr["Zip"].ToString();
+                        textBox52.Text = sdr["First"].ToString().Trim();
+                        textBox53.Text = sdr["Last"].ToString().Trim();
+                        textBox54.Text = sdr["Email"].ToString().Trim();
+                        textBox55.Text = sdr["Address1"].ToString().Trim();
+                        textBox56.Text = sdr["Address2"].ToString().Trim();
+                        textBox57.Text = sdr["City"].ToString().Trim();
+                        comboBox4.Text = sdr["State"].ToString().Trim();
+                        textBox58.Text = sdr["Zip"].ToString().Trim();
                     }
                     cnn.Close();
                 }
@@ -816,6 +844,11 @@ namespace Finance_App
                     MessageBox.Show("No Connection");
                 }
             }
+        }
+
+        private void Button7_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

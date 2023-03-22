@@ -96,6 +96,8 @@
             this.label22 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label66 = new System.Windows.Forms.Label();
+            this.textBox60 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
             this.label38 = new System.Windows.Forms.Label();
             this.textBox29 = new System.Windows.Forms.TextBox();
@@ -134,6 +136,8 @@
             this.label9 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.label67 = new System.Windows.Forms.Label();
+            this.textBox61 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
             this.label30 = new System.Windows.Forms.Label();
             this.textBox46 = new System.Windows.Forms.TextBox();
@@ -172,10 +176,7 @@
             this.label55 = new System.Windows.Forms.Label();
             this.textBox35 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.label66 = new System.Windows.Forms.Label();
-            this.textBox60 = new System.Windows.Forms.TextBox();
-            this.label67 = new System.Windows.Forms.Label();
-            this.textBox61 = new System.Windows.Forms.TextBox();
+            this.button7 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -435,6 +436,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.Controls.Add(this.button7);
             this.tabPage6.Controls.Add(this.label65);
             this.tabPage6.Controls.Add(this.textBox59);
             this.tabPage6.Controls.Add(this.label64);
@@ -1038,6 +1040,25 @@
             this.tabPage3.Text = "Main Expenses";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label66.Location = new System.Drawing.Point(420, 179);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(121, 16);
+            this.label66.TabIndex = 90;
+            this.label66.Text = "Main Expense Total";
+            // 
+            // textBox60
+            // 
+            this.textBox60.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox60.Location = new System.Drawing.Point(423, 198);
+            this.textBox60.Name = "textBox60";
+            this.textBox60.ReadOnly = true;
+            this.textBox60.Size = new System.Drawing.Size(186, 29);
+            this.textBox60.TabIndex = 89;
+            // 
             // button4
             // 
             this.button4.Font = new System.Drawing.Font("Arial", 13F);
@@ -1442,6 +1463,25 @@
             this.tabPage5.Text = "Addtional Expenses";
             this.tabPage5.UseVisualStyleBackColor = true;
             // 
+            // label67
+            // 
+            this.label67.AutoSize = true;
+            this.label67.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label67.Location = new System.Drawing.Point(420, 179);
+            this.label67.Name = "label67";
+            this.label67.Size = new System.Drawing.Size(157, 16);
+            this.label67.TabIndex = 127;
+            this.label67.Text = "Additional Expenses Total";
+            // 
+            // textBox61
+            // 
+            this.textBox61.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox61.Location = new System.Drawing.Point(423, 198);
+            this.textBox61.Name = "textBox61";
+            this.textBox61.ReadOnly = true;
+            this.textBox61.Size = new System.Drawing.Size(186, 29);
+            this.textBox61.TabIndex = 126;
+            // 
             // button5
             // 
             this.button5.Font = new System.Drawing.Font("Arial", 13F);
@@ -1807,43 +1847,16 @@
             this.tabPage4.Text = "Long Term Saving Plan";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
-            // label66
+            // button7
             // 
-            this.label66.AutoSize = true;
-            this.label66.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label66.Location = new System.Drawing.Point(420, 179);
-            this.label66.Name = "label66";
-            this.label66.Size = new System.Drawing.Size(121, 16);
-            this.label66.TabIndex = 90;
-            this.label66.Text = "Main Expense Total";
-            // 
-            // textBox60
-            // 
-            this.textBox60.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox60.Location = new System.Drawing.Point(423, 198);
-            this.textBox60.Name = "textBox60";
-            this.textBox60.ReadOnly = true;
-            this.textBox60.Size = new System.Drawing.Size(186, 29);
-            this.textBox60.TabIndex = 89;
-            // 
-            // label67
-            // 
-            this.label67.AutoSize = true;
-            this.label67.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label67.Location = new System.Drawing.Point(420, 179);
-            this.label67.Name = "label67";
-            this.label67.Size = new System.Drawing.Size(157, 16);
-            this.label67.TabIndex = 127;
-            this.label67.Text = "Additional Expenses Total";
-            // 
-            // textBox61
-            // 
-            this.textBox61.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox61.Location = new System.Drawing.Point(423, 198);
-            this.textBox61.Name = "textBox61";
-            this.textBox61.ReadOnly = true;
-            this.textBox61.Size = new System.Drawing.Size(186, 29);
-            this.textBox61.TabIndex = 126;
+            this.button7.Font = new System.Drawing.Font("Arial", 14.25F);
+            this.button7.Location = new System.Drawing.Point(733, 231);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(127, 45);
+            this.button7.TabIndex = 89;
+            this.button7.Text = "Delete User";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.Button7_Click);
             // 
             // Form1
             // 
@@ -2018,6 +2031,7 @@
         private System.Windows.Forms.TextBox textBox60;
         private System.Windows.Forms.Label label67;
         private System.Windows.Forms.TextBox textBox61;
+        private System.Windows.Forms.Button button7;
     }
 }
 
