@@ -128,39 +128,67 @@ namespace Finance_App
                 }
                 else
                 {
-                    // Check to see if God Only Knows Fund has reached or will reach set cap.
-                    double checkAmount = double.Parse(textBox9.Text);
-                    double preCheck = double.Parse(textBox9.Text) + (input * 0.25);
-                    // Calculate Remaining Sections
-                    textBox2.Text = Decimal.Round((decimal)(input * 0.10), 2).ToString();
-                    textBox3.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
-                    // If God Only Knows Fund is already at set cap, take remainder and add it to Spending Section
-                    if (checkAmount >= double.Parse(comboBox6.Text))
+                    if (radioButton1.Checked != false || radioButton2.Checked != false)
                     {
-                        textBox4.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
-                        double remainder = double.Parse(textBox4.Text);
-                        textBox4.Text = 0.00.ToString();
-                        textBox5.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString();
+                        // Check to see if God Only Knows Fund has reached or will reach set cap.
+                        double checkAmount = double.Parse(textBox9.Text);
+                        double preCheck = double.Parse(textBox9.Text) + (input * 0.25);
+                        double capRemainder = preCheck - double.Parse(comboBox6.Text);
+                        // Calculate Remaining Sections
+                        textBox2.Text = Decimal.Round((decimal)(input * 0.10), 2).ToString();
+
+                        // If God Only Knows Fund is already at set cap, take remainder and add it to Spending Section*
+                        if (checkAmount >= double.Parse(comboBox6.Text) && radioButton2.Checked)
+                        {
+                            savingsBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
+                            GOKFBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
+                            double remainder = double.Parse(GOKFBox.Text);
+                            GOKFBox.Text = 0.00.ToString();
+                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString();
+                        }
+                        // If God Only Knows Fund is already at set cap, take remainder and add it to Saving Section*
+                        else if (checkAmount >= double.Parse(comboBox6.Text) && radioButton1.Checked)
+                        {
+                            GOKFBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
+                            double remainder = double.Parse(GOKFBox.Text);
+                            savingsBox.Text = Decimal.Round((decimal)((input * 0.25) + remainder), 2).ToString();
+                            GOKFBox.Text = 0.00.ToString();
+                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40)), 2).ToString();
+                        }
+                        // If God Only Knows Fund deposit reaches set cap, take remainder and add it to Spending Section*
+                        else if (preCheck >= double.Parse(comboBox6.Text) && radioButton2.Checked)
+                        {
+                            double remainder = (input * 0.25) - double.Parse(GOKFBox.Text);
+                            savingsBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
+                            GOKFBox.Text = (double.Parse(comboBox6.Text) - double.Parse(textBox9.Text)).ToString();
+                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString();
+                        }
+                        // If God Only Knows Fund deposit reaches set cap, take remainder and add it to Spending Section*
+                        else if (preCheck >= double.Parse(comboBox6.Text) && radioButton1.Checked)
+                        {
+                            double remainder = (input * 0.25) - double.Parse(GOKFBox.Text);
+                            savingsBox.Text = Decimal.Round((decimal)((input * 0.25) + remainder), 2).ToString();
+                            GOKFBox.Text = (double.Parse(comboBox6.Text) - double.Parse(textBox9.Text)).ToString();
+                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40)), 2).ToString();
+                        }
+                        // If neither calculation reaches the maximum amount of set cap in the GOKF, complete calulations without any changes.
+                        else
+                        {
+                            savingsBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
+                            GOKFBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
+                            spendingBox.Text = Decimal.Round((decimal)(input * 0.40), 2).ToString();
+                        }
                     }
-                    // If God Only Knows Fund deposit reaches set cap, take remainder and add it to Spending Section
-                    else if (preCheck >= double.Parse(comboBox6.Text))
-                    {
-                        double remainder = preCheck - double.Parse(comboBox6.Text);
-                        textBox4.Text = Decimal.Round((decimal)((input * 0.25) - remainder), 2).ToString();
-                        textBox5.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString();
-                    }
-                    // If neither calculation reaches the maximum amount of set cap in the GOKF, complete calulations without any changes.
                     else
                     {
-                        textBox4.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
-                        textBox5.Text = Decimal.Round((decimal)(input * 0.40), 2).ToString();
-                    }                    
+                        MessageBox.Show("Select Radio Button to add remainder");
+                    }
                 }
             }
             // Alert user that they need to select an account prior to completing any calculations
             else 
             {
-                MessageBox.Show("Select User & Set Cap for \nGod Only Knows Fund");
+                MessageBox.Show("Select User\nSet Cap God Only Knows Fund");
             }                       
         }
         private void Button2_Click(object sender, EventArgs e)
@@ -173,9 +201,9 @@ namespace Finance_App
                 try
                 {
                     double donationCalc = double.Parse(textBox2.Text) + double.Parse(textBox7.Text);
-                    double savingCalc = double.Parse(textBox3.Text) + double.Parse(textBox8.Text);
-                    double gokfCalc = double.Parse(textBox4.Text) + double.Parse(textBox9.Text);
-                    double spendingCalc = double.Parse(textBox5.Text) + double.Parse(textBox10.Text);
+                    double savingCalc = double.Parse(savingsBox.Text) + double.Parse(textBox8.Text);
+                    double gokfCalc = double.Parse(GOKFBox.Text) + double.Parse(textBox9.Text);
+                    double spendingCalc = double.Parse(spendingBox.Text) + double.Parse(textBox10.Text);
 
                     string moneyString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
                     SqlConnection conn = new SqlConnection(moneyString);
@@ -241,9 +269,9 @@ namespace Finance_App
                 try
                 {
                     double donationCalc = double.Parse(textBox7.Text) - double.Parse(textBox2.Text);
-                    double savingCalc = double.Parse(textBox8.Text) - double.Parse(textBox3.Text);
-                    double gokfCalc = double.Parse(textBox9.Text) - double.Parse(textBox4.Text);
-                    double spendingCalc = double.Parse(textBox10.Text) - double.Parse(textBox5.Text);
+                    double savingCalc = double.Parse(textBox8.Text) - double.Parse(savingsBox.Text);
+                    double gokfCalc = double.Parse(textBox9.Text) - double.Parse(GOKFBox.Text);
+                    double spendingCalc = double.Parse(textBox10.Text) - double.Parse(spendingBox.Text);
 
                     string moneyString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
                     SqlConnection conn = new SqlConnection(moneyString);
@@ -850,5 +878,7 @@ namespace Finance_App
         {
 
         }
+
+        
     }
 }

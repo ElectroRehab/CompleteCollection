@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label8 = new System.Windows.Forms.Label();
@@ -71,6 +72,12 @@
             this.label63 = new System.Windows.Forms.Label();
             this.textBox52 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.comboBox6 = new System.Windows.Forms.ComboBox();
+            this.label68 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
@@ -87,11 +94,11 @@
             this.label17 = new System.Windows.Forms.Label();
             this.textBox7 = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.spendingBox = new System.Windows.Forms.TextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.GOKFBox = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.savingsBox = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
@@ -177,12 +184,12 @@
             this.label55 = new System.Windows.Forms.Label();
             this.textBox35 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.label68 = new System.Windows.Forms.Label();
-            this.comboBox6 = new System.Windows.Forms.ComboBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.SuspendLayout();
@@ -199,12 +206,12 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1025, 428);
+            this.tabControl1.Size = new System.Drawing.Size(1034, 428);
             this.tabControl1.TabIndex = 24;
-            this.tabControl1.Click += new System.EventHandler(this.ChangeTabs);
             // 
             // tabPage1
             // 
+            this.tabPage1.BackColor = System.Drawing.Color.White;
             this.tabPage1.Controls.Add(this.label8);
             this.tabPage1.Controls.Add(this.textBox16);
             this.tabPage1.Controls.Add(this.stateBox1);
@@ -225,10 +232,9 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1017, 399);
+            this.tabPage1.Size = new System.Drawing.Size(1026, 399);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Create User";
-            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // label8
             // 
@@ -438,6 +444,7 @@
             // 
             // tabPage6
             // 
+            this.tabPage6.BackColor = System.Drawing.Color.White;
             this.tabPage6.Controls.Add(this.button7);
             this.tabPage6.Controls.Add(this.label65);
             this.tabPage6.Controls.Add(this.textBox59);
@@ -463,10 +470,9 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 25);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1017, 399);
+            this.tabPage6.Size = new System.Drawing.Size(1026, 399);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "View Users";
-            this.tabPage6.UseVisualStyleBackColor = true;
             // 
             // button7
             // 
@@ -477,7 +483,6 @@
             this.button7.TabIndex = 89;
             this.button7.Text = "Delete User";
             this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.Button7_Click);
             // 
             // label65
             // 
@@ -728,6 +733,11 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.radioButton2);
+            this.tabPage2.Controls.Add(this.radioButton1);
+            this.tabPage2.Controls.Add(this.pictureBox1);
+            this.tabPage2.Controls.Add(this.pictureBox2);
             this.tabPage2.Controls.Add(this.comboBox6);
             this.tabPage2.Controls.Add(this.label68);
             this.tabPage2.Controls.Add(this.button3);
@@ -746,11 +756,11 @@
             this.tabPage2.Controls.Add(this.label17);
             this.tabPage2.Controls.Add(this.textBox7);
             this.tabPage2.Controls.Add(this.label18);
-            this.tabPage2.Controls.Add(this.textBox5);
+            this.tabPage2.Controls.Add(this.spendingBox);
             this.tabPage2.Controls.Add(this.label19);
-            this.tabPage2.Controls.Add(this.textBox4);
+            this.tabPage2.Controls.Add(this.GOKFBox);
             this.tabPage2.Controls.Add(this.label20);
-            this.tabPage2.Controls.Add(this.textBox3);
+            this.tabPage2.Controls.Add(this.savingsBox);
             this.tabPage2.Controls.Add(this.label21);
             this.tabPage2.Controls.Add(this.textBox2);
             this.tabPage2.Controls.Add(this.label22);
@@ -758,10 +768,72 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1017, 399);
+            this.tabPage2.Size = new System.Drawing.Size(1026, 399);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Deposits";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(913, 300);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(73, 36);
+            this.radioButton2.TabIndex = 83;
+            this.radioButton2.Text = "Deposit\r\nExcess";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(913, 179);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(73, 36);
+            this.radioButton1.TabIndex = 82;
+            this.radioButton1.Text = "Deposit\r\nExcess";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(818, 285);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(89, 69);
+            this.pictureBox1.TabIndex = 81;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(818, 162);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(89, 69);
+            this.pictureBox2.TabIndex = 80;
+            this.pictureBox2.TabStop = false;
+            // 
+            // comboBox6
+            // 
+            this.comboBox6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox6.FormattingEnabled = true;
+            this.comboBox6.Items.AddRange(new object[] {
+            "2000",
+            "3000",
+            "4000",
+            "5000"});
+            this.comboBox6.Location = new System.Drawing.Point(818, 249);
+            this.comboBox6.Name = "comboBox6";
+            this.comboBox6.Size = new System.Drawing.Size(168, 30);
+            this.comboBox6.TabIndex = 76;
+            // 
+            // label68
+            // 
+            this.label68.AutoSize = true;
+            this.label68.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label68.Location = new System.Drawing.Point(835, 233);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(72, 16);
+            this.label68.TabIndex = 75;
+            this.label68.Text = "Cap Out @";
             // 
             // button3
             // 
@@ -922,14 +994,14 @@
             this.label18.TabIndex = 57;
             this.label18.Text = "Spending (40%)";
             // 
-            // textBox5
+            // spendingBox
             // 
-            this.textBox5.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox5.Location = new System.Drawing.Point(354, 316);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.ReadOnly = true;
-            this.textBox5.Size = new System.Drawing.Size(186, 29);
-            this.textBox5.TabIndex = 56;
+            this.spendingBox.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.spendingBox.Location = new System.Drawing.Point(354, 316);
+            this.spendingBox.Name = "spendingBox";
+            this.spendingBox.ReadOnly = true;
+            this.spendingBox.Size = new System.Drawing.Size(186, 29);
+            this.spendingBox.TabIndex = 56;
             // 
             // label19
             // 
@@ -941,14 +1013,14 @@
             this.label19.TabIndex = 55;
             this.label19.Text = "God Only Knows Fund (25%)";
             // 
-            // textBox4
+            // GOKFBox
             // 
-            this.textBox4.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(354, 249);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ReadOnly = true;
-            this.textBox4.Size = new System.Drawing.Size(186, 29);
-            this.textBox4.TabIndex = 54;
+            this.GOKFBox.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GOKFBox.Location = new System.Drawing.Point(354, 249);
+            this.GOKFBox.Name = "GOKFBox";
+            this.GOKFBox.ReadOnly = true;
+            this.GOKFBox.Size = new System.Drawing.Size(186, 29);
+            this.GOKFBox.TabIndex = 54;
             // 
             // label20
             // 
@@ -960,14 +1032,14 @@
             this.label20.TabIndex = 53;
             this.label20.Text = "Savings (25%)";
             // 
-            // textBox3
+            // savingsBox
             // 
-            this.textBox3.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(354, 178);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(186, 29);
-            this.textBox3.TabIndex = 52;
+            this.savingsBox.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.savingsBox.Location = new System.Drawing.Point(354, 178);
+            this.savingsBox.Name = "savingsBox";
+            this.savingsBox.ReadOnly = true;
+            this.savingsBox.Size = new System.Drawing.Size(186, 29);
+            this.savingsBox.TabIndex = 52;
             // 
             // label21
             // 
@@ -1008,6 +1080,7 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.BackColor = System.Drawing.Color.White;
             this.tabPage3.Controls.Add(this.label66);
             this.tabPage3.Controls.Add(this.textBox60);
             this.tabPage3.Controls.Add(this.button4);
@@ -1050,10 +1123,9 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1017, 399);
+            this.tabPage3.Size = new System.Drawing.Size(1026, 399);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Main Expenses";
-            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // label66
             // 
@@ -1431,6 +1503,7 @@
             // 
             // tabPage5
             // 
+            this.tabPage5.BackColor = System.Drawing.Color.White;
             this.tabPage5.Controls.Add(this.label67);
             this.tabPage5.Controls.Add(this.textBox61);
             this.tabPage5.Controls.Add(this.button5);
@@ -1473,10 +1546,9 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1017, 399);
+            this.tabPage5.Size = new System.Drawing.Size(1026, 399);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Addtional Expenses";
-            this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // label67
             // 
@@ -1854,43 +1926,19 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.BackColor = System.Drawing.Color.White;
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1017, 399);
+            this.tabPage4.Size = new System.Drawing.Size(1026, 399);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Long Term Saving Plan";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // label68
-            // 
-            this.label68.AutoSize = true;
-            this.label68.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label68.Location = new System.Drawing.Point(835, 233);
-            this.label68.Name = "label68";
-            this.label68.Size = new System.Drawing.Size(72, 16);
-            this.label68.TabIndex = 75;
-            this.label68.Text = "Cap Out @";
-            // 
-            // comboBox6
-            // 
-            this.comboBox6.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox6.FormattingEnabled = true;
-            this.comboBox6.Items.AddRange(new object[] {
-            "2000",
-            "3000",
-            "4000",
-            "5000"});
-            this.comboBox6.Location = new System.Drawing.Point(838, 249);
-            this.comboBox6.Name = "comboBox6";
-            this.comboBox6.Size = new System.Drawing.Size(148, 30);
-            this.comboBox6.TabIndex = 76;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1030, 424);
+            this.ClientSize = new System.Drawing.Size(1038, 424);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -1901,6 +1949,8 @@
             this.tabPage6.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage5.ResumeLayout(false);
@@ -1928,11 +1978,11 @@
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox spendingBox;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox GOKFBox;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox savingsBox;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label22;
@@ -2062,6 +2112,10 @@
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.ComboBox comboBox6;
         private System.Windows.Forms.Label label68;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
     }
 }
 
