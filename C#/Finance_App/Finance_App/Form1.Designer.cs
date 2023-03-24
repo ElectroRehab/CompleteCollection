@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label69 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.stateBox1 = new System.Windows.Forms.ComboBox();
@@ -184,8 +186,6 @@
             this.label55 = new System.Windows.Forms.Label();
             this.textBox35 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.label69 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -239,6 +239,24 @@
             this.tabPage1.Size = new System.Drawing.Size(1026, 399);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Create User";
+            // 
+            // label69
+            // 
+            this.label69.AutoSize = true;
+            this.label69.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label69.Location = new System.Drawing.Point(40, 342);
+            this.label69.Name = "label69";
+            this.label69.Size = new System.Drawing.Size(120, 16);
+            this.label69.TabIndex = 69;
+            this.label69.Text = "Pass Code (4-Digit)";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox3.Location = new System.Drawing.Point(43, 358);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(191, 29);
+            this.textBox3.TabIndex = 68;
             // 
             // label8
             // 
@@ -487,6 +505,7 @@
             this.button7.TabIndex = 89;
             this.button7.Text = "Delete User";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.Button7_Click);
             // 
             // label65
             // 
@@ -1937,24 +1956,6 @@
             this.tabPage4.Size = new System.Drawing.Size(1026, 399);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Long Term Saving Plan";
-            // 
-            // label69
-            // 
-            this.label69.AutoSize = true;
-            this.label69.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label69.Location = new System.Drawing.Point(40, 342);
-            this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(120, 16);
-            this.label69.TabIndex = 69;
-            this.label69.Text = "Pass Code (4-Digit)";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(43, 358);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(191, 29);
-            this.textBox3.TabIndex = 68;
             // 
             // Form1
             // 

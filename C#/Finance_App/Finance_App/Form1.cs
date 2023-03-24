@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Collections.Generic;
 using MsgBox;
+using static MsgBox.InputBox;
 
 namespace Finance_App
 {
@@ -947,8 +948,79 @@ namespace Finance_App
 
         private void Button7_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("Confirm Deleting User?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                // Delete user from People Database
+                try
+                {
+                    SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True");
+                    string deleteStatement = "DELETE FROM People WHERE Id=@id";
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(deleteStatement, connection);
+                    cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                // Delete user from Money Database
+                try
+                {
+                    SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True");
+                    string deleteStatement = "DELETE FROM Money WHERE Id=@id";
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(deleteStatement, connection);
+                    cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
 
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                // Delete user from LongTermTitles Database
+                try
+                {
+                    SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True");
+                    string deleteStatement = "DELETE LongTermTitles WHERE Id=@id";
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(deleteStatement, connection);
+                    cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                // Delete user from LongTermSaves Database
+                try
+                {
+                    SqlConnection connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True");
+                    string deleteStatement = "DELETE FROM LongTermSaves WHERE Id=@id";
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand(deleteStatement, connection);
+                    cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                MessageBox.Show("User Successfully Deleted");
+            }
         }
+        
 
         
     }
