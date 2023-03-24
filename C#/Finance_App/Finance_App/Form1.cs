@@ -9,6 +9,8 @@ using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Collections.Generic;
+using MsgBox;
 
 namespace Finance_App
 {
@@ -73,7 +75,7 @@ namespace Finance_App
                 try
                 {
                     // Setup user with new Money Fields in Database
-                    sqlStmt = "INSERT INTO Money(Donation,Savings,GOKF,Spending) Values(@donate,@save,@gokf,@spend)";
+                    sqlStmt = "INSERT INTO Money(Donation,Savings,GOKF,Spending,Pass) Values(@donate,@save,@gokf,@spend,@pass)";
                     conString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
                     cn = new SqlConnection(conString);
                     cmd = new SqlCommand(sqlStmt, cn);
@@ -82,11 +84,13 @@ namespace Finance_App
                     cmd.Parameters.Add(new SqlParameter("@save", SqlDbType.Float, 53));
                     cmd.Parameters.Add(new SqlParameter("@gokf", SqlDbType.Float, 53));
                     cmd.Parameters.Add(new SqlParameter("@spend", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@pass", SqlDbType.Int, 4));
                     // Set 0 for the values within the database
                     cmd.Parameters["@donate"].Value = "0.00";
                     cmd.Parameters["@save"].Value = "0.00";
                     cmd.Parameters["@gokf"].Value = "0.00";
                     cmd.Parameters["@spend"].Value = "0.00";
+                    cmd.Parameters["@pass"].Value = textBox3.Text;
                     // Open Database
                     cn.Open();
                     // Run SQL Statement
@@ -133,7 +137,7 @@ namespace Finance_App
                         // Check to see if God Only Knows Fund has reached or will reach set cap.
                         double checkAmount = double.Parse(textBox9.Text);
                         double preCheck = double.Parse(textBox9.Text) + (input * 0.25);
-                        double capRemainder = preCheck - double.Parse(comboBox6.Text);
+                        
                         // Calculate Remaining Sections
                         textBox2.Text = Decimal.Round((decimal)(input * 0.10), 2).ToString();
 
@@ -491,6 +495,7 @@ namespace Finance_App
             // Attempt to populate fields from Money Database
             try
             {
+                
                 // Database location string
                 connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
                 SqlConnection cnn = new SqlConnection(connectionString);
@@ -500,14 +505,38 @@ namespace Finance_App
                 SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
                 // Use ID populated to confirm proper insertion
                 cmd.Parameters.AddWithValue("@id", textBox6.Text);
+                // Create a Message Box that allows users to enter password
+                InputBox.SetLanguage(InputBox.Language.English);
+                DialogResult res = InputBox.ShowDialog("Enter User's Pass Code:",
+                "Verify Pass Code",   //Text message (mandatory), Title (optional)
+                    InputBox.Icon.Information, //Set icon type (default info)
+                    InputBox.Buttons.Ok, //Set buttons (default ok)
+                    InputBox.Type.TextBox, //Set type (default nothing)
+                    new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                    true, //Set visible in taskbar (default false)
+                    new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
                 // Read through database and insert fields into TextBoxes
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
-                    sdr.Read();
-                    textBox7.Text = sdr["Donation"].ToString().Trim();
-                    textBox8.Text = sdr["Savings"].ToString().Trim();
-                    textBox9.Text = sdr["GOKF"].ToString().Trim();
-                    textBox10.Text = sdr["Spending"].ToString().Trim();
+                    sdr.Read();                    
+                    {
+                        if (InputBox.ResultValue.ToString() == sdr["Pass"].ToString().Trim())
+                        {
+                            textBox7.Text = sdr["Donation"].ToString().Trim();
+                            textBox8.Text = sdr["Savings"].ToString().Trim();
+                            textBox9.Text = sdr["GOKF"].ToString().Trim();
+                            textBox10.Text = sdr["Spending"].ToString().Trim();
+                        }
+                        else
+                        {
+                            textBox7.Text = ("");
+                            textBox8.Text = ("");
+                            textBox9.Text = ("");
+                            textBox10.Text = ("");
+                            MessageBox.Show("Incorrect Pass Code");
+                        }
+                    }
+                    
                 }
                 cnn.Close();
             }
@@ -621,14 +650,35 @@ namespace Finance_App
                 SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
                 // Use ID populated to confirm proper insertion
                 cmd.Parameters.AddWithValue("@id", textBox30.Text);
+                // Create a Message Box that allows users to enter password
+                InputBox.SetLanguage(InputBox.Language.English);
+                DialogResult res = InputBox.ShowDialog("Enter User's Pass Code:",
+                "Verify Pass Code",   //Text message (mandatory), Title (optional)
+                    InputBox.Icon.Information, //Set icon type (default info)
+                    InputBox.Buttons.Ok, //Set buttons (default ok)
+                    InputBox.Type.TextBox, //Set type (default nothing)
+                    new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                    true, //Set visible in taskbar (default false)
+                    new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
                 // Read through database and insert fields into TextBoxes
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    textBox31.Text = sdr["Donation"].ToString().Trim();
-                    textBox32.Text = sdr["Savings"].ToString().Trim();
-                    textBox33.Text = sdr["GOKF"].ToString().Trim();
-                    textBox34.Text = sdr["Spending"].ToString().Trim();
+                    if (InputBox.ResultValue.ToString() == sdr["Pass"].ToString().Trim())
+                    {
+                        textBox31.Text = sdr["Donation"].ToString().Trim();
+                        textBox32.Text = sdr["Savings"].ToString().Trim();
+                        textBox33.Text = sdr["GOKF"].ToString().Trim();
+                        textBox34.Text = sdr["Spending"].ToString().Trim();
+                    }
+                    else
+                    {
+                        textBox31.Text = ("");
+                        textBox32.Text = ("");
+                        textBox33.Text = ("");
+                        textBox34.Text = ("");
+                        MessageBox.Show("Incorrect Pass Code");
+                    }
                 }
                 cnn.Close();
             }
@@ -684,14 +734,35 @@ namespace Finance_App
                 SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
                 // Use ID populated to confirm proper insertion
                 cmd.Parameters.AddWithValue("@id", textBox47.Text);
+                // Create a Message Box that allows users to enter password
+                InputBox.SetLanguage(InputBox.Language.English);
+                DialogResult res = InputBox.ShowDialog("Enter User's Pass Code:",
+                "Verify Pass Code",   //Text message (mandatory), Title (optional)
+                    InputBox.Icon.Information, //Set icon type (default info)
+                    InputBox.Buttons.Ok, //Set buttons (default ok)
+                    InputBox.Type.TextBox, //Set type (default nothing)
+                    new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                    true, //Set visible in taskbar (default false)
+                    new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
                 // Read through database and insert fields into TextBoxes
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    textBox48.Text = sdr["Donation"].ToString().Trim();
-                    textBox49.Text = sdr["Savings"].ToString().Trim();
-                    textBox50.Text = sdr["GOKF"].ToString().Trim();
-                    textBox51.Text = sdr["Spending"].ToString().Trim();
+                    if (InputBox.ResultValue.ToString() == sdr["Pass"].ToString().Trim())
+                    {
+                        textBox48.Text = sdr["Donation"].ToString().Trim();
+                        textBox49.Text = sdr["Savings"].ToString().Trim();
+                        textBox50.Text = sdr["GOKF"].ToString().Trim();
+                        textBox51.Text = sdr["Spending"].ToString().Trim();
+                    }
+                    else
+                    {
+                        textBox48.Text = ("");
+                        textBox49.Text = ("");
+                        textBox50.Text = ("");
+                        textBox51.Text = ("");
+                        MessageBox.Show("Incorrect Pass Code");
+                    }
                 }
                 cnn.Close();
             }
