@@ -254,7 +254,9 @@
             // 
             this.textBox3.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox3.Location = new System.Drawing.Point(43, 358);
+            this.textBox3.MaxLength = 4;
             this.textBox3.Name = "textBox3";
+            this.textBox3.PasswordChar = '*';
             this.textBox3.Size = new System.Drawing.Size(191, 29);
             this.textBox3.TabIndex = 68;
             // 

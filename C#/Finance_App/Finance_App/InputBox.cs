@@ -4,6 +4,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Reflection;
+using System.Data.Entity.ModelConfiguration.Conventions;
+
 namespace MsgBox
 {
     public static class InputBox
@@ -248,6 +250,8 @@ namespace MsgBox
             }
             //Textbox
             System.Windows.Forms.TextBox textBox = new System.Windows.Forms.TextBox();
+            textBox.UseSystemPasswordChar = true;
+            textBox.MaxLength = 4;
             textBox.Size = new System.Drawing.Size(180, 23);
             textBox.Location = new System.Drawing.Point(90, 70);
             textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(textBox_KeyDown);
