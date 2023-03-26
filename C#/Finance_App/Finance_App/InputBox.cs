@@ -249,7 +249,7 @@ namespace MsgBox
                     comboBox.Items.Add(item);
                 comboBox.SelectedIndex = 0;
             }
-            //Textbox
+            //Textbox Pass Code Version
             System.Windows.Forms.TextBox textBox = new System.Windows.Forms.TextBox();
             textBox.UseSystemPasswordChar = true;
             textBox.MaxLength = 4;
@@ -258,7 +258,7 @@ namespace MsgBox
             textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(textBox_KeyDown);
             textBox.Name = "textBox";
 
-            //Textbox
+            //Textbox Regular Text Version
             System.Windows.Forms.TextBox textBoxTitle = new System.Windows.Forms.TextBox();
             textBoxTitle.MaxLength = 20;
             textBoxTitle.Size = new System.Drawing.Size(180, 23);

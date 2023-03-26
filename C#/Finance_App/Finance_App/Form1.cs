@@ -1856,5 +1856,68 @@ namespace Finance_App
                 MessageBox.Show("Incorrect Pass Code");
             }
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
+            // Ensure a user is selected to do calculations
+            if (textBox66.Text == "")
+            {
+                MessageBox.Show("Select A User.");
+            }
+            // User is available to complete calculations
+            else
+            {
+                if (MessageBox.Show("Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    try
+                    {
+                        // Combine all the expenses into a single variable.
+                        double expensesCalc = double.Parse(textBox65.Text) + double.Parse(textBox62.Text) + double.Parse(textBox64.Text)
+                            + double.Parse(textBox5.Text) + double.Parse(textBox63.Text) + double.Parse(textBox4.Text);
+                        // Find the difference between what is available to what expenses are being used.
+                        double differenceCalc = double.Parse(textBox69.Text) - expensesCalc;
+                        // Display all expenses
+                        textBox73.Text = expensesCalc.ToString();
+                        // Display the difference
+                        if (differenceCalc < 0)
+                        {
+                            textBox72.BackColor = Color.Black;
+                            textBox72.ForeColor = Color.Red;
+                            textBox72.Text = differenceCalc.ToString();
+                        }
+                        else
+                        {
+                            textBox72.BackColor = Color.Green;
+                            textBox72.Text = differenceCalc.ToString();
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Calculations could not be performed");
+                    }
+                    try
+                    {
+
+                        string titleString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                        SqlConnection conn = new SqlConnection(titleString);
+                        conn.Open();
+
+                        string updateQuery = "UPDATE LongTermSaves SET SaveOne='" + textBox65.Text + "',SaveTwo='" + textBox62.Text + "',SaveThree='" + textBox64.Text + "',SaveFour='" + textBox5.Text + "',SaveFive='" + textBox63.Text + "',SaveSix='" + textBox4.Text + "'  WHERE Id = " + textBox66.Text;
+                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("No Connection");
+                    }
+
+                }
+            }
+        }
     }
 }
