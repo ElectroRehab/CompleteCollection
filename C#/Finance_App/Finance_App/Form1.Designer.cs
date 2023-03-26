@@ -186,6 +186,35 @@
             this.label55 = new System.Windows.Forms.Label();
             this.textBox35 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button13 = new System.Windows.Forms.Button();
+            this.button14 = new System.Windows.Forms.Button();
+            this.button11 = new System.Windows.Forms.Button();
+            this.button12 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.label83 = new System.Windows.Forms.Label();
+            this.textBox72 = new System.Windows.Forms.TextBox();
+            this.label84 = new System.Windows.Forms.Label();
+            this.textBox73 = new System.Windows.Forms.TextBox();
+            this.label78 = new System.Windows.Forms.Label();
+            this.textBox67 = new System.Windows.Forms.TextBox();
+            this.label79 = new System.Windows.Forms.Label();
+            this.textBox68 = new System.Windows.Forms.TextBox();
+            this.label80 = new System.Windows.Forms.Label();
+            this.textBox69 = new System.Windows.Forms.TextBox();
+            this.label81 = new System.Windows.Forms.Label();
+            this.textBox70 = new System.Windows.Forms.TextBox();
+            this.label76 = new System.Windows.Forms.Label();
+            this.textBox66 = new System.Windows.Forms.TextBox();
+            this.label77 = new System.Windows.Forms.Label();
+            this.comboBox7 = new System.Windows.Forms.ComboBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox62 = new System.Windows.Forms.TextBox();
+            this.textBox63 = new System.Windows.Forms.TextBox();
+            this.textBox64 = new System.Windows.Forms.TextBox();
+            this.textBox65 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -194,6 +223,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -1952,12 +1982,345 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.White;
+            this.tabPage4.Controls.Add(this.button13);
+            this.tabPage4.Controls.Add(this.button14);
+            this.tabPage4.Controls.Add(this.button11);
+            this.tabPage4.Controls.Add(this.button12);
+            this.tabPage4.Controls.Add(this.button10);
+            this.tabPage4.Controls.Add(this.button9);
+            this.tabPage4.Controls.Add(this.button8);
+            this.tabPage4.Controls.Add(this.label83);
+            this.tabPage4.Controls.Add(this.textBox72);
+            this.tabPage4.Controls.Add(this.label84);
+            this.tabPage4.Controls.Add(this.textBox73);
+            this.tabPage4.Controls.Add(this.label78);
+            this.tabPage4.Controls.Add(this.textBox67);
+            this.tabPage4.Controls.Add(this.label79);
+            this.tabPage4.Controls.Add(this.textBox68);
+            this.tabPage4.Controls.Add(this.label80);
+            this.tabPage4.Controls.Add(this.textBox69);
+            this.tabPage4.Controls.Add(this.label81);
+            this.tabPage4.Controls.Add(this.textBox70);
+            this.tabPage4.Controls.Add(this.label76);
+            this.tabPage4.Controls.Add(this.textBox66);
+            this.tabPage4.Controls.Add(this.label77);
+            this.tabPage4.Controls.Add(this.comboBox7);
+            this.tabPage4.Controls.Add(this.textBox4);
+            this.tabPage4.Controls.Add(this.textBox5);
+            this.tabPage4.Controls.Add(this.textBox62);
+            this.tabPage4.Controls.Add(this.textBox63);
+            this.tabPage4.Controls.Add(this.textBox64);
+            this.tabPage4.Controls.Add(this.textBox65);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage4.Size = new System.Drawing.Size(1026, 399);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Long Term Saving Plan";
+            // 
+            // button13
+            // 
+            this.button13.BackColor = System.Drawing.Color.Fuchsia;
+            this.button13.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button13.Font = new System.Drawing.Font("Arial", 13F);
+            this.button13.Location = new System.Drawing.Point(214, 252);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(185, 28);
+            this.button13.TabIndex = 143;
+            this.button13.Text = "Calculate Expenses";
+            this.button13.UseVisualStyleBackColor = false;
+            this.button13.Click += new System.EventHandler(this.Button13_Click);
+            // 
+            // button14
+            // 
+            this.button14.BackColor = System.Drawing.Color.Blue;
+            this.button14.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button14.Font = new System.Drawing.Font("Arial", 13F);
+            this.button14.ForeColor = System.Drawing.Color.White;
+            this.button14.Location = new System.Drawing.Point(19, 252);
+            this.button14.Name = "button14";
+            this.button14.Size = new System.Drawing.Size(185, 28);
+            this.button14.TabIndex = 142;
+            this.button14.Text = "Calculate Expenses";
+            this.button14.UseVisualStyleBackColor = false;
+            this.button14.Click += new System.EventHandler(this.Button14_Click);
+            // 
+            // button11
+            // 
+            this.button11.BackColor = System.Drawing.Color.Aqua;
+            this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button11.Font = new System.Drawing.Font("Arial", 13F);
+            this.button11.Location = new System.Drawing.Point(214, 144);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(185, 28);
+            this.button11.TabIndex = 141;
+            this.button11.Text = "Calculate Expenses";
+            this.button11.UseVisualStyleBackColor = false;
+            this.button11.Click += new System.EventHandler(this.Button11_Click);
+            // 
+            // button12
+            // 
+            this.button12.BackColor = System.Drawing.Color.Lime;
+            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button12.Font = new System.Drawing.Font("Arial", 13F);
+            this.button12.Location = new System.Drawing.Point(19, 144);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(185, 28);
+            this.button12.TabIndex = 140;
+            this.button12.Text = "Calculate Expenses";
+            this.button12.UseVisualStyleBackColor = false;
+            this.button12.Click += new System.EventHandler(this.Button12_Click);
+            // 
+            // button10
+            // 
+            this.button10.BackColor = System.Drawing.Color.Yellow;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button10.Font = new System.Drawing.Font("Arial", 13F);
+            this.button10.Location = new System.Drawing.Point(214, 39);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(185, 28);
+            this.button10.TabIndex = 139;
+            this.button10.Text = "Calculate Expenses";
+            this.button10.UseVisualStyleBackColor = false;
+            this.button10.Click += new System.EventHandler(this.Button10_Click);
+            // 
+            // button9
+            // 
+            this.button9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button9.Font = new System.Drawing.Font("Arial", 13F);
+            this.button9.Location = new System.Drawing.Point(19, 39);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(185, 28);
+            this.button9.TabIndex = 138;
+            this.button9.Text = "Calculate Expenses";
+            this.button9.UseVisualStyleBackColor = false;
+            this.button9.Click += new System.EventHandler(this.Button9_Click);
+            // 
+            // button8
+            // 
+            this.button8.Font = new System.Drawing.Font("Arial", 13F);
+            this.button8.Location = new System.Drawing.Point(423, 180);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(185, 28);
+            this.button8.TabIndex = 137;
+            this.button8.Text = "Calculate Expenses";
+            this.button8.UseVisualStyleBackColor = true;
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label83.Location = new System.Drawing.Point(419, 292);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(64, 16);
+            this.label83.TabIndex = 136;
+            this.label83.Text = "Difference";
+            // 
+            // textBox72
+            // 
+            this.textBox72.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox72.Location = new System.Drawing.Point(422, 311);
+            this.textBox72.Name = "textBox72";
+            this.textBox72.ReadOnly = true;
+            this.textBox72.Size = new System.Drawing.Size(186, 29);
+            this.textBox72.TabIndex = 135;
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label84.Location = new System.Drawing.Point(419, 232);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(96, 16);
+            this.label84.TabIndex = 134;
+            this.label84.Text = "Expenses Total";
+            // 
+            // textBox73
+            // 
+            this.textBox73.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox73.Location = new System.Drawing.Point(422, 251);
+            this.textBox73.Name = "textBox73";
+            this.textBox73.ReadOnly = true;
+            this.textBox73.Size = new System.Drawing.Size(186, 29);
+            this.textBox73.TabIndex = 133;
+            // 
+            // label78
+            // 
+            this.label78.AutoSize = true;
+            this.label78.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label78.Location = new System.Drawing.Point(626, 292);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(92, 16);
+            this.label78.TabIndex = 132;
+            this.label78.Text = "Spending Total";
+            // 
+            // textBox67
+            // 
+            this.textBox67.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox67.Location = new System.Drawing.Point(629, 311);
+            this.textBox67.Name = "textBox67";
+            this.textBox67.ReadOnly = true;
+            this.textBox67.Size = new System.Drawing.Size(186, 29);
+            this.textBox67.TabIndex = 131;
+            // 
+            // label79
+            // 
+            this.label79.AutoSize = true;
+            this.label79.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label79.Location = new System.Drawing.Point(626, 235);
+            this.label79.Name = "label79";
+            this.label79.Size = new System.Drawing.Size(169, 16);
+            this.label79.TabIndex = 130;
+            this.label79.Text = "God Only Knows Fund Total";
+            // 
+            // textBox68
+            // 
+            this.textBox68.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox68.Location = new System.Drawing.Point(629, 251);
+            this.textBox68.Name = "textBox68";
+            this.textBox68.ReadOnly = true;
+            this.textBox68.Size = new System.Drawing.Size(186, 29);
+            this.textBox68.TabIndex = 129;
+            // 
+            // label80
+            // 
+            this.label80.AutoSize = true;
+            this.label80.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label80.Location = new System.Drawing.Point(626, 182);
+            this.label80.Name = "label80";
+            this.label80.Size = new System.Drawing.Size(83, 16);
+            this.label80.TabIndex = 128;
+            this.label80.Text = "Savings Total";
+            // 
+            // textBox69
+            // 
+            this.textBox69.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox69.Location = new System.Drawing.Point(629, 198);
+            this.textBox69.Name = "textBox69";
+            this.textBox69.ReadOnly = true;
+            this.textBox69.Size = new System.Drawing.Size(186, 29);
+            this.textBox69.TabIndex = 127;
+            // 
+            // label81
+            // 
+            this.label81.AutoSize = true;
+            this.label81.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label81.Location = new System.Drawing.Point(626, 124);
+            this.label81.Name = "label81";
+            this.label81.Size = new System.Drawing.Size(89, 16);
+            this.label81.TabIndex = 126;
+            this.label81.Text = "Donation Total";
+            // 
+            // textBox70
+            // 
+            this.textBox70.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox70.Location = new System.Drawing.Point(629, 140);
+            this.textBox70.Name = "textBox70";
+            this.textBox70.ReadOnly = true;
+            this.textBox70.Size = new System.Drawing.Size(186, 29);
+            this.textBox70.TabIndex = 125;
+            // 
+            // label76
+            // 
+            this.label76.AutoSize = true;
+            this.label76.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label76.Location = new System.Drawing.Point(626, 69);
+            this.label76.Name = "label76";
+            this.label76.Size = new System.Drawing.Size(19, 16);
+            this.label76.TabIndex = 124;
+            this.label76.Text = "ID";
+            // 
+            // textBox66
+            // 
+            this.textBox66.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox66.Location = new System.Drawing.Point(629, 85);
+            this.textBox66.Name = "textBox66";
+            this.textBox66.ReadOnly = true;
+            this.textBox66.Size = new System.Drawing.Size(186, 29);
+            this.textBox66.TabIndex = 123;
+            // 
+            // label77
+            // 
+            this.label77.AutoSize = true;
+            this.label77.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label77.Location = new System.Drawing.Point(626, 18);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(63, 16);
+            this.label77.TabIndex = 122;
+            this.label77.Text = "Customer";
+            // 
+            // comboBox7
+            // 
+            this.comboBox7.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox7.FormattingEnabled = true;
+            this.comboBox7.Location = new System.Drawing.Point(629, 34);
+            this.comboBox7.Name = "comboBox7";
+            this.comboBox7.Size = new System.Drawing.Size(238, 30);
+            this.comboBox7.TabIndex = 121;
+            this.comboBox7.TextChanged += new System.EventHandler(this.ComboBoxTextChangeSeven);
+            this.comboBox7.Click += new System.EventHandler(this.ComboBox7_Click);
+            // 
+            // textBox4
+            // 
+            this.textBox4.BackColor = System.Drawing.Color.Fuchsia;
+            this.textBox4.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox4.Location = new System.Drawing.Point(214, 292);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(186, 29);
+            this.textBox4.TabIndex = 115;
+            this.textBox4.Text = "0.00";
+            // 
+            // textBox5
+            // 
+            this.textBox5.BackColor = System.Drawing.Color.Cyan;
+            this.textBox5.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox5.Location = new System.Drawing.Point(213, 182);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(186, 29);
+            this.textBox5.TabIndex = 113;
+            this.textBox5.Text = "0.00";
+            // 
+            // textBox62
+            // 
+            this.textBox62.BackColor = System.Drawing.Color.Yellow;
+            this.textBox62.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox62.Location = new System.Drawing.Point(214, 73);
+            this.textBox62.Name = "textBox62";
+            this.textBox62.Size = new System.Drawing.Size(186, 29);
+            this.textBox62.TabIndex = 111;
+            this.textBox62.Text = "0.00";
+            // 
+            // textBox63
+            // 
+            this.textBox63.BackColor = System.Drawing.Color.Blue;
+            this.textBox63.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox63.ForeColor = System.Drawing.Color.White;
+            this.textBox63.Location = new System.Drawing.Point(19, 292);
+            this.textBox63.Name = "textBox63";
+            this.textBox63.Size = new System.Drawing.Size(186, 29);
+            this.textBox63.TabIndex = 109;
+            this.textBox63.Text = "0.00";
+            // 
+            // textBox64
+            // 
+            this.textBox64.BackColor = System.Drawing.Color.Lime;
+            this.textBox64.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox64.Location = new System.Drawing.Point(18, 182);
+            this.textBox64.Name = "textBox64";
+            this.textBox64.Size = new System.Drawing.Size(186, 29);
+            this.textBox64.TabIndex = 107;
+            this.textBox64.Text = "0.00";
+            // 
+            // textBox65
+            // 
+            this.textBox65.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.textBox65.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox65.Location = new System.Drawing.Point(19, 73);
+            this.textBox65.Name = "textBox65";
+            this.textBox65.Size = new System.Drawing.Size(186, 29);
+            this.textBox65.TabIndex = 105;
+            this.textBox65.Text = "0.00";
             // 
             // Form1
             // 
@@ -1980,6 +2343,8 @@
             this.tabPage3.PerformLayout();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2143,6 +2508,35 @@
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Label label69;
         private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.Button button14;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Label label83;
+        private System.Windows.Forms.TextBox textBox72;
+        private System.Windows.Forms.Label label84;
+        private System.Windows.Forms.TextBox textBox73;
+        private System.Windows.Forms.Label label78;
+        private System.Windows.Forms.TextBox textBox67;
+        private System.Windows.Forms.Label label79;
+        private System.Windows.Forms.TextBox textBox68;
+        private System.Windows.Forms.Label label80;
+        private System.Windows.Forms.TextBox textBox69;
+        private System.Windows.Forms.Label label81;
+        private System.Windows.Forms.TextBox textBox70;
+        private System.Windows.Forms.Label label76;
+        private System.Windows.Forms.TextBox textBox66;
+        private System.Windows.Forms.Label label77;
+        private System.Windows.Forms.ComboBox comboBox7;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox62;
+        private System.Windows.Forms.TextBox textBox63;
+        private System.Windows.Forms.TextBox textBox64;
+        private System.Windows.Forms.TextBox textBox65;
     }
 }
 

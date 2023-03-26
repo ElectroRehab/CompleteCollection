@@ -12,6 +12,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Collections.Generic;
 using MsgBox;
 using static MsgBox.InputBox;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Finance_App
 {
@@ -61,7 +62,8 @@ namespace Finance_App
                     // Close Database
                     cn.Close();
                 }
-                else {
+                else
+                {
                     // Close Database
                     cn.Close();
                 }
@@ -98,15 +100,83 @@ namespace Finance_App
                     cmd.ExecuteNonQuery();
                     // Close Database
                     cn.Close();
-                    MessageBox.Show("User Account Created");
 
                 }
                 catch
                 {
                     MessageBox.Show("No Money Input");
                 }
+
+                try
+                {
+                    // Setup user with new Money Fields in Database
+                    sqlStmt = "INSERT INTO LongTermTitles(ItemOne,ItemTwo,ItemThree,ItemFour,ItemFive,ItemSix) Values(@itemOne,@itemTwo,@itemThree,@itemFour,@itemFive,@itemSix)";
+                    conString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                    cn = new SqlConnection(conString);
+                    cmd = new SqlCommand(sqlStmt, cn);
+                    // Determine what field parameters are
+                    cmd.Parameters.Add(new SqlParameter("@itemOne", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@itemTwo", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@itemThree", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@itemFour", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@itemFive", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@itemSix", SqlDbType.Char, 25));
+                    // Set 0 for the values within the database
+                    cmd.Parameters["@itemOne"].Value = "Set Item One";
+                    cmd.Parameters["@itemTwo"].Value = "Set Item Two";
+                    cmd.Parameters["@itemThree"].Value = "Set Item Three";
+                    cmd.Parameters["@itemFour"].Value = "Set Item Four";
+                    cmd.Parameters["@itemFive"].Value = "Set Item Five";
+                    cmd.Parameters["@itemSix"].Value = "Set Item Six";
+                    // Open Database
+                    cn.Open();
+                    // Run SQL Statement
+                    cmd.ExecuteNonQuery();
+                    // Close Database
+                    cn.Close();                   
+
+                }
+                catch
+                {
+                    MessageBox.Show("No Title Inputs");
+                }
+                try
+                {
+                    // Setup user with new Money Fields in Database
+                    sqlStmt = "INSERT INTO LongTermSaves(SaveOne,SaveTwo,SaveThree,SaveFour,SaveFive,SaveSix) Values(@saveOne,@saveTwo,@saveThree,@saveFour,@saveFive,@saveSix)";
+                    conString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                    cn = new SqlConnection(conString);
+                    cmd = new SqlCommand(sqlStmt, cn);
+                    // Determine what field parameters are
+                    cmd.Parameters.Add(new SqlParameter("@saveOne", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@saveTwo", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@saveThree", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@saveFour", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@saveFive", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@saveSix", SqlDbType.Char, 25));
+                    // Set 0 for the values within the database
+                    cmd.Parameters["@itemOne"].Value = "0.00";
+                    cmd.Parameters["@itemTwo"].Value = "0.00";
+                    cmd.Parameters["@itemThree"].Value = "0.00";
+                    cmd.Parameters["@itemFour"].Value = "0.00";
+                    cmd.Parameters["@itemFive"].Value = "0.00";
+                    cmd.Parameters["@itemSix"].Value = "0.00";
+                    // Open Database
+                    cn.Open();
+                    // Run SQL Statement
+                    cmd.ExecuteNonQuery();
+                    // Close Database
+                    cn.Close();
+                    MessageBox.Show("User Account Created");
+
+                }
+                catch
+                {
+                    MessageBox.Show("No Title Inputs");
+                }
             }
-            else {
+            else
+            {
                 MessageBox.Show("        Invalid Email Address, \n                 Try Again.");
             }
 
@@ -122,7 +192,7 @@ namespace Finance_App
                 {
                     input = double.Parse(textBox1.Text);
                 }
-                catch 
+                catch
                 {
                     MessageBox.Show("Please Enter Only Numbers");
                 }
@@ -138,7 +208,7 @@ namespace Finance_App
                         // Check to see if God Only Knows Fund has reached or will reach set cap.
                         double checkAmount = double.Parse(textBox9.Text);
                         double preCheck = double.Parse(textBox9.Text) + (input * 0.25);
-                        
+
                         // Calculate Remaining Sections
                         textBox2.Text = Decimal.Round((decimal)(input * 0.10), 2).ToString();
 
@@ -191,10 +261,10 @@ namespace Finance_App
                 }
             }
             // Alert user that they need to select an account prior to completing any calculations
-            else 
+            else
             {
                 MessageBox.Show("Select User\nSet Cap God Only Knows Fund");
-            }                       
+            }
         }
         private void Button2_Click(object sender, EventArgs e)
         {
@@ -258,9 +328,10 @@ namespace Finance_App
                     MessageBox.Show("No Connection");
                 }
             }
-            else {
+            else
+            {
                 MessageBox.Show("Action Cancelled");
-            }            
+            }
         }
 
         // Undo last transaction from Deposit
@@ -329,15 +400,15 @@ namespace Finance_App
         }
         private void Button4_Click(object sender, EventArgs e)
         {
-            
+
             // Ensure a user is selected to do calculations
             if (textBox30.Text == "")
             {
                 MessageBox.Show("Select A User.");
             }
             // User is available to complete calculations
-            else 
-            { 
+            else
+            {
                 if (MessageBox.Show("Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     try
@@ -345,7 +416,7 @@ namespace Finance_App
                         // Combine all the expenses into a single variable.
                         double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
                             + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
-                            + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text)+ double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
+                            + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
                              + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
                               + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
                         // Main Expense Totals
@@ -364,9 +435,10 @@ namespace Finance_App
                             textBox29.ForeColor = Color.Red;
                             textBox29.Text = differenceCalc.ToString();
                         }
-                        else 
+                        else
                         {
                             textBox29.BackColor = Color.Green;
+                            textBox29.ForeColor = Color.Black;
                             textBox29.Text = differenceCalc.ToString();
                         }
                     }
@@ -455,15 +527,15 @@ namespace Finance_App
                 }
                 // Close Current Connection
                 dropDownConn.Close();
-            }                
-        }        
+            }
+        }
 
         private void ComboBoxTextChange(object sender, EventArgs e)
         {
             // Initiate SQL items for when the text is changed within the ComboBox
             string sqlStatement;
             string connectionString;
-            
+
             // Attempt to determine the User and populate fields from totals
             try
             {
@@ -496,7 +568,7 @@ namespace Finance_App
             // Attempt to populate fields from Money Database
             try
             {
-                
+
                 // Database location string
                 connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
                 SqlConnection cnn = new SqlConnection(connectionString);
@@ -519,7 +591,7 @@ namespace Finance_App
                 // Read through database and insert fields into TextBoxes
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
-                    sdr.Read();                    
+                    sdr.Read();
                     {
                         if (InputBox.ResultValue.ToString() == sdr["Pass"].ToString().Trim())
                         {
@@ -537,7 +609,7 @@ namespace Finance_App
                             MessageBox.Show("Incorrect Pass Code");
                         }
                     }
-                    
+
                 }
                 cnn.Close();
             }
@@ -774,7 +846,7 @@ namespace Finance_App
         }
         private void ComboBoxFive_Click(object sender, EventArgs e)
         {
-            
+
             {
                 // Database location string
                 string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
@@ -801,9 +873,9 @@ namespace Finance_App
                     dropDownConn.Close();
                 }
             }
-            
+
         }
-        private void ComboBoxTextChangeFive(object sender, EventArgs e) 
+        private void ComboBoxTextChangeFive(object sender, EventArgs e)
         {
             // Initiate SQL items for when the text is changed within the ComboBox
             string sqlStatement;
@@ -897,8 +969,8 @@ namespace Finance_App
                     SqlConnection conn = new SqlConnection(moneyString);
                     conn.Open();
 
-                    string updateQuery = "UPDATE People SET First='" + textBox52.Text.Trim() + "',Last='" + textBox53.Text.Trim() + 
-                        "',Email='" + textBox54.Text.Trim() + "',Address1='" + textBox55.Text.Trim() + "',Address2='" + textBox56.Text.Trim() + 
+                    string updateQuery = "UPDATE People SET First='" + textBox52.Text.Trim() + "',Last='" + textBox53.Text.Trim() +
+                        "',Email='" + textBox54.Text.Trim() + "',Address1='" + textBox55.Text.Trim() + "',Address2='" + textBox56.Text.Trim() +
                         "',City='" + textBox57.Text.Trim() + "',State='" + comboBox4.Text.Trim() + "',Zip='" + textBox58.Text.Trim() + "' WHERE Id = " + textBox59.Text;
                     SqlCommand cmd = new SqlCommand(updateQuery, conn);
 
@@ -1020,8 +1092,769 @@ namespace Finance_App
                 MessageBox.Show("User Successfully Deleted");
             }
         }
-        
 
-        
+        private void Button9_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter password
+            InputBox.SetLanguage(InputBox.Language.English);
+            DialogResult res = InputBox.ShowDialog("Change Title of Selection:",
+            "Change Title",   //Text message (mandatory), Title (optional)
+                InputBox.Icon.Information, //Set icon type (default info)
+                InputBox.Buttons.Ok, //Set buttons (default ok)
+                InputBox.Type.TextBoxTitle, //Set type (default nothing)
+                new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                true, //Set visible in taskbar (default false)
+                new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
+            // Initiate SQL items for when the text is changed within the ComboBox
+            string sqlStatement;
+            string connectionString;
+            try
+            {
+
+                string titleString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection conn = new SqlConnection(titleString);
+                conn.Open();
+
+                string updateQuery = "UPDATE LongTermTitles SET ItemOne='" + InputBox.ResultValue.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermSaves WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermTitles WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+
+        }
+        private void Button10_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter password
+            InputBox.SetLanguage(InputBox.Language.English);
+            DialogResult res = InputBox.ShowDialog("Change Title of Selection:",
+            "Change Title",   //Text message (mandatory), Title (optional)
+                InputBox.Icon.Information, //Set icon type (default info)
+                InputBox.Buttons.Ok, //Set buttons (default ok)
+                InputBox.Type.TextBoxTitle, //Set type (default nothing)
+                new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                true, //Set visible in taskbar (default false)
+                new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
+            // Initiate SQL items for when the text is changed within the ComboBox
+            string sqlStatement;
+            string connectionString;
+            try
+            {
+
+                string titleString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection conn = new SqlConnection(titleString);
+                conn.Open();
+
+                string updateQuery = "UPDATE LongTermTitles SET ItemTwo='" + InputBox.ResultValue.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermSaves WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermTitles WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+
+        }
+        private void Button11_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter password
+            InputBox.SetLanguage(InputBox.Language.English);
+            DialogResult res = InputBox.ShowDialog("Change Title of Selection:",
+            "Change Title",   //Text message (mandatory), Title (optional)
+                InputBox.Icon.Information, //Set icon type (default info)
+                InputBox.Buttons.Ok, //Set buttons (default ok)
+                InputBox.Type.TextBoxTitle, //Set type (default nothing)
+                new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                true, //Set visible in taskbar (default false)
+                new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
+            // Initiate SQL items for when the text is changed within the ComboBox
+            string sqlStatement;
+            string connectionString;
+            try
+            {
+
+                string titleString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection conn = new SqlConnection(titleString);
+                conn.Open();
+
+                string updateQuery = "UPDATE LongTermTitles SET ItemFour='" + InputBox.ResultValue.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermSaves WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermTitles WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+
+        }
+        private void Button12_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter password
+            InputBox.SetLanguage(InputBox.Language.English);
+            DialogResult res = InputBox.ShowDialog("Change Title of Selection:",
+            "Change Title",   //Text message (mandatory), Title (optional)
+                InputBox.Icon.Information, //Set icon type (default info)
+                InputBox.Buttons.Ok, //Set buttons (default ok)
+                InputBox.Type.TextBoxTitle, //Set type (default nothing)
+                new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                true, //Set visible in taskbar (default false)
+                new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
+            // Initiate SQL items for when the text is changed within the ComboBox
+            string sqlStatement;
+            string connectionString;
+            try
+            {
+
+                string titleString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection conn = new SqlConnection(titleString);
+                conn.Open();
+
+                string updateQuery = "UPDATE LongTermTitles SET ItemThree='" + InputBox.ResultValue.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermSaves WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermTitles WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+
+        }
+        private void Button13_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter password
+            InputBox.SetLanguage(InputBox.Language.English);
+            DialogResult res = InputBox.ShowDialog("Change Title of Selection:",
+            "Change Title",   //Text message (mandatory), Title (optional)
+                InputBox.Icon.Information, //Set icon type (default info)
+                InputBox.Buttons.Ok, //Set buttons (default ok)
+                InputBox.Type.TextBoxTitle, //Set type (default nothing)
+                new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                true, //Set visible in taskbar (default false)
+                new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
+            // Initiate SQL items for when the text is changed within the ComboBox
+            string sqlStatement;
+            string connectionString;
+            try
+            {
+
+                string titleString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection conn = new SqlConnection(titleString);
+                conn.Open();
+
+                string updateQuery = "UPDATE LongTermTitles SET ItemSix='" + InputBox.ResultValue.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermSaves WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermTitles WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+
+        }
+        private void Button14_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter password
+            InputBox.SetLanguage(InputBox.Language.English);
+            DialogResult res = InputBox.ShowDialog("Change Title of Selection:",
+            "Change Title",   //Text message (mandatory), Title (optional)
+                InputBox.Icon.Information, //Set icon type (default info)
+                InputBox.Buttons.Ok, //Set buttons (default ok)
+                InputBox.Type.TextBoxTitle, //Set type (default nothing)
+                new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                true, //Set visible in taskbar (default false)
+                new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
+            // Initiate SQL items for when the text is changed within the ComboBox
+            string sqlStatement;
+            string connectionString;
+            try
+            {
+
+                string titleString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection conn = new SqlConnection(titleString);
+                conn.Open();
+
+                string updateQuery = "UPDATE LongTermTitles SET ItemFive='" + InputBox.ResultValue.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermSaves WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM LongTermTitles WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+
+        }
+
+        private void ComboBox7_Click(object sender, EventArgs e)
+        {
+            {
+                // Database location string
+                string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                // Run database connection
+                using (SqlConnection dropDownConn = new SqlConnection(connectionString))
+                {
+                    dropDownConn.Open();
+                    // Run SQL statement 
+                    string query = "SELECT First FROM People";
+                    SqlCommand cmm = new SqlCommand(query, dropDownConn);
+                    // Read the results of statement and add all users into combobox
+                    using (SqlDataReader reader = cmm.ExecuteReader())
+                    {
+                        // Clear out combobox to avoid duplicates
+                        comboBox7.Items.Clear();
+                        // Populate combobox with updated material
+                        while (reader.Read())
+                        {
+                            string names = reader.GetString(0).Trim();
+                            comboBox7.Items.Add(names);
+                        }
+                    }
+                    // Close Current Connection
+                    dropDownConn.Close();
+                }
+            }
+        }
+        private void ComboBoxTextChangeSeven(object sender, EventArgs e)
+        {
+            // Initiate SQL items for when the text is changed within the ComboBox
+            string sqlStatement;
+            string connectionString;
+            int checkCodeTwo = 0;
+
+            // Attempt to determine the User and populate fields from totals
+            try
+            {
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                // Run database connection
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    // Search for ID from selected user in ComboBox
+                    using (SqlCommand cmd = new SqlCommand("SELECT Id FROM People WHERE First = @name"))
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Connection = con;
+                        con.Open();
+                        cmd.Parameters.AddWithValue("@name", comboBox7.SelectedItem);
+                        // Insert the ID from People Database
+                        using (SqlDataReader sdr = cmd.ExecuteReader())
+                        {
+                            sdr.Read();
+                            textBox66.Text = sdr["Id"].ToString();
+                        }
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+
+                // Database location string
+                connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                SqlConnection cnn = new SqlConnection(connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                sqlStatement = "SELECT * FROM Money WHERE Id = @id";
+                SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Create a Message Box that allows users to enter password
+                InputBox.SetLanguage(InputBox.Language.English);
+                DialogResult res = InputBox.ShowDialog("Enter User's Pass Code:",
+                "Verify Pass Code",   //Text message (mandatory), Title (optional)
+                    InputBox.Icon.Information, //Set icon type (default info)
+                    InputBox.Buttons.Ok, //Set buttons (default ok)
+                    InputBox.Type.TextBox, //Set type (default nothing)
+                    new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                    true, //Set visible in taskbar (default false)
+                    new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    {
+                        if (InputBox.ResultValue.ToString() == sdr["Pass"].ToString().Trim())
+                        {
+                            textBox70.Text = sdr["Donation"].ToString().Trim();
+                            textBox69.Text = sdr["Savings"].ToString().Trim();
+                            textBox68.Text = sdr["GOKF"].ToString().Trim();
+                            textBox67.Text = sdr["Spending"].ToString().Trim();
+                            checkCodeTwo = 222;
+                        }
+                        else
+                        {
+                            textBox70.Text = ("");
+                            textBox69.Text = ("");
+                            textBox68.Text = ("");
+                            textBox67.Text = ("");                            
+                            checkCodeTwo = 0;
+                        }
+                    }
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            if (checkCodeTwo == 222)
+            {
+                // Attempt to populate fields from Money Database
+                try
+                {
+                    // Database location string
+                    connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                    SqlConnection cnn = new SqlConnection(connectionString);
+                    cnn.Open();
+                    // Run SQL statement 
+                    sqlStatement = "SELECT * FROM LongTermSaves WHERE Id = @id";
+                    SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                    // Use ID populated to confirm proper insertion
+                    cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                    // Read through database and insert fields into TextBoxes
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sdr.Read();
+                        textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                        textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                        textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                        textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                        textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                        textBox4.Text = sdr["SaveSix"].ToString().Trim();
+                        
+                    }
+                    cnn.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                // Attempt to populate fields from Money Database
+                try
+                {
+                    // Database location string
+                    connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+                    SqlConnection cnn = new SqlConnection(connectionString);
+                    cnn.Open();
+                    // Run SQL statement 
+                    sqlStatement = "SELECT * FROM LongTermTitles WHERE Id = @id";
+                    SqlCommand cmd = new SqlCommand(sqlStatement, cnn);
+                    // Use ID populated to confirm proper insertion
+                    cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                    // Read through database and insert fields into TextBoxes
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sdr.Read();
+                        button9.Text = sdr["ItemOne"].ToString().Trim();
+                        button10.Text = sdr["ItemTwo"].ToString().Trim();
+                        button12.Text = sdr["ItemThree"].ToString().Trim();
+                        button11.Text = sdr["ItemFour"].ToString().Trim();
+                        button14.Text = sdr["ItemFive"].ToString().Trim();
+                        button13.Text = sdr["ItemSix"].ToString().Trim();
+
+                    }
+                    cnn.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+            }
+            else 
+            {
+                MessageBox.Show("Incorrect Pass Code");
+            }
+        }
     }
 }

@@ -26,6 +26,7 @@ namespace MsgBox
         {
             ComboBox,
             TextBox,
+            TextBoxTitle,
             Nothing
         }
         public enum Buttons
@@ -256,6 +257,15 @@ namespace MsgBox
             textBox.Location = new System.Drawing.Point(90, 70);
             textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(textBox_KeyDown);
             textBox.Name = "textBox";
+
+            //Textbox
+            System.Windows.Forms.TextBox textBoxTitle = new System.Windows.Forms.TextBox();
+            textBoxTitle.MaxLength = 20;
+            textBoxTitle.Size = new System.Drawing.Size(180, 23);
+            textBoxTitle.Location = new System.Drawing.Point(90, 70);
+            textBoxTitle.KeyDown += new System.Windows.Forms.KeyEventHandler(textBox_KeyDown);
+            textBoxTitle.Name = "textBoxTitle";
+
             //Set returned Control
             Control returnControl = new Control();
             switch (type)
@@ -265,6 +275,9 @@ namespace MsgBox
                     break;
                 case Type.TextBox:
                     returnControl = textBox;
+                    break;
+                case Type.TextBoxTitle:
+                    returnControl = textBoxTitle;
                     break;
             }
             return returnControl;
