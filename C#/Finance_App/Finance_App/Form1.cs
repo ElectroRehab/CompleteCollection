@@ -18,19 +18,22 @@ using System.Drawing.Text;
 namespace Finance_App
 {
     public partial class Form1 : Form
-    {        
+    {
         public Form1()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
         public static class Globals
         {
             // Database location string
             public static String boxAnswer;
+            public static int boxUp = 1;
+            public static int boxDown = 2;
+            public static string boxLeft = "goThru";
             public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
             public static String longTermSave = "SELECT * FROM LongTermSaves WHERE Id = @id";
             public static String longTermSelect = "SELECT * FROM LongTermTitles WHERE Id = @id";
-            public static String moneySelect = "SELECT * FROM Money WHERE Id = @id";            
+            public static String moneySelect = "SELECT * FROM Money WHERE Id = @id";
             public static String peopleSelect = "SELECT * FROM People WHERE Id = @id";
             public static String sqlStatement;
 
@@ -44,17 +47,18 @@ namespace Finance_App
                 InputBox.SetLanguage(InputBox.Language.English);
                 DialogResult res = InputBox.ShowDialog("Enter User's Pass Code:",
                 "Verify Pass Code",   //Text message (mandatory), Title (optional)
-                    InputBox.Icon.Information, //Set icon type (default info)
+                    InputBox.Icon.Question, //Set icon type (default info)
                     InputBox.Buttons.Ok, //Set buttons (default ok)
                     InputBox.Type.TextBox, //Set type (default nothing)
                     new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
                     true, //Set visible in taskbar (default false)
                     new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
                 returnAnswer = InputBox.ResultValue.Trim();
-                
+
             }
-            else
+            else if (answer == 2)
             {
+
                 // Create a Message Box that allows users to enter password
                 InputBox.SetLanguage(InputBox.Language.English);
                 DialogResult res = InputBox.ShowDialog("Change Title of Selection:",
@@ -66,8 +70,12 @@ namespace Finance_App
                     true, //Set visible in taskbar (default false)
                     new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
                 returnAnswer = InputBox.ResultValue.Trim();
-                
             }
+            else
+            {
+                returnAnswer = "Nope";
+            }
+            
             return returnAnswer;
         }
         private void CreateButton_Click(object sender, EventArgs e)
@@ -586,7 +594,8 @@ namespace Finance_App
                 SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
                 // Use ID populated to confirm proper insertion
                 cmd.Parameters.AddWithValue("@id", textBox6.Text);
-                Globals.boxAnswer = MessageBoard(1);
+                // Create a Message Box that allows users to enter pass code
+                Globals.boxAnswer = MessageBoard(Globals.boxUp);
                 // Read through database and insert fields into TextBoxes
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
@@ -711,8 +720,8 @@ namespace Finance_App
                 SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
                 // Use ID populated to confirm proper insertion
                 cmd.Parameters.AddWithValue("@id", textBox30.Text);
-                // Create a Message Box that allows users to enter password
-                Globals.boxAnswer = MessageBoard(1);
+                // Create a Message Box that allows users to enter pass code
+                Globals.boxAnswer = MessageBoard(Globals.boxUp);
                 // Read through database and insert fields into TextBoxes
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
@@ -779,8 +788,8 @@ namespace Finance_App
                 SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
                 // Use ID populated to confirm proper insertion
                 cmd.Parameters.AddWithValue("@id", textBox47.Text);
-                // Create a Message Box that allows users to enter password
-                Globals.boxAnswer = MessageBoard(1);
+                // Create a Message Box that allows users to enter passcode
+                Globals.boxAnswer = MessageBoard(Globals.boxUp);
                 // Read through database and insert fields into TextBoxes
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
@@ -1035,13 +1044,14 @@ namespace Finance_App
 
         private void Button9_Click(object sender, EventArgs e)
         {
-            string boxAnswer = MessageBoard(2);
+            // Create a Message Box that allows users to enter titles
+            Globals.boxAnswer = MessageBoard(Globals.boxDown);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemOne='" + boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemOne='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1109,13 +1119,14 @@ namespace Finance_App
         }
         private void Button10_Click(object sender, EventArgs e)
         {
-            string boxAnswer = MessageBoard(2);
+            // Create a Message Box that allows users to enter titles
+            Globals.boxAnswer = MessageBoard(Globals.boxDown);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemTwo='" + boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemTwo='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1183,13 +1194,14 @@ namespace Finance_App
         }
         private void Button11_Click(object sender, EventArgs e)
         {
-            string boxAnswer = MessageBoard(2);
+            // Create a Message Box that allows users to enter titles
+            Globals.boxAnswer = MessageBoard(Globals.boxDown);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFour='" + boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFour='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1257,13 +1269,14 @@ namespace Finance_App
         }
         private void Button12_Click(object sender, EventArgs e)
         {
-            string boxAnswer = MessageBoard(2);
+            // Create a Message Box that allows users to enter titles
+            Globals.boxAnswer = MessageBoard(Globals.boxDown);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemThree='" + boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemThree='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1332,13 +1345,13 @@ namespace Finance_App
         private void Button13_Click(object sender, EventArgs e)
         {
             // Create a Message Box that allows users to enter titles
-            string boxAnswer = MessageBoard(2);
+            Globals.boxAnswer = MessageBoard(Globals.boxDown);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemSix='" + boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemSix='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1406,13 +1419,13 @@ namespace Finance_App
         private void Button14_Click(object sender, EventArgs e)
         {
             // Create a Message Box that allows users to enter titles
-            string boxAnswer = MessageBoard(2);
+            Globals.boxAnswer = MessageBoard(Globals.boxDown);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFive='" + boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFive='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1511,8 +1524,6 @@ namespace Finance_App
         }
         private void ComboBoxTextChangeSeven(object sender, EventArgs e)
         {
-            int checkCodeTwo = 0;
-
             // Attempt to determine the User and populate fields from totals
             try
             {
@@ -1544,7 +1555,6 @@ namespace Finance_App
             // Attempt to populate fields from Money Database
             try
             {
-                string answer;
                 // Database location string
                 SqlConnection cnn = new SqlConnection(Globals.connectionString);
                 cnn.Open();
@@ -1552,28 +1562,27 @@ namespace Finance_App
                 SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
                 // Use ID populated to confirm proper insertion
                 cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Create a Message Box that allows users to enter password
-                answer = MessageBoard(1);
+                // Create a Message Box that allows users to enter pass code
+                Globals.boxAnswer = MessageBoard(Globals.boxUp);
                 // Read through database and insert fields into TextBoxes
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
                     {
-                        if (answer.ToString() == sdr["Pass"].ToString().Trim())
+                        if (Globals.boxAnswer.ToString() == sdr["Pass"].ToString().Trim())
                         {
                             textBox70.Text = sdr["Donation"].ToString().Trim();
                             textBox69.Text = sdr["Savings"].ToString().Trim();
                             textBox68.Text = sdr["GOKF"].ToString().Trim();
                             textBox67.Text = sdr["Spending"].ToString().Trim();
-                            checkCodeTwo = 222;
                         }
                         else
                         {
                             textBox70.Text = ("");
                             textBox69.Text = ("");
                             textBox68.Text = ("");
-                            textBox67.Text = ("");                            
-                            checkCodeTwo = 0;
+                            textBox67.Text = ("");
+                            Globals.boxLeft = "noGo";
                         }
                     }
 
@@ -1584,7 +1593,7 @@ namespace Finance_App
             {
                 MessageBox.Show("No Connection");
             }
-            if (checkCodeTwo == 222)
+            if (Globals.boxLeft == "goThru")
             {
                 // Attempt to populate fields from Money Database
                 try

@@ -150,29 +150,25 @@ namespace MsgBox
         private static PictureBox Picture(Icon icon)
         {
             System.Windows.Forms.PictureBox picture = new System.Windows.Forms.PictureBox();
-            var assembly = Assembly.GetExecutingAssembly();     //Get integrated sources
-            System.IO.Stream stream = null;
             //Set icon
             switch (icon)
             {
                 case Icon.Error:
-                    stream = assembly.GetManifestResourceStream(@"MsgBox.error.png");
+                    picture.Image = System.Drawing.SystemIcons.Warning.ToBitmap();
                     break;
                 case Icon.Exclamation:
-                    stream = assembly.GetManifestResourceStream(@"MsgBox.exclamation.png");
+                    picture.Image = System.Drawing.SystemIcons.Exclamation.ToBitmap();
                     break;
                 case Icon.Information:
-                    stream = assembly.GetManifestResourceStream(@"MsgBox.information.png");
+                    picture.Image = System.Drawing.SystemIcons.Information.ToBitmap();
                     break;
                 case Icon.Question:
-                    stream = assembly.GetManifestResourceStream(@"MsgBox.question.png");
+                    picture.Image = System.Drawing.SystemIcons.Question.ToBitmap();
                     break;
                 case Icon.Nothing:
-                    stream = assembly.GetManifestResourceStream(@"MsgBox.nic80x80.png");
+                    picture.Image = System.Drawing.SystemIcons.Application.ToBitmap();
                     break;
             }
-            //picture.Image = System.Drawing.Image.FromStream(stream);
-            picture.Image = System.Drawing.SystemIcons.Warning.ToBitmap();
             picture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             picture.Size = new System.Drawing.Size(60, 60);
             picture.Location = new System.Drawing.Point(10, 10);
