@@ -26,10 +26,10 @@ namespace Finance_App
         public static class Globals
         {
             // Database location string
-            public static String boxAnswer;
-            public static int boxUp = 1;
-            public static int boxDown = 2;
-            public static string boxLeft = "goThru";
+            public static bool boxUp = true;
+            public static bool boxDown = false;
+            public static bool boxInOut;
+            public static String boxAnswer;            
             public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
             public static String longTermSave = "SELECT * FROM LongTermSaves WHERE Id = @id";
             public static String longTermSelect = "SELECT * FROM LongTermTitles WHERE Id = @id";
@@ -38,10 +38,10 @@ namespace Finance_App
             public static String sqlStatement;
 
         }
-        private string MessageBoard(int answer)
+        private string MessageBoard(bool answer)
         {
             string returnAnswer;
-            if (answer == 1)
+            if (answer == true)
             {
                 // Create a Message Box that allows users to enter password
                 InputBox.SetLanguage(InputBox.Language.English);
@@ -56,7 +56,7 @@ namespace Finance_App
                 returnAnswer = InputBox.ResultValue.Trim();
 
             }
-            else if (answer == 2)
+            else if (answer == false)
             {
 
                 // Create a Message Box that allows users to enter password
@@ -1575,6 +1575,7 @@ namespace Finance_App
                             textBox69.Text = sdr["Savings"].ToString().Trim();
                             textBox68.Text = sdr["GOKF"].ToString().Trim();
                             textBox67.Text = sdr["Spending"].ToString().Trim();
+                            Globals.boxInOut = true;
                         }
                         else
                         {
@@ -1582,7 +1583,7 @@ namespace Finance_App
                             textBox69.Text = ("");
                             textBox68.Text = ("");
                             textBox67.Text = ("");
-                            Globals.boxLeft = "noGo";
+                            Globals.boxInOut = false;
                         }
                     }
 
@@ -1593,7 +1594,7 @@ namespace Finance_App
             {
                 MessageBox.Show("No Connection");
             }
-            if (Globals.boxLeft == "goThru")
+            if (Globals.boxInOut == true)
             {
                 // Attempt to populate fields from Money Database
                 try
