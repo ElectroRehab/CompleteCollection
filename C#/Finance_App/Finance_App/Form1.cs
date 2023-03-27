@@ -35,6 +35,8 @@ namespace Finance_App
             public static String longTermSelect = "SELECT * FROM LongTermTitles WHERE Id = @id";
             public static String moneySelect = "SELECT * FROM Money WHERE Id = @id";
             public static String peopleSelect = "SELECT * FROM People WHERE Id = @id";
+            public static String firstSelect = "SELECT First FROM People";
+            public static String idNameSelect = "SELECT Id FROM People WHERE First = @name";
             public static String sqlStatement;
 
         }
@@ -536,9 +538,8 @@ namespace Finance_App
             using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
             {
                 dropDownConn.Open();
-                // Run SQL statement 
-                Globals.sqlStatement = "SELECT First FROM People";
-                SqlCommand cmm = new SqlCommand(Globals.sqlStatement, dropDownConn);
+                // Run SQL statement
+                SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
                 // Read the results of statement and add all users into combobox
                 using (SqlDataReader reader = cmm.ExecuteReader())
                 {
@@ -565,7 +566,7 @@ namespace Finance_App
                 using (SqlConnection con = new SqlConnection(Globals.connectionString))
                 {
                     // Search for ID from selected user in ComboBox
-                    using (SqlCommand cmd = new SqlCommand("SELECT Id FROM People WHERE First = @name"))
+                    using (SqlCommand cmd = new SqlCommand(Globals.idNameSelect))
                     {
                         cmd.CommandType = CommandType.Text;
                         cmd.Connection = con;
@@ -634,9 +635,8 @@ namespace Finance_App
             using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
             {
                 dropDownConn.Open();
-                // Run SQL statement 
-                Globals.sqlStatement = "SELECT First FROM People";
-                SqlCommand cmm = new SqlCommand(Globals.sqlStatement, dropDownConn);
+                // Run SQL statement
+                SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
                 // Read the results of statement and add all users into combobox
                 using (SqlDataReader reader = cmm.ExecuteReader())
                 {
@@ -660,9 +660,8 @@ namespace Finance_App
                 using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
                 {
                     dropDownConn.Open();
-                    // Run SQL statement 
-                    Globals.sqlStatement = "SELECT First FROM People";
-                    SqlCommand cmm = new SqlCommand(Globals.sqlStatement, dropDownConn);
+                    // Run SQL statement
+                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
                     // Read the results of statement and add all users into combobox
                     using (SqlDataReader reader = cmm.ExecuteReader())
                     {
@@ -690,8 +689,7 @@ namespace Finance_App
                 using (SqlConnection con = new SqlConnection(Globals.connectionString))
                 {
                     // Search for ID from selected user in ComboBox
-                    Globals.sqlStatement = "SELECT Id FROM People WHERE First = @name";
-                    using (SqlCommand cmd = new SqlCommand(Globals.sqlStatement))
+                    using (SqlCommand cmd = new SqlCommand(Globals.idNameSelect))
                     {
                         cmd.CommandType = CommandType.Text;
                         cmd.Connection = con;
@@ -758,8 +756,7 @@ namespace Finance_App
                 using (SqlConnection con = new SqlConnection(Globals.connectionString))
                 {
                     // Search for ID from selected user in ComboBox
-                    Globals.sqlStatement = "SELECT Id FROM People WHERE First = @name";
-                    using (SqlCommand cmd = new SqlCommand(Globals.sqlStatement))
+                    using (SqlCommand cmd = new SqlCommand(Globals.idNameSelect))
                     {
                         cmd.CommandType = CommandType.Text;
                         cmd.Connection = con;
@@ -824,9 +821,8 @@ namespace Finance_App
                 using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
                 {
                     dropDownConn.Open();
-                    // Run SQL statement 
-                    Globals.sqlStatement = "SELECT First FROM People";
-                    SqlCommand cmm = new SqlCommand(Globals.sqlStatement, dropDownConn);
+                    // Run SQL statement
+                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
                     // Read the results of statement and add all users into combobox
                     using (SqlDataReader reader = cmm.ExecuteReader())
                     {
@@ -854,8 +850,7 @@ namespace Finance_App
                 using (SqlConnection con = new SqlConnection(Globals.connectionString))
                 {
                     // Search for ID from selected user in ComboBox
-                    Globals.sqlStatement = "SELECT Id FROM People WHERE First = @name";
-                    using (SqlCommand cmd = new SqlCommand(Globals.sqlStatement))
+                    using (SqlCommand cmd = new SqlCommand(Globals.idNameSelect))
                     {
                         cmd.CommandType = CommandType.Text;
                         cmd.Connection = con;
@@ -1502,9 +1497,8 @@ namespace Finance_App
                 using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
                 {
                     dropDownConn.Open();
-                    // Run SQL statement 
-                    Globals.sqlStatement = "SELECT First FROM People";
-                    SqlCommand cmm = new SqlCommand(Globals.sqlStatement, dropDownConn);
+                    // Run SQL statement
+                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
                     // Read the results of statement and add all users into combobox
                     using (SqlDataReader reader = cmm.ExecuteReader())
                     {
@@ -1531,8 +1525,7 @@ namespace Finance_App
                 using (SqlConnection con = new SqlConnection(Globals.connectionString))
                 {
                     // Search for ID from selected user in ComboBox
-                    Globals.sqlStatement = "SELECT Id FROM People WHERE First = @name";
-                    using (SqlCommand cmd = new SqlCommand(Globals.sqlStatement))
+                    using (SqlCommand cmd = new SqlCommand(Globals.idNameSelect))
                     {
                         cmd.CommandType = CommandType.Text;
                         cmd.Connection = con;
