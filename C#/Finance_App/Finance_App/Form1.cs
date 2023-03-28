@@ -29,14 +29,17 @@ namespace Finance_App
             public static bool boxUp = true;
             public static bool boxDown = false;
             public static bool boxInOut;
-            public static String boxAnswer;            
+            public static bool passChecker;
+            public static String boxAnswer;
+            public static String currentUser;
             public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+            public static String firstSelect = "SELECT First FROM People";
+            public static String idNameSelect = "SELECT Id FROM People WHERE First = @name";
             public static String longTermSave = "SELECT * FROM LongTermSaves WHERE Id = @id";
             public static String longTermSelect = "SELECT * FROM LongTermTitles WHERE Id = @id";
             public static String moneySelect = "SELECT * FROM Money WHERE Id = @id";
+            public static String monthSelect = "SELECT * FROM MonthlyCosts WHERE Id = @id";            
             public static String peopleSelect = "SELECT * FROM People WHERE Id = @id";
-            public static String firstSelect = "SELECT First FROM People";
-            public static String idNameSelect = "SELECT Id FROM People WHERE First = @name";
             public static String sqlStatement;
 
         }
@@ -85,7 +88,7 @@ namespace Finance_App
             try
             {
                 // Setup user with new People Fields in Database
-                Globals.sqlStatement = "insert into People(First,Last,Email,Address1,Address2,City,State,Zip) Values(@firstName,@lastName,@email,@address1,@address2,@city,@state,@zip)";
+                Globals.sqlStatement = "INSERT INTO People(First,Last,Email,Address1,Address2,City,State,Zip) Values(@firstName,@lastName,@email,@address1,@address2,@city,@state,@zip)";
                 SqlConnection cn = new SqlConnection(Globals.connectionString);
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
                 // Determine what field parameters are
@@ -171,12 +174,12 @@ namespace Finance_App
                     cmd.Parameters.Add(new SqlParameter("@itemFive", SqlDbType.Char, 25));
                     cmd.Parameters.Add(new SqlParameter("@itemSix", SqlDbType.Char, 25));
                     // Set 0 for the values within the database
-                    cmd.Parameters["@itemOne"].Value = "Set Item One";
-                    cmd.Parameters["@itemTwo"].Value = "Set Item Two";
-                    cmd.Parameters["@itemThree"].Value = "Set Item Three";
-                    cmd.Parameters["@itemFour"].Value = "Set Item Four";
-                    cmd.Parameters["@itemFive"].Value = "Set Item Five";
-                    cmd.Parameters["@itemSix"].Value = "Set Item Six";
+                    cmd.Parameters["@itemOne"].Value = "SetItemOne";
+                    cmd.Parameters["@itemTwo"].Value = "SetItemTwo";
+                    cmd.Parameters["@itemThree"].Value = "SetItemThree";
+                    cmd.Parameters["@itemFour"].Value = "SetItemFour";
+                    cmd.Parameters["@itemFive"].Value = "SetItemFive";
+                    cmd.Parameters["@itemSix"].Value = "SetItemSix";
                     // Open Database
                     cn.Open();
                     // Run SQL Statement
@@ -195,19 +198,83 @@ namespace Finance_App
                     SqlConnection cn = new SqlConnection(Globals.connectionString);
                     SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
                     // Determine what field parameters are
-                    cmd.Parameters.Add(new SqlParameter("@saveOne", SqlDbType.Char, 25));
-                    cmd.Parameters.Add(new SqlParameter("@saveTwo", SqlDbType.Char, 25));
-                    cmd.Parameters.Add(new SqlParameter("@saveThree", SqlDbType.Char, 25));
-                    cmd.Parameters.Add(new SqlParameter("@saveFour", SqlDbType.Char, 25));
-                    cmd.Parameters.Add(new SqlParameter("@saveFive", SqlDbType.Char, 25));
-                    cmd.Parameters.Add(new SqlParameter("@saveSix", SqlDbType.Char, 25));
+                    cmd.Parameters.Add(new SqlParameter("@saveOne", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@saveTwo", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@saveThree", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@saveFour", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@saveFive", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@saveSix", SqlDbType.Float, 53));
                     // Set 0 for the values within the database
-                    cmd.Parameters["@itemOne"].Value = "0.00";
-                    cmd.Parameters["@itemTwo"].Value = "0.00";
-                    cmd.Parameters["@itemThree"].Value = "0.00";
-                    cmd.Parameters["@itemFour"].Value = "0.00";
-                    cmd.Parameters["@itemFive"].Value = "0.00";
-                    cmd.Parameters["@itemSix"].Value = "0.00";
+                    cmd.Parameters["@saveOne"].Value = "0.00";
+                    cmd.Parameters["@saveTwo"].Value = "0.00";
+                    cmd.Parameters["@saveThree"].Value = "0.00";
+                    cmd.Parameters["@saveFour"].Value = "0.00";
+                    cmd.Parameters["@saveFive"].Value = "0.00";
+                    cmd.Parameters["@saveSix"].Value = "0.00";
+                    // Open Database
+                    cn.Open();
+                    // Run SQL Statement
+                    cmd.ExecuteNonQuery();
+                    // Close Database
+                    cn.Close();
+                    
+                }
+                catch
+                {
+                    MessageBox.Show("No Money Title Inputs");
+                }
+                try
+                {
+                    // Setup user with new Money Fields in Database
+                    Globals.sqlStatement = "INSERT INTO MonthlyCosts(MonthlyOne,MonthlyTwo,MonthlyThree,MonthlyFour,MonthlyFive,MonthlySix," +
+                        "MonthlySeven,MonthlyEight,MonthlyNine,MonthlyTen,MonthlyEleven,MonthlyTwelve,MonthlyThirteen,MonthlyFourteen," +
+                        "MonthlyFifteen,MonthlySixteen,MonthlySeventeen,MonthlyEighteen,MonthlyNineteen,MonthlyTwenty) " +
+                        "Values(@mOne,@mTwo,@mThree,@mFour,@mFive,@mSix,@mSeven,@mEight,@mNine,@mTen,@mEleven,@mTwelve,@mThirteen," +
+                        "@mFourteen,@mFifteen,@mSixteen,@mSeventeen,@mEighteen,@mNineteen,@mTwenty)";
+                    SqlConnection cn = new SqlConnection(Globals.connectionString);
+                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
+                    // Determine what field parameters are
+                    cmd.Parameters.Add(new SqlParameter("@mOne", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mTwo", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mThree", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mFour", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mFive", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mSix", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mSeven", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mEight", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mNine", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mTen", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mEleven", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mTwelve", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mThirteen", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mFourteen", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mFifteen", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mSixteen", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mSeventeen", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mEighteen", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mNineteen", SqlDbType.Float, 53));
+                    cmd.Parameters.Add(new SqlParameter("@mTwenty", SqlDbType.Float, 53));
+                    // Set 0 for the values within the database
+                    cmd.Parameters["@mOne"].Value = "0.00";
+                    cmd.Parameters["@mTwo"].Value = "0.00";
+                    cmd.Parameters["@mThree"].Value = "0.00";
+                    cmd.Parameters["@mFour"].Value = "0.00";
+                    cmd.Parameters["@mFive"].Value = "0.00";
+                    cmd.Parameters["@mSix"].Value = "0.00";
+                    cmd.Parameters["@mSeven"].Value = "0.00";
+                    cmd.Parameters["@mEight"].Value = "0.00";
+                    cmd.Parameters["@mNine"].Value = "0.00";
+                    cmd.Parameters["@mTen"].Value = "0.00";
+                    cmd.Parameters["@mEleven"].Value = "0.00";
+                    cmd.Parameters["@mTwelve"].Value = "0.00";
+                    cmd.Parameters["@mThirteen"].Value = "0.00";
+                    cmd.Parameters["@mFourteen"].Value = "0.00";
+                    cmd.Parameters["@mFifteen"].Value = "0.00";
+                    cmd.Parameters["@mSixteen"].Value = "0.00";
+                    cmd.Parameters["@mSeventeen"].Value = "0.00";
+                    cmd.Parameters["@mEighteen"].Value = "0.00";
+                    cmd.Parameters["@mNineteen"].Value = "0.00";
+                    cmd.Parameters["@mTwenty"].Value = "0.00";
                     // Open Database
                     cn.Open();
                     // Run SQL Statement
@@ -218,7 +285,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Title Inputs");
+                    MessageBox.Show("No Costs Inputted");
                 }
             }
             else
@@ -229,6 +296,7 @@ namespace Finance_App
         }
         private void Button1_Click(object sender, EventArgs e)
         {
+            
             double input = 0;
             // Check if user is selected prior to calculations
             if (textBox6.Text != "" && comboBox6.Text != "")
@@ -476,6 +544,25 @@ namespace Finance_App
                     {
                         MessageBox.Show("Calculations could not be performed");
                     }
+                    try
+                    {
+                        SqlConnection conn = new SqlConnection(Globals.connectionString);
+                        conn.Open();
+
+                        string updateQuery = "UPDATE MonthlyCosts SET MonthlyOne='" + textBox18.Text + "',MonthlyTwo='"
+                            + textBox19.Text + "',MonthlyThree='" + textBox20.Text + "',MonthlyFour='" + textBox21.Text
+                            + "',MonthlyFive='" + textBox22.Text + "',MonthlySix='" + textBox23.Text + "',MonthlySeven='"
+                            + textBox24.Text + "',MonthlyEight='" + textBox25.Text + "',MonthlyNine='" + textBox26.Text
+                            + "',MonthlyTen='" + textBox27.Text + "' WHERE Id = " + textBox30.Text;
+                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("No ConnectionThere");
+                    }
 
                 }
             }
@@ -609,6 +696,7 @@ namespace Finance_App
                             textBox8.Text = sdr["Savings"].ToString().Trim();
                             textBox9.Text = sdr["GOKF"].ToString().Trim();
                             textBox10.Text = sdr["Spending"].ToString().Trim();
+                            Globals.passChecker = true;
                         }
                         else
                         {
@@ -746,6 +834,37 @@ namespace Finance_App
             {
                 MessageBox.Show("No Connection");
             }
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.monthSelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox30.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox18.Text = sdr["MonthlyOne"].ToString().Trim();
+                    textBox19.Text = sdr["MonthlyTwo"].ToString().Trim();
+                    textBox20.Text = sdr["MonthlyThree"].ToString().Trim();
+                    textBox21.Text = sdr["MonthlyFour"].ToString().Trim();
+                    textBox22.Text = sdr["MonthlyFive"].ToString().Trim();
+                    textBox23.Text = sdr["MonthlySix"].ToString().Trim();
+                    textBox24.Text = sdr["MonthlySeven"].ToString().Trim();
+                    textBox25.Text = sdr["MonthlyEight"].ToString().Trim();
+                    textBox26.Text = sdr["MonthlyNine"].ToString().Trim();
+                    textBox27.Text = sdr["MonthlyTen"].ToString().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            
+            
         }
         private void ComboBoxTextChangeThree(object sender, EventArgs e)
         {
@@ -973,6 +1092,22 @@ namespace Finance_App
                 {
                     SqlConnection conn = new SqlConnection(Globals.connectionString);
                     Globals.sqlStatement = "DELETE FROM People WHERE Id=@id";
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
+                    cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                // Delete user from People Database
+                try
+                {
+                    SqlConnection conn = new SqlConnection(Globals.connectionString);
+                    Globals.sqlStatement = "DELETE FROM MonthlyCosts WHERE Id=@id";
                     conn.Open();
                     SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
                     cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");

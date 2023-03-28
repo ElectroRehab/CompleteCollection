@@ -288,7 +288,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.PasswordChar = '*';
             this.textBox3.Size = new System.Drawing.Size(191, 29);
-            this.textBox3.TabIndex = 68;
+            this.textBox3.TabIndex = 9;
             // 
             // label8
             // 
@@ -306,7 +306,7 @@
             this.textBox16.Location = new System.Drawing.Point(43, 295);
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(191, 29);
-            this.textBox16.TabIndex = 55;
+            this.textBox16.TabIndex = 6;
             // 
             // stateBox1
             // 
@@ -365,7 +365,7 @@
             this.stateBox1.Location = new System.Drawing.Point(256, 294);
             this.stateBox1.Name = "stateBox1";
             this.stateBox1.Size = new System.Drawing.Size(191, 24);
-            this.stateBox1.TabIndex = 56;
+            this.stateBox1.TabIndex = 7;
             // 
             // CreateButton
             // 
@@ -373,7 +373,7 @@
             this.CreateButton.Location = new System.Drawing.Point(712, 164);
             this.CreateButton.Name = "CreateButton";
             this.CreateButton.Size = new System.Drawing.Size(127, 45);
-            this.CreateButton.TabIndex = 64;
+            this.CreateButton.TabIndex = 10;
             this.CreateButton.Text = "Create User";
             this.CreateButton.UseVisualStyleBackColor = true;
             this.CreateButton.Click += new System.EventHandler(this.CreateButton_Click);
@@ -404,7 +404,7 @@
             this.textBox17.Location = new System.Drawing.Point(464, 294);
             this.textBox17.Name = "textBox17";
             this.textBox17.Size = new System.Drawing.Size(191, 29);
-            this.textBox17.TabIndex = 57;
+            this.textBox17.TabIndex = 8;
             // 
             // label5
             // 
@@ -422,7 +422,7 @@
             this.textBox14.Location = new System.Drawing.Point(43, 172);
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(612, 29);
-            this.textBox14.TabIndex = 53;
+            this.textBox14.TabIndex = 4;
             // 
             // label4
             // 
@@ -440,7 +440,7 @@
             this.textBox15.Location = new System.Drawing.Point(43, 231);
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(612, 29);
-            this.textBox15.TabIndex = 54;
+            this.textBox15.TabIndex = 5;
             // 
             // label3
             // 
@@ -458,7 +458,7 @@
             this.textBox13.Location = new System.Drawing.Point(43, 113);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(612, 29);
-            this.textBox13.TabIndex = 52;
+            this.textBox13.TabIndex = 3;
             // 
             // label2
             // 
@@ -476,7 +476,7 @@
             this.textBox12.Location = new System.Drawing.Point(380, 53);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(275, 29);
-            this.textBox12.TabIndex = 51;
+            this.textBox12.TabIndex = 2;
             // 
             // label1
             // 
@@ -494,7 +494,7 @@
             this.textBox11.Location = new System.Drawing.Point(43, 53);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(275, 29);
-            this.textBox11.TabIndex = 50;
+            this.textBox11.TabIndex = 1;
             // 
             // tabPage6
             // 
@@ -534,7 +534,7 @@
             this.button7.Location = new System.Drawing.Point(733, 231);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(127, 45);
-            this.button7.TabIndex = 89;
+            this.button7.TabIndex = 22;
             this.button7.Text = "Delete User";
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.Button7_Click);
@@ -556,7 +556,7 @@
             this.textBox59.Name = "textBox59";
             this.textBox59.ReadOnly = true;
             this.textBox59.Size = new System.Drawing.Size(232, 29);
-            this.textBox59.TabIndex = 87;
+            this.textBox59.TabIndex = 20;
             // 
             // label64
             // 
@@ -575,7 +575,8 @@
             this.comboBox5.Location = new System.Drawing.Point(680, 52);
             this.comboBox5.Name = "comboBox5";
             this.comboBox5.Size = new System.Drawing.Size(232, 30);
-            this.comboBox5.TabIndex = 85;
+            this.comboBox5.Sorted = true;
+            this.comboBox5.TabIndex = 19;
             this.comboBox5.TextChanged += new System.EventHandler(this.ComboBoxTextChangeFive);
             this.comboBox5.Click += new System.EventHandler(this.ComboBoxFive_Click);
             // 
@@ -595,7 +596,7 @@
             this.textBox57.Location = new System.Drawing.Point(43, 295);
             this.textBox57.Name = "textBox57";
             this.textBox57.Size = new System.Drawing.Size(191, 29);
-            this.textBox57.TabIndex = 76;
+            this.textBox57.TabIndex = 16;
             // 
             // comboBox4
             // 
@@ -655,7 +656,7 @@
             this.comboBox4.Location = new System.Drawing.Point(256, 294);
             this.comboBox4.Name = "comboBox4";
             this.comboBox4.Size = new System.Drawing.Size(191, 30);
-            this.comboBox4.TabIndex = 77;
+            this.comboBox4.TabIndex = 17;
             // 
             // button6
             // 
@@ -663,7 +664,7 @@
             this.button6.Location = new System.Drawing.Point(733, 164);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(127, 45);
-            this.button6.TabIndex = 83;
+            this.button6.TabIndex = 21;
             this.button6.Text = "Update User";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.Button6_Click);
@@ -694,7 +695,7 @@
             this.textBox58.Location = new System.Drawing.Point(464, 294);
             this.textBox58.Name = "textBox58";
             this.textBox58.Size = new System.Drawing.Size(191, 29);
-            this.textBox58.TabIndex = 78;
+            this.textBox58.TabIndex = 18;
             // 
             // label59
             // 
@@ -712,7 +713,7 @@
             this.textBox55.Location = new System.Drawing.Point(43, 172);
             this.textBox55.Name = "textBox55";
             this.textBox55.Size = new System.Drawing.Size(612, 29);
-            this.textBox55.TabIndex = 73;
+            this.textBox55.TabIndex = 14;
             // 
             // label60
             // 
@@ -730,7 +731,7 @@
             this.textBox56.Location = new System.Drawing.Point(43, 231);
             this.textBox56.Name = "textBox56";
             this.textBox56.Size = new System.Drawing.Size(612, 29);
-            this.textBox56.TabIndex = 74;
+            this.textBox56.TabIndex = 15;
             // 
             // label61
             // 
@@ -748,7 +749,7 @@
             this.textBox54.Location = new System.Drawing.Point(43, 113);
             this.textBox54.Name = "textBox54";
             this.textBox54.Size = new System.Drawing.Size(612, 29);
-            this.textBox54.TabIndex = 71;
+            this.textBox54.TabIndex = 13;
             // 
             // label62
             // 
@@ -766,7 +767,7 @@
             this.textBox53.Location = new System.Drawing.Point(380, 53);
             this.textBox53.Name = "textBox53";
             this.textBox53.Size = new System.Drawing.Size(275, 29);
-            this.textBox53.TabIndex = 69;
+            this.textBox53.TabIndex = 12;
             // 
             // label63
             // 
@@ -784,7 +785,7 @@
             this.textBox52.Location = new System.Drawing.Point(43, 53);
             this.textBox52.Name = "textBox52";
             this.textBox52.Size = new System.Drawing.Size(275, 29);
-            this.textBox52.TabIndex = 68;
+            this.textBox52.TabIndex = 11;
             // 
             // tabPage2
             // 
@@ -948,7 +949,8 @@
             this.comboBox1.Location = new System.Drawing.Point(35, 31);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(238, 30);
-            this.comboBox1.TabIndex = 67;
+            this.comboBox1.Sorted = true;
+            this.comboBox1.TabIndex = 23;
             this.comboBox1.TextChanged += new System.EventHandler(this.ComboBoxTextChange);
             this.comboBox1.Click += new System.EventHandler(this.ComboBox1_Click);
             // 
@@ -1362,6 +1364,7 @@
             this.comboBox2.Location = new System.Drawing.Point(629, 34);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(238, 30);
+            this.comboBox2.Sorted = true;
             this.comboBox2.TabIndex = 72;
             this.comboBox2.TextChanged += new System.EventHandler(this.ComboBoxTextChangeTwo);
             this.comboBox2.Click += new System.EventHandler(this.ComboBox2_Click);
@@ -1785,6 +1788,7 @@
             this.comboBox3.Location = new System.Drawing.Point(629, 34);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(238, 30);
+            this.comboBox3.Sorted = true;
             this.comboBox3.TabIndex = 109;
             this.comboBox3.TextChanged += new System.EventHandler(this.ComboBoxTextChangeThree);
             this.comboBox3.Click += new System.EventHandler(this.ComboBox3_Click);
@@ -2258,6 +2262,7 @@
             this.comboBox7.Location = new System.Drawing.Point(629, 34);
             this.comboBox7.Name = "comboBox7";
             this.comboBox7.Size = new System.Drawing.Size(238, 30);
+            this.comboBox7.Sorted = true;
             this.comboBox7.TabIndex = 121;
             this.comboBox7.TextChanged += new System.EventHandler(this.ComboBoxTextChangeSeven);
             this.comboBox7.Click += new System.EventHandler(this.ComboBox7_Click);
