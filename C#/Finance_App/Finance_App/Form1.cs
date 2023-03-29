@@ -144,7 +144,7 @@ namespace Finance_App
                     cmd.Parameters.Add(new SqlParameter("@save", SqlDbType.Float, 53));
                     cmd.Parameters.Add(new SqlParameter("@gokf", SqlDbType.Float, 53));
                     cmd.Parameters.Add(new SqlParameter("@spend", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@pass", SqlDbType.Int, 4));
+                    cmd.Parameters.Add(new SqlParameter("@pass", SqlDbType.Char, 4));
                     // Set 0 for the values within the database
                     cmd.Parameters["@donate"].Value = "0.00";
                     cmd.Parameters["@save"].Value = "0.00";
