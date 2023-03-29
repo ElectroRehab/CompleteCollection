@@ -617,6 +617,25 @@ namespace Finance_App
                     {
                         MessageBox.Show("Calculations could not be performed");
                     }
+                    try
+                    {
+                        SqlConnection conn = new SqlConnection(Globals.connectionString);
+                        conn.Open();
+
+                        string updateQuery = "UPDATE MonthlyCosts SET MonthlyEleven='" + textBox35.Text + "',MonthlyTwelve='"
+                            + textBox36.Text + "',MonthlyThirteen='" + textBox37.Text + "',MonthlyFourteen='" + textBox38.Text
+                            + "',MonthlyFifteen='" + textBox39.Text + "',MonthlySixteen='" + textBox40.Text + "',MonthlySeventeen='"
+                            + textBox41.Text + "',MonthlyEighteen='" + textBox42.Text + "',MonthlyNineteen='" + textBox43.Text
+                            + "',MonthlyTwenty='" + textBox44.Text + "' WHERE Id = " + textBox47.Text;
+                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("No ConnectionThere");
+                    }
 
                 }
             }
@@ -1325,90 +1344,79 @@ namespace Finance_App
 
         private void Button7_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Confirm Deleting User?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            try
             {
-                // Delete user from People Database
-                try
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox59.Text);
+                // Create a Message Box that allows users to enter pass code
+                Globals.boxAnswer = MessageBoard(Globals.boxUp);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
-                    SqlConnection conn = new SqlConnection(Globals.connectionString);
-                    Globals.sqlStatement = "DELETE FROM People WHERE Id=@id";
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-                    cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                    cmd.CommandType = CommandType.Text;
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
+                    sdr.Read();
+                    if (Globals.boxAnswer.ToString() == sdr["Pass"].ToString().Trim())
+                    {
+                        // Delete user from People Database                        
+                        SqlConnection connOne = new SqlConnection(Globals.connectionString);
+                        Globals.sqlStatement = "DELETE FROM People WHERE Id=@id";
+                        connOne.Open();
+                        SqlCommand cmdOne = new SqlCommand(Globals.sqlStatement, connOne);
+                        cmdOne.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                        cmdOne.CommandType = CommandType.Text;
+                        cmdOne.ExecuteNonQuery();
+                        connOne.Close();                        
+                        // Delete user from People Database                        
+                        SqlConnection connTwo = new SqlConnection(Globals.connectionString);
+                        Globals.sqlStatement = "DELETE FROM MonthlyCosts WHERE Id=@id";
+                        connTwo.Open();
+                        SqlCommand cmdTwo = new SqlCommand(Globals.sqlStatement, connTwo);
+                        cmdTwo.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                        cmdTwo.CommandType = CommandType.Text;
+                        cmdTwo.ExecuteNonQuery();
+                        connTwo.Close();
+                        // Delete user from Money Database
+                        SqlConnection connThree = new SqlConnection(Globals.connectionString);
+                        Globals.sqlStatement = "DELETE FROM Money WHERE Id=@id";
+                        connThree.Open();
+                        SqlCommand cmdThree = new SqlCommand(Globals.sqlStatement, connThree);
+                        cmdThree.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                        cmdThree.CommandType = CommandType.Text;
+                        cmdThree.ExecuteNonQuery();
+                        connThree.Close();
+                        // Delete user from LongTermTitles Database
+                        SqlConnection connFour = new SqlConnection(Globals.connectionString);
+                        Globals.sqlStatement = "DELETE LongTermTitles WHERE Id=@id";
+                        connFour.Open();
+                        SqlCommand cmdFour = new SqlCommand(Globals.sqlStatement, connFour);
+                        cmdFour.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                        cmdFour.CommandType = CommandType.Text;
+                        cmdFour.ExecuteNonQuery();
+                        connFour.Close();                        
+                        // Delete user from LongTermSaves Database                        
+                        SqlConnection connFive = new SqlConnection(Globals.connectionString);
+                        Globals.sqlStatement = "DELETE FROM LongTermSaves WHERE Id=@id";
+                        connFive.Open();
+                        SqlCommand cmdFive = new SqlCommand(Globals.sqlStatement, connFive);
+                        cmdFive.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                        cmdFive.CommandType = CommandType.Text;
+                        cmdFive.ExecuteNonQuery();
+                        connFive.Close();
+                        MessageBox.Show("User Successfully Deleted");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Incorrect Password");
+                    }
                 }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                // Delete user from People Database
-                try
-                {
-                    SqlConnection conn = new SqlConnection(Globals.connectionString);
-                    Globals.sqlStatement = "DELETE FROM MonthlyCosts WHERE Id=@id";
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-                    cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                    cmd.CommandType = CommandType.Text;
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                // Delete user from Money Database
-                try
-                {
-                    SqlConnection conn = new SqlConnection(Globals.connectionString);
-                    Globals.sqlStatement = "DELETE FROM Money WHERE Id=@id";
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-                    cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                    cmd.CommandType = CommandType.Text;
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                // Delete user from LongTermTitles Database
-                try
-                {
-                    SqlConnection conn = new SqlConnection(Globals.connectionString);
-                    Globals.sqlStatement = "DELETE LongTermTitles WHERE Id=@id";
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-                    cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                    cmd.CommandType = CommandType.Text;
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                // Delete user from LongTermSaves Database
-                try
-                {
-                    SqlConnection conn = new SqlConnection(Globals.connectionString);
-                    Globals.sqlStatement = "DELETE FROM LongTermSaves WHERE Id=@id";
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-                    cmd.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                    cmd.CommandType = CommandType.Text;
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                MessageBox.Show("User Successfully Deleted");
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
             }
         }
 
