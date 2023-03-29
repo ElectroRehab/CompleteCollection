@@ -827,6 +827,7 @@
             this.tabPage2.Size = new System.Drawing.Size(1026, 399);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Deposits";
+            this.tabPage2.Layout += new System.Windows.Forms.LayoutEventHandler(this.TabPage2_Layout);
             // 
             // radioButton2
             // 
@@ -1183,6 +1184,7 @@
             this.tabPage3.Size = new System.Drawing.Size(1026, 399);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Main Expenses";
+            this.tabPage3.Layout += new System.Windows.Forms.LayoutEventHandler(this.TabPage3_Layout);
             // 
             // label66
             // 
@@ -1607,6 +1609,7 @@
             this.tabPage5.Size = new System.Drawing.Size(1026, 399);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Addtional Expenses";
+            this.tabPage5.Layout += new System.Windows.Forms.LayoutEventHandler(this.TabPage5_Layout);
             // 
             // label67
             // 
@@ -2021,6 +2024,7 @@
             this.tabPage4.Size = new System.Drawing.Size(1026, 399);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Long Term Saving Plan";
+            this.tabPage4.Layout += new System.Windows.Forms.LayoutEventHandler(this.tabPage4_Layout);
             // 
             // button13
             // 
