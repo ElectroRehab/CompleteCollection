@@ -2222,5 +2222,94 @@ namespace Finance_App
                 Globals.bypass = false;
             }
         }
+
+        private void button15_Click(object sender, EventArgs e)
+        {
+            if (textBox69.Text != "" && textBox67.Text != "")
+            {
+                try
+                {
+                    
+                    double savingAddition = double.Parse(textBox71.Text) + double.Parse(textBox69.Text);
+                    double spendingSubtract = double.Parse(textBox67.Text) - double.Parse(textBox71.Text);
+                    if (spendingSubtract < 0)
+                    {
+                        MessageBox.Show("Not enough funds to complete transfer.");
+                    }
+                    else
+                    {
+                        SqlConnection conn = new SqlConnection(Globals.connectionString);
+                        conn.Open();
+
+                        string updateQuery = "UPDATE Money SET Savings='" + savingAddition.ToString() + "',Spending='" + spendingSubtract.ToString() + "' WHERE Id = " + textBox66.Text;
+                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                if (Globals.passChecker == true && Globals.currentUser != "")
+                {
+                    Globals.bypass = true;
+                    ComboBoxTextChangeSeven(sender, e);
+                }
+                else
+                {
+                    Globals.bypass = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select User");
+            }
+        }
+
+        private void button16_Click(object sender, EventArgs e)
+        {
+            if (textBox69.Text != "" && textBox67.Text != "")
+            {
+                try
+                {
+                    double spendingAddition = double.Parse(textBox71.Text) + double.Parse(textBox67.Text);
+                    double savingSubtract = double.Parse(textBox69.Text) - double.Parse(textBox71.Text);
+                    if (savingSubtract < 0)
+                    {
+                        MessageBox.Show("Not enough funds to complete transfer.");
+                    }
+                    else 
+                    {
+                        SqlConnection conn = new SqlConnection(Globals.connectionString);
+                        conn.Open();
+
+                        string updateQuery = "UPDATE Money SET Savings='" + savingSubtract.ToString() + "',Spending='" + spendingAddition.ToString() + "' WHERE Id = " + textBox66.Text;
+                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                if (Globals.passChecker == true && Globals.currentUser != "")
+                {
+                    Globals.bypass = true;
+                    ComboBoxTextChangeSeven(sender, e);
+                }
+                else
+                {
+                    Globals.bypass = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select User");
+            }
+        }
     }
 }

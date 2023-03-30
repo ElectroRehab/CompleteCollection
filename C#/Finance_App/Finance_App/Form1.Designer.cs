@@ -215,6 +215,11 @@
             this.textBox63 = new System.Windows.Forms.TextBox();
             this.textBox64 = new System.Windows.Forms.TextBox();
             this.textBox65 = new System.Windows.Forms.TextBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.textBox71 = new System.Windows.Forms.TextBox();
+            this.button15 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -224,6 +229,8 @@
             this.tabPage3.SuspendLayout();
             this.tabPage5.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -310,6 +317,7 @@
             // 
             // stateBox1
             // 
+            this.stateBox1.Font = new System.Drawing.Font("Arial", 14.25F);
             this.stateBox1.FormattingEnabled = true;
             this.stateBox1.Items.AddRange(new object[] {
             "AL",
@@ -364,7 +372,7 @@
             "WY"});
             this.stateBox1.Location = new System.Drawing.Point(256, 294);
             this.stateBox1.Name = "stateBox1";
-            this.stateBox1.Size = new System.Drawing.Size(191, 24);
+            this.stateBox1.Size = new System.Drawing.Size(191, 30);
             this.stateBox1.TabIndex = 7;
             // 
             // CreateButton
@@ -832,10 +840,12 @@
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
+            this.radioButton2.Checked = true;
             this.radioButton2.Location = new System.Drawing.Point(913, 300);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(73, 36);
             this.radioButton2.TabIndex = 83;
+            this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Deposit\r\nExcess";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
@@ -881,6 +891,7 @@
             this.comboBox6.Name = "comboBox6";
             this.comboBox6.Size = new System.Drawing.Size(168, 30);
             this.comboBox6.TabIndex = 76;
+            this.comboBox6.Text = "2000";
             // 
             // label68
             // 
@@ -1989,6 +2000,11 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.White;
+            this.tabPage4.Controls.Add(this.button16);
+            this.tabPage4.Controls.Add(this.button15);
+            this.tabPage4.Controls.Add(this.textBox71);
+            this.tabPage4.Controls.Add(this.pictureBox3);
+            this.tabPage4.Controls.Add(this.pictureBox4);
             this.tabPage4.Controls.Add(this.button13);
             this.tabPage4.Controls.Add(this.button14);
             this.tabPage4.Controls.Add(this.button11);
@@ -2332,6 +2348,60 @@
             this.textBox65.TabIndex = 105;
             this.textBox65.Text = "0.00";
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(830, 279);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(89, 81);
+            this.pictureBox3.TabIndex = 147;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(830, 182);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(89, 78);
+            this.pictureBox4.TabIndex = 146;
+            this.pictureBox4.TabStop = false;
+            // 
+            // textBox71
+            // 
+            this.textBox71.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.textBox71.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox71.Location = new System.Drawing.Point(830, 251);
+            this.textBox71.Name = "textBox71";
+            this.textBox71.Size = new System.Drawing.Size(189, 29);
+            this.textBox71.TabIndex = 149;
+            // 
+            // button15
+            // 
+            this.button15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button15.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button15.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button15.Location = new System.Drawing.Point(925, 180);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(94, 65);
+            this.button15.TabIndex = 150;
+            this.button15.Text = "Transfer\r\nTo  Savings";
+            this.button15.UseVisualStyleBackColor = false;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
+            // button16
+            // 
+            this.button16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button16.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button16.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button16.Location = new System.Drawing.Point(925, 286);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(94, 65);
+            this.button16.TabIndex = 151;
+            this.button16.Text = "Transfer\r\nTo Spending";
+            this.button16.UseVisualStyleBackColor = false;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2355,6 +2425,8 @@
             this.tabPage5.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2547,6 +2619,11 @@
         private System.Windows.Forms.TextBox textBox63;
         private System.Windows.Forms.TextBox textBox64;
         private System.Windows.Forms.TextBox textBox65;
+        private System.Windows.Forms.Button button16;
+        private System.Windows.Forms.Button button15;
+        private System.Windows.Forms.TextBox textBox71;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.PictureBox pictureBox4;
     }
 }
 
