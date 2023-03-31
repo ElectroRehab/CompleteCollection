@@ -5,6 +5,8 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.Reflection;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using static Finance_App.Form1;
+using System.Data.SqlClient;
 
 namespace MsgBox
 {
@@ -241,9 +243,27 @@ namespace MsgBox
             comboBox.Name = "comboBox";
             if (ListItems != null)
             {
-                foreach (string item in ListItems)
+                // Run database connection
+                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
+                {
+                    dropDownConn.Open();
+                    // Run SQL statement
+                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
+                    // Read the results of statement and add all users into combobox
+                    using (SqlDataReader reader = cmm.ExecuteReader())
+                    {   // Populate combobox with updated material
+                        while (reader.Read())
+                        {
+                            string names = reader.GetString(0).Trim();
+                            comboBox.Items.Add(names);
+                        }
+                    }
+                    // Close Current Connection
+                    dropDownConn.Close();
+                }
+                /*foreach (string item in ListItems)
                     comboBox.Items.Add(item);
-                comboBox.SelectedIndex = 0;
+                comboBox.SelectedIndex = 0;*/
             }
             //Textbox Pass Code Version
             System.Windows.Forms.TextBox textBox = new System.Windows.Forms.TextBox();

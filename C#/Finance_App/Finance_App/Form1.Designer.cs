@@ -74,6 +74,7 @@
             this.label63 = new System.Windows.Forms.Label();
             this.textBox52 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button17 = new System.Windows.Forms.Button();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -106,6 +107,7 @@
             this.label22 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button18 = new System.Windows.Forms.Button();
             this.label66 = new System.Windows.Forms.Label();
             this.textBox60 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -146,6 +148,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.button19 = new System.Windows.Forms.Button();
             this.label67 = new System.Windows.Forms.Label();
             this.textBox61 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
@@ -186,6 +189,12 @@
             this.label55 = new System.Windows.Forms.Label();
             this.textBox35 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button20 = new System.Windows.Forms.Button();
+            this.button16 = new System.Windows.Forms.Button();
+            this.button15 = new System.Windows.Forms.Button();
+            this.textBox71 = new System.Windows.Forms.TextBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.button13 = new System.Windows.Forms.Button();
             this.button14 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
@@ -215,11 +224,6 @@
             this.textBox63 = new System.Windows.Forms.TextBox();
             this.textBox64 = new System.Windows.Forms.TextBox();
             this.textBox65 = new System.Windows.Forms.TextBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.textBox71 = new System.Windows.Forms.TextBox();
-            this.button15 = new System.Windows.Forms.Button();
-            this.button16 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -578,8 +582,10 @@
             // 
             // comboBox5
             // 
+            this.comboBox5.DropDownHeight = 200;
             this.comboBox5.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox5.FormattingEnabled = true;
+            this.comboBox5.IntegralHeight = false;
             this.comboBox5.Location = new System.Drawing.Point(680, 52);
             this.comboBox5.Name = "comboBox5";
             this.comboBox5.Size = new System.Drawing.Size(232, 30);
@@ -798,6 +804,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.White;
+            this.tabPage2.Controls.Add(this.button17);
             this.tabPage2.Controls.Add(this.radioButton2);
             this.tabPage2.Controls.Add(this.radioButton1);
             this.tabPage2.Controls.Add(this.pictureBox1);
@@ -836,6 +843,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Deposits";
             this.tabPage2.Layout += new System.Windows.Forms.LayoutEventHandler(this.TabPage2_Layout);
+            // 
+            // button17
+            // 
+            this.button17.Font = new System.Drawing.Font("Arial", 14.25F);
+            this.button17.Location = new System.Drawing.Point(35, 317);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(238, 28);
+            this.button17.TabIndex = 84;
+            this.button17.Text = "Change User";
+            this.button17.UseVisualStyleBackColor = true;
             // 
             // radioButton2
             // 
@@ -956,8 +973,10 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownHeight = 200;
             this.comboBox1.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.IntegralHeight = false;
             this.comboBox1.Location = new System.Drawing.Point(35, 31);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(238, 30);
@@ -1150,6 +1169,7 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.White;
+            this.tabPage3.Controls.Add(this.button18);
             this.tabPage3.Controls.Add(this.label66);
             this.tabPage3.Controls.Add(this.textBox60);
             this.tabPage3.Controls.Add(this.button4);
@@ -1196,6 +1216,16 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Main Expenses";
             this.tabPage3.Layout += new System.Windows.Forms.LayoutEventHandler(this.TabPage3_Layout);
+            // 
+            // button18
+            // 
+            this.button18.Font = new System.Drawing.Font("Arial", 14.25F);
+            this.button18.Location = new System.Drawing.Point(423, 36);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(186, 28);
+            this.button18.TabIndex = 91;
+            this.button18.Text = "Change User";
+            this.button18.UseVisualStyleBackColor = true;
             // 
             // label66
             // 
@@ -1372,8 +1402,10 @@
             // 
             // comboBox2
             // 
+            this.comboBox2.DropDownHeight = 200;
             this.comboBox2.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.IntegralHeight = false;
             this.comboBox2.Location = new System.Drawing.Point(629, 34);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(238, 30);
@@ -1575,6 +1607,7 @@
             // tabPage5
             // 
             this.tabPage5.BackColor = System.Drawing.Color.White;
+            this.tabPage5.Controls.Add(this.button19);
             this.tabPage5.Controls.Add(this.label67);
             this.tabPage5.Controls.Add(this.textBox61);
             this.tabPage5.Controls.Add(this.button5);
@@ -1621,6 +1654,16 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Addtional Expenses";
             this.tabPage5.Layout += new System.Windows.Forms.LayoutEventHandler(this.TabPage5_Layout);
+            // 
+            // button19
+            // 
+            this.button19.Font = new System.Drawing.Font("Arial", 14.25F);
+            this.button19.Location = new System.Drawing.Point(423, 36);
+            this.button19.Name = "button19";
+            this.button19.Size = new System.Drawing.Size(186, 28);
+            this.button19.TabIndex = 128;
+            this.button19.Text = "Change User";
+            this.button19.UseVisualStyleBackColor = true;
             // 
             // label67
             // 
@@ -1797,8 +1840,10 @@
             // 
             // comboBox3
             // 
+            this.comboBox3.DropDownHeight = 200;
             this.comboBox3.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.IntegralHeight = false;
             this.comboBox3.Location = new System.Drawing.Point(629, 34);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(238, 30);
@@ -2000,6 +2045,7 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.White;
+            this.tabPage4.Controls.Add(this.button20);
             this.tabPage4.Controls.Add(this.button16);
             this.tabPage4.Controls.Add(this.button15);
             this.tabPage4.Controls.Add(this.textBox71);
@@ -2041,6 +2087,72 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Long Term Saving Plan";
             this.tabPage4.Layout += new System.Windows.Forms.LayoutEventHandler(this.tabPage4_Layout);
+            // 
+            // button20
+            // 
+            this.button20.Font = new System.Drawing.Font("Arial", 14.25F);
+            this.button20.Location = new System.Drawing.Point(423, 36);
+            this.button20.Name = "button20";
+            this.button20.Size = new System.Drawing.Size(186, 28);
+            this.button20.TabIndex = 152;
+            this.button20.Text = "Change User";
+            this.button20.UseVisualStyleBackColor = true;
+            // 
+            // button16
+            // 
+            this.button16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button16.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button16.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button16.Location = new System.Drawing.Point(925, 286);
+            this.button16.Name = "button16";
+            this.button16.Size = new System.Drawing.Size(94, 65);
+            this.button16.TabIndex = 151;
+            this.button16.Text = "Transfer\r\nTo Spending";
+            this.button16.UseVisualStyleBackColor = false;
+            this.button16.Click += new System.EventHandler(this.button16_Click);
+            // 
+            // button15
+            // 
+            this.button15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
+            this.button15.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button15.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button15.Location = new System.Drawing.Point(925, 180);
+            this.button15.Name = "button15";
+            this.button15.Size = new System.Drawing.Size(94, 65);
+            this.button15.TabIndex = 150;
+            this.button15.Text = "Transfer\r\nTo  Savings";
+            this.button15.UseVisualStyleBackColor = false;
+            this.button15.Click += new System.EventHandler(this.button15_Click);
+            // 
+            // textBox71
+            // 
+            this.textBox71.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.textBox71.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox71.Location = new System.Drawing.Point(830, 251);
+            this.textBox71.Name = "textBox71";
+            this.textBox71.Size = new System.Drawing.Size(189, 29);
+            this.textBox71.TabIndex = 149;
+            this.textBox71.Text = "Enter Amount Here";
+            this.textBox71.MouseClick += new System.Windows.Forms.MouseEventHandler(this.TextBox71_MouseClick);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(830, 279);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(89, 81);
+            this.pictureBox3.TabIndex = 147;
+            this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+            this.pictureBox4.Location = new System.Drawing.Point(830, 182);
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.Size = new System.Drawing.Size(89, 78);
+            this.pictureBox4.TabIndex = 146;
+            this.pictureBox4.TabStop = false;
             // 
             // button13
             // 
@@ -2277,8 +2389,10 @@
             // 
             // comboBox7
             // 
+            this.comboBox7.DropDownHeight = 200;
             this.comboBox7.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox7.FormattingEnabled = true;
+            this.comboBox7.IntegralHeight = false;
             this.comboBox7.Location = new System.Drawing.Point(629, 34);
             this.comboBox7.Name = "comboBox7";
             this.comboBox7.Size = new System.Drawing.Size(238, 30);
@@ -2347,60 +2461,6 @@
             this.textBox65.Size = new System.Drawing.Size(186, 29);
             this.textBox65.TabIndex = 105;
             this.textBox65.Text = "0.00";
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(830, 279);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(89, 81);
-            this.pictureBox3.TabIndex = 147;
-            this.pictureBox3.TabStop = false;
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(830, 182);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(89, 78);
-            this.pictureBox4.TabIndex = 146;
-            this.pictureBox4.TabStop = false;
-            // 
-            // textBox71
-            // 
-            this.textBox71.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-            this.textBox71.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox71.Location = new System.Drawing.Point(830, 251);
-            this.textBox71.Name = "textBox71";
-            this.textBox71.Size = new System.Drawing.Size(189, 29);
-            this.textBox71.TabIndex = 149;
-            // 
-            // button15
-            // 
-            this.button15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.button15.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button15.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button15.Location = new System.Drawing.Point(925, 180);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(94, 65);
-            this.button15.TabIndex = 150;
-            this.button15.Text = "Transfer\r\nTo  Savings";
-            this.button15.UseVisualStyleBackColor = false;
-            this.button15.Click += new System.EventHandler(this.button15_Click);
-            // 
-            // button16
-            // 
-            this.button16.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.button16.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button16.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button16.Location = new System.Drawing.Point(925, 286);
-            this.button16.Name = "button16";
-            this.button16.Size = new System.Drawing.Size(94, 65);
-            this.button16.TabIndex = 151;
-            this.button16.Text = "Transfer\r\nTo Spending";
-            this.button16.UseVisualStyleBackColor = false;
-            this.button16.Click += new System.EventHandler(this.button16_Click);
             // 
             // Form1
             // 
@@ -2624,6 +2684,10 @@
         private System.Windows.Forms.TextBox textBox71;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.Button button19;
+        private System.Windows.Forms.Button button20;
     }
 }
 

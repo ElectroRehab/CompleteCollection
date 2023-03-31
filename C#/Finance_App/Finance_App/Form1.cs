@@ -31,6 +31,7 @@ namespace Finance_App
             public static bool boxInOut;
             public static bool passChecker;
             public static bool bypass;
+            public static bool secondChance = false;
             public static String boxAnswer;
             public static String currentUser;
             public static String currentUserId;
@@ -45,10 +46,10 @@ namespace Finance_App
             public static String sqlStatement;
 
         }
-        private string MessageBoard(bool answer)
+        private string MessageBoard(bool answer, bool second)
         {
             string returnAnswer;
-            if (answer == true)
+            if (answer == true && second == false)
             {
                 // Create a Message Box that allows users to enter password
                 InputBox.SetLanguage(InputBox.Language.English);
@@ -63,9 +64,8 @@ namespace Finance_App
                 returnAnswer = InputBox.ResultValue.Trim();
 
             }
-            else if (answer == false)
+            else if (answer == false && second == false)
             {
-
                 // Create a Message Box that allows users to enter password
                 InputBox.SetLanguage(InputBox.Language.English);
                 DialogResult res = InputBox.ShowDialog("Change Title of Selection:",
@@ -76,6 +76,20 @@ namespace Finance_App
                     new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
                     true, //Set visible in taskbar (default false)
                     new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
+                returnAnswer = InputBox.ResultValue.Trim();
+            }
+            else if (answer == true && second == true)
+            {
+                // Create a Message Box that allows users to enter password
+                InputBox.SetLanguage(InputBox.Language.English);
+                DialogResult res = InputBox.ShowDialog("Choose New User:",
+                "Change Title",   //Text message (mandatory), Title (optional)
+                    InputBox.Icon.Information, //Set icon type (default info)
+                    InputBox.Buttons.Ok, //Set buttons (default ok)
+                    InputBox.Type.ComboBox, //Set type (default nothing)
+                    new string [] {"Item1", "Item2"}, //String field as ComboBox items (default null)
+                    true, //Set visible in taskbar (default false)
+                    new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); ; //Set font (default by system)
                 returnAnswer = InputBox.ResultValue.Trim();
             }
             else
@@ -644,27 +658,58 @@ namespace Finance_App
         // Check to see users available in database
         private void ComboBox1_Click(object sender, EventArgs e)
         {
-            // Run database connection
-            using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
+            if (comboBox1.Text == "")
             {
-                dropDownConn.Open();
-                // Run SQL statement
-                SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                // Read the results of statement and add all users into combobox
-                using (SqlDataReader reader = cmm.ExecuteReader())
+                // Run database connection
+                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
                 {
-                    // Clear out combobox to avoid duplicates
-                    comboBox1.Items.Clear();
-                    // Populate combobox with updated material
-                    while (reader.Read())
+                    dropDownConn.Open();
+                    // Run SQL statement
+                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
+                    // Read the results of statement and add all users into combobox
+                    using (SqlDataReader reader = cmm.ExecuteReader())
                     {
-                        string names = reader.GetString(0).Trim();
-                        comboBox1.Items.Add(names);
+                        // Clear out combobox to avoid duplicates
+                        comboBox1.Items.Clear();
+                        // Populate combobox with updated material
+                        while (reader.Read())
+                        {
+                            string names = reader.GetString(0).Trim();
+                            comboBox1.Items.Add(names);
+                        }
                     }
+                    // Close Current Connection
+                    dropDownConn.Close();
                 }
-                // Close Current Connection
-                dropDownConn.Close();
             }
+            else
+            {
+                comboBox1.Items.Clear();
+                Globals.bypass = false;
+                // Run database connection
+                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
+                {
+                    dropDownConn.Open();
+                    // Run SQL statement
+                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
+                    // Read the results of statement and add all users into combobox
+                    using (SqlDataReader reader = cmm.ExecuteReader())
+                    {
+                        // Clear out combobox to avoid duplicates
+                        comboBox1.Items.Clear();
+                        // Populate combobox with updated material
+                        while (reader.Read())
+                        {
+                            string names = reader.GetString(0).Trim();
+                            comboBox1.Items.Add(names);
+                        }
+                    }
+                    // Close Current Connection
+                    dropDownConn.Close();
+                }
+            }
+            
+
         }
         private void TabPage2_Layout(object sender, LayoutEventArgs e)
         {
@@ -723,7 +768,7 @@ namespace Finance_App
                     // Use ID populated to confirm proper insertion
                     cmd.Parameters.AddWithValue("@id", textBox6.Text);
                     // Create a Message Box that allows users to enter pass code
-                    Globals.boxAnswer = MessageBoard(Globals.boxUp);
+                    Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
                     // Read through database and insert fields into TextBoxes
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
@@ -791,26 +836,56 @@ namespace Finance_App
         // Check to see users available in database
         private void ComboBox2_Click(object sender, EventArgs e)
         {
-            // Run database connection
-            using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
+            if (comboBox2.Text == "")
             {
-                dropDownConn.Open();
-                // Run SQL statement
-                SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                // Read the results of statement and add all users into combobox
-                using (SqlDataReader reader = cmm.ExecuteReader())
+                // Run database connection
+                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
                 {
-                    // Clear out combobox to avoid duplicates
-                    comboBox2.Items.Clear();
-                    // Populate combobox with updated material
-                    while (reader.Read())
+                    dropDownConn.Open();
+                    // Run SQL statement
+                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
+                    // Read the results of statement and add all users into combobox
+                    using (SqlDataReader reader = cmm.ExecuteReader())
                     {
-                        string names = reader.GetString(0).Trim();
-                        comboBox2.Items.Add(names);
+                        // Clear out combobox to avoid duplicates
+                        comboBox2.Items.Clear();
+                        // Populate combobox with updated material
+                        while (reader.Read())
+                        {
+                            string names = reader.GetString(0).Trim();
+                            comboBox2.Items.Add(names);
+                        }
                     }
+                    // Close Current Connection
+                    dropDownConn.Close();
                 }
-                // Close Current Connection
-                dropDownConn.Close();
+            }
+            else
+            {
+                Globals.bypass = false;
+                comboBox2.Items.Clear();
+                // Run database connection
+                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
+                {
+                    dropDownConn.Open();
+                    // Run SQL statement
+                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
+                    // Read the results of statement and add all users into combobox
+                    using (SqlDataReader reader = cmm.ExecuteReader())
+                    {
+                        // Clear out combobox to avoid duplicates
+                        comboBox2.Items.Clear();
+                        // Populate combobox with updated material
+                        while (reader.Read())
+                        {
+                            string names = reader.GetString(0).Trim();
+                            comboBox2.Items.Add(names);
+                        }
+                    }
+                    // Close Current Connection
+                    dropDownConn.Close();
+                }
+
             }
         }
         private void ComboBoxTextChangeTwo(object sender, EventArgs e)
@@ -856,7 +931,7 @@ namespace Finance_App
                     // Use ID populated to confirm proper insertion
                     cmd.Parameters.AddWithValue("@id", textBox30.Text);
                     // Create a Message Box that allows users to enter pass code
-                    Globals.boxAnswer = MessageBoard(Globals.boxUp);
+                    Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
                     // Read through database and insert fields into TextBoxes
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
@@ -971,6 +1046,41 @@ namespace Finance_App
                 {
                     MessageBox.Show("No Connection");
                 }
+                try
+                {
+                    // Combine all the expenses into a single variable.
+                    double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
+                        + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
+                        + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
+                         + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
+                          + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                    // Main Expense Totals
+                    double mainExpense = double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
+                         + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
+                          + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                    // Find the difference between what is available to what expenses are being used.
+                    double differenceCalc = double.Parse(textBox34.Text) - expensesCalc;
+                    // Display all expenses
+                    textBox28.Text = expensesCalc.ToString();
+                    textBox60.Text = mainExpense.ToString();
+                    // Display the difference
+                    if (differenceCalc < 0)
+                    {
+                        textBox29.BackColor = Color.Black;
+                        textBox29.ForeColor = Color.Red;
+                        textBox29.Text = differenceCalc.ToString();
+                    }
+                    else
+                    {
+                        textBox29.BackColor = Color.Green;
+                        textBox29.ForeColor = Color.Black;
+                        textBox29.Text = differenceCalc.ToString();
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Calculations could not be performed");
+                }
             }
         }
         private void TabPage3_Layout(object sender, LayoutEventArgs e)
@@ -988,7 +1098,34 @@ namespace Finance_App
 
         private void ComboBox3_Click(object sender, EventArgs e)
         {
+            if (comboBox3.Text == "")
             {
+                // Run database connection
+                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
+                {
+                    dropDownConn.Open();
+                    // Run SQL statement
+                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
+                    // Read the results of statement and add all users into combobox
+                    using (SqlDataReader reader = cmm.ExecuteReader())
+                    {
+                        // Clear out combobox to avoid duplicates
+                        comboBox3.Items.Clear();
+                        // Populate combobox with updated material
+                        while (reader.Read())
+                        {
+                            string names = reader.GetString(0).Trim();
+                            comboBox3.Items.Add(names);
+                        }
+                    }
+                    // Close Current Connection
+                    dropDownConn.Close();
+                }
+            }
+            else
+            {
+                Globals.bypass = false;
+                comboBox3.Items.Clear();
                 // Run database connection
                 using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
                 {
@@ -1055,7 +1192,7 @@ namespace Finance_App
                     // Use ID populated to confirm proper insertion
                     cmd.Parameters.AddWithValue("@id", textBox47.Text);
                     // Create a Message Box that allows users to enter pass code
-                    Globals.boxAnswer = MessageBoard(Globals.boxUp);
+                    Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
                     // Read through database and insert fields into TextBoxes
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
@@ -1189,6 +1326,40 @@ namespace Finance_App
                 catch
                 {
                     MessageBox.Show("No Connection");
+                }
+                try
+                {
+                    // Combine all the expenses into a single variable.
+                    double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
+                        + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
+                        + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
+                         + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
+                          + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                    // Additional Expenses Total
+                    double additionalExpenses = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
+                        + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
+                        + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text);
+                    // Find the difference between what is available to what expenses are being used.
+                    double differenceCalc = double.Parse(textBox51.Text) - expensesCalc;
+                    // Display all expenses
+                    textBox45.Text = expensesCalc.ToString();
+                    textBox61.Text = additionalExpenses.ToString();
+                    // Display the difference
+                    if (differenceCalc < 0)
+                    {
+                        textBox46.BackColor = Color.Black;
+                        textBox46.ForeColor = Color.Red;
+                        textBox46.Text = differenceCalc.ToString();
+                    }
+                    else
+                    {
+                        textBox46.BackColor = Color.Green;
+                        textBox46.Text = differenceCalc.ToString();
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Calculations could not be performed");
                 }
             }
         }
@@ -1353,7 +1524,7 @@ namespace Finance_App
                 // Use ID populated to confirm proper insertion
                 cmd.Parameters.AddWithValue("@id", textBox59.Text);
                 // Create a Message Box that allows users to enter pass code
-                Globals.boxAnswer = MessageBoard(Globals.boxUp);
+                Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
                 // Read through database and insert fields into TextBoxes
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
@@ -1423,7 +1594,7 @@ namespace Finance_App
         private void Button9_Click(object sender, EventArgs e)
         {
             // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown);
+            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
@@ -1498,7 +1669,7 @@ namespace Finance_App
         private void Button10_Click(object sender, EventArgs e)
         {
             // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown);
+            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
@@ -1573,7 +1744,7 @@ namespace Finance_App
         private void Button11_Click(object sender, EventArgs e)
         {
             // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown);
+            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
@@ -1648,7 +1819,7 @@ namespace Finance_App
         private void Button12_Click(object sender, EventArgs e)
         {
             // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown);
+            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
@@ -1723,7 +1894,7 @@ namespace Finance_App
         private void Button13_Click(object sender, EventArgs e)
         {
             // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown);
+            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
@@ -1797,7 +1968,7 @@ namespace Finance_App
         private void Button14_Click(object sender, EventArgs e)
         {
             // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown);
+            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
             try
             {
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
@@ -1875,7 +2046,34 @@ namespace Finance_App
 
         private void ComboBox7_Click(object sender, EventArgs e)
         {
+            if (comboBox7.Text == "")
             {
+                // Run database connection
+                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
+                {
+                    dropDownConn.Open();
+                    // Run SQL statement
+                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
+                    // Read the results of statement and add all users into combobox
+                    using (SqlDataReader reader = cmm.ExecuteReader())
+                    {
+                        // Clear out combobox to avoid duplicates
+                        comboBox7.Items.Clear();
+                        // Populate combobox with updated material
+                        while (reader.Read())
+                        {
+                            string names = reader.GetString(0).Trim();
+                            comboBox7.Items.Add(names);
+                        }
+                    }
+                    // Close Current Connection
+                    dropDownConn.Close();
+                }
+            }
+            else
+            {
+                Globals.bypass = false;
+                comboBox7.Items.Clear();
                 // Run database connection
                 using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
                 {
@@ -1943,7 +2141,7 @@ namespace Finance_App
                     // Use ID populated to confirm proper insertion
                     cmd.Parameters.AddWithValue("@id", textBox66.Text);
                     // Create a Message Box that allows users to enter pass code
-                    Globals.boxAnswer = MessageBoard(Globals.boxUp);
+                    Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
                     // Read through database and insert fields into TextBoxes
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
@@ -2310,6 +2508,11 @@ namespace Finance_App
             {
                 MessageBox.Show("Select User");
             }
+        }
+
+        private void TextBox71_MouseClick(object sender, MouseEventArgs e)
+        {
+            textBox71.Text = "";
         }
     }
 }
