@@ -1,9 +1,3 @@
-C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.csproj.AssemblyReference.cache
-C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.csproj.SuggestedBindingRedirects.cache
-C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.Form1.resources
-C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.Properties.Resources.resources
-C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.csproj.GenerateResource.cache
-C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.csproj.CoreCompileInputs.cache
 C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\bin\Debug\Database1.mdf
 C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\bin\Debug\Database1_log.ldf
 C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\bin\Debug\Finance_App.exe.config
@@ -17,6 +11,12 @@ C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\bin\Debug\EntityFram
 C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\bin\Debug\Microsoft.Configuration.ConfigurationBuilders.Base.xml
 C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\bin\Debug\Microsoft.Configuration.ConfigurationBuilders.UserSecrets.xml
+C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.csproj.AssemblyReference.cache
+C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.csproj.SuggestedBindingRedirects.cache
+C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.Form1.resources
+C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.Properties.Resources.resources
+C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.csproj.GenerateResource.cache
+C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.csproj.CoreCompileInputs.cache
 C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.csproj.CopyComplete
 C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.exe
 C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\obj\Debug\Finance_App.pdb

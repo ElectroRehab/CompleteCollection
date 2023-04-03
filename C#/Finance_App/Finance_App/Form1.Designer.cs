@@ -74,7 +74,6 @@
             this.label63 = new System.Windows.Forms.Label();
             this.textBox52 = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.button17 = new System.Windows.Forms.Button();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -107,7 +106,6 @@
             this.label22 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.button18 = new System.Windows.Forms.Button();
             this.label66 = new System.Windows.Forms.Label();
             this.textBox60 = new System.Windows.Forms.TextBox();
             this.button4 = new System.Windows.Forms.Button();
@@ -148,7 +146,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.button19 = new System.Windows.Forms.Button();
             this.label67 = new System.Windows.Forms.Label();
             this.textBox61 = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
@@ -189,7 +186,6 @@
             this.label55 = new System.Windows.Forms.Label();
             this.textBox35 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.button20 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.textBox71 = new System.Windows.Forms.TextBox();
@@ -224,6 +220,7 @@
             this.textBox63 = new System.Windows.Forms.TextBox();
             this.textBox64 = new System.Windows.Forms.TextBox();
             this.textBox65 = new System.Windows.Forms.TextBox();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -245,6 +242,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Font = new System.Drawing.Font("Arial", 10.25F);
             this.tabControl1.Location = new System.Drawing.Point(3, 0);
             this.tabControl1.Name = "tabControl1";
@@ -804,7 +802,6 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.White;
-            this.tabPage2.Controls.Add(this.button17);
             this.tabPage2.Controls.Add(this.radioButton2);
             this.tabPage2.Controls.Add(this.radioButton1);
             this.tabPage2.Controls.Add(this.pictureBox1);
@@ -843,16 +840,6 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Deposits";
             this.tabPage2.Layout += new System.Windows.Forms.LayoutEventHandler(this.TabPage2_Layout);
-            // 
-            // button17
-            // 
-            this.button17.Font = new System.Drawing.Font("Arial", 14.25F);
-            this.button17.Location = new System.Drawing.Point(35, 317);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(238, 28);
-            this.button17.TabIndex = 84;
-            this.button17.Text = "Change User";
-            this.button17.UseVisualStyleBackColor = true;
             // 
             // radioButton2
             // 
@@ -1169,7 +1156,6 @@
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.White;
-            this.tabPage3.Controls.Add(this.button18);
             this.tabPage3.Controls.Add(this.label66);
             this.tabPage3.Controls.Add(this.textBox60);
             this.tabPage3.Controls.Add(this.button4);
@@ -1216,16 +1202,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Main Expenses";
             this.tabPage3.Layout += new System.Windows.Forms.LayoutEventHandler(this.TabPage3_Layout);
-            // 
-            // button18
-            // 
-            this.button18.Font = new System.Drawing.Font("Arial", 14.25F);
-            this.button18.Location = new System.Drawing.Point(423, 36);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(186, 28);
-            this.button18.TabIndex = 91;
-            this.button18.Text = "Change User";
-            this.button18.UseVisualStyleBackColor = true;
             // 
             // label66
             // 
@@ -1607,7 +1583,6 @@
             // tabPage5
             // 
             this.tabPage5.BackColor = System.Drawing.Color.White;
-            this.tabPage5.Controls.Add(this.button19);
             this.tabPage5.Controls.Add(this.label67);
             this.tabPage5.Controls.Add(this.textBox61);
             this.tabPage5.Controls.Add(this.button5);
@@ -1654,16 +1629,6 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Addtional Expenses";
             this.tabPage5.Layout += new System.Windows.Forms.LayoutEventHandler(this.TabPage5_Layout);
-            // 
-            // button19
-            // 
-            this.button19.Font = new System.Drawing.Font("Arial", 14.25F);
-            this.button19.Location = new System.Drawing.Point(423, 36);
-            this.button19.Name = "button19";
-            this.button19.Size = new System.Drawing.Size(186, 28);
-            this.button19.TabIndex = 128;
-            this.button19.Text = "Change User";
-            this.button19.UseVisualStyleBackColor = true;
             // 
             // label67
             // 
@@ -2045,7 +2010,6 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.White;
-            this.tabPage4.Controls.Add(this.button20);
             this.tabPage4.Controls.Add(this.button16);
             this.tabPage4.Controls.Add(this.button15);
             this.tabPage4.Controls.Add(this.textBox71);
@@ -2087,16 +2051,6 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Long Term Saving Plan";
             this.tabPage4.Layout += new System.Windows.Forms.LayoutEventHandler(this.tabPage4_Layout);
-            // 
-            // button20
-            // 
-            this.button20.Font = new System.Drawing.Font("Arial", 14.25F);
-            this.button20.Location = new System.Drawing.Point(423, 36);
-            this.button20.Name = "button20";
-            this.button20.Size = new System.Drawing.Size(186, 28);
-            this.button20.TabIndex = 152;
-            this.button20.Text = "Change User";
-            this.button20.UseVisualStyleBackColor = true;
             // 
             // button16
             // 
@@ -2462,12 +2416,23 @@
             this.textBox65.TabIndex = 105;
             this.textBox65.Text = "0.00";
             // 
+            // tabPage7
+            // 
+            this.tabPage7.Location = new System.Drawing.Point(4, 25);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage7.Size = new System.Drawing.Size(1026, 399);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "tabPage7";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1038, 424);
             this.Controls.Add(this.tabControl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
@@ -2684,10 +2649,7 @@
         private System.Windows.Forms.TextBox textBox71;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.Button button17;
-        private System.Windows.Forms.Button button18;
-        private System.Windows.Forms.Button button19;
-        private System.Windows.Forms.Button button20;
+        private System.Windows.Forms.TabPage tabPage7;
     }
 }
 

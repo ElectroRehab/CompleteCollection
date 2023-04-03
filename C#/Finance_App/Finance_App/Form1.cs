@@ -14,6 +14,8 @@ using MsgBox;
 using static MsgBox.InputBox;
 using System.Diagnostics.Eventing.Reader;
 using System.Drawing.Text;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Finance_App
 {
@@ -35,8 +37,12 @@ namespace Finance_App
             public static String boxAnswer;
             public static String currentUser;
             public static String currentUserId;
-            public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
-            public static String firstSelect = "SELECT First FROM People";
+            public static String first;
+            public static String last;
+            public static String splitText;
+            public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True";
+            //public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+            public static String firstSelect = "SELECT First,Last FROM People";
             public static String idNameSelect = "SELECT Id FROM People WHERE First = @name";
             public static String longTermSave = "SELECT * FROM LongTermSaves WHERE Id = @id";
             public static String longTermSelect = "SELECT * FROM LongTermTitles WHERE Id = @id";
@@ -674,8 +680,9 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0).Trim();
-                            comboBox1.Items.Add(names);
+                            Globals.first = reader.GetString(0).Trim();
+                            Globals.last = reader.GetString(1).Trim();
+                            comboBox1.Items.Add(Globals.first + " " + Globals.last);
                         }
                     }
                     // Close Current Connection
@@ -700,8 +707,9 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0).Trim();
-                            comboBox1.Items.Add(names);
+                            Globals.first = reader.GetString(0).Trim();
+                            Globals.last = reader.GetString(1).Trim();
+                            comboBox1.Items.Add(Globals.first + " " + Globals.last);
                         }
                     }
                     // Close Current Connection
@@ -741,8 +749,11 @@ namespace Finance_App
                             cmd.CommandType = CommandType.Text;
                             cmd.Connection = con;
                             con.Open();
-                            cmd.Parameters.AddWithValue("@name", comboBox1.SelectedItem);
-                            Globals.currentUser = comboBox1.SelectedItem.ToString().Trim();
+                            string[] splitName = comboBox1.Text.Split(' ');
+                            Globals.splitText = splitName[0];
+                            cmd.Parameters.AddWithValue("@name", Globals.splitText);
+                            Globals.currentUser = comboBox1.Text.ToString();
+                            
                             // Insert the ID from People Database
                             using (SqlDataReader sdr = cmd.ExecuteReader())
                             {
@@ -852,8 +863,9 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0).Trim();
-                            comboBox2.Items.Add(names);
+                            Globals.first = reader.GetString(0).Trim();
+                            Globals.last = reader.GetString(1).Trim();
+                            comboBox2.Items.Add(Globals.first + " " + Globals.last);
                         }
                     }
                     // Close Current Connection
@@ -878,8 +890,9 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0).Trim();
-                            comboBox2.Items.Add(names);
+                            Globals.first = reader.GetString(0).Trim();
+                            Globals.last = reader.GetString(1).Trim();
+                            comboBox2.Items.Add(Globals.first + " " + Globals.last);
                         }
                     }
                     // Close Current Connection
@@ -904,7 +917,9 @@ namespace Finance_App
                             cmd.CommandType = CommandType.Text;
                             cmd.Connection = con;
                             con.Open();
-                            cmd.Parameters.AddWithValue("@name", comboBox2.SelectedItem);
+                            string[] splitName = comboBox2.Text.Split(' ');
+                            Globals.splitText = splitName[0];
+                            cmd.Parameters.AddWithValue("@name", Globals.splitText);
                             // Insert the ID from People Database
                             using (SqlDataReader sdr = cmd.ExecuteReader())
                             {
@@ -913,7 +928,7 @@ namespace Finance_App
                             }
                             con.Close();
                             Globals.currentUserId = textBox30.Text;
-                            Globals.currentUser = comboBox2.SelectedItem.ToString();
+                            Globals.currentUser = comboBox2.Text.ToString();
                         }
                     }
                 }
@@ -1114,8 +1129,9 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0).Trim();
-                            comboBox3.Items.Add(names);
+                            Globals.first = reader.GetString(0).Trim();
+                            Globals.last = reader.GetString(1).Trim();
+                            comboBox3.Items.Add(Globals.first + " " + Globals.last);
                         }
                     }
                     // Close Current Connection
@@ -1140,8 +1156,9 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0).Trim();
-                            comboBox3.Items.Add(names);
+                            Globals.first = reader.GetString(0).Trim();
+                            Globals.last = reader.GetString(1).Trim();
+                            comboBox3.Items.Add(Globals.first + " " + Globals.last);
                         }
                     }
                     // Close Current Connection
@@ -1165,7 +1182,9 @@ namespace Finance_App
                             cmd.CommandType = CommandType.Text;
                             cmd.Connection = con;
                             con.Open();
-                            cmd.Parameters.AddWithValue("@name", comboBox3.SelectedItem);
+                            string[] splitName = comboBox3.Text.Split(' ');
+                            Globals.splitText = splitName[0];
+                            cmd.Parameters.AddWithValue("@name", Globals.splitText);
                             // Insert the ID from People Database
                             using (SqlDataReader sdr = cmd.ExecuteReader())
                             {
@@ -1174,7 +1193,7 @@ namespace Finance_App
                             }
                             con.Close();
                             Globals.currentUserId = textBox47.Text;
-                            Globals.currentUser = comboBox3.SelectedItem.ToString();
+                            Globals.currentUser = comboBox3.Text.ToString();
                         }
                     }
                 }
@@ -1380,8 +1399,9 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0).Trim();
-                            comboBox5.Items.Add(names);
+                            Globals.first = reader.GetString(0).Trim();
+                            Globals.last = reader.GetString(1).Trim();
+                            comboBox5.Items.Add(Globals.first + " " + Globals.last);
                         }
                     }
                     // Close Current Connection
@@ -1404,7 +1424,9 @@ namespace Finance_App
                         cmd.CommandType = CommandType.Text;
                         cmd.Connection = con;
                         con.Open();
-                        cmd.Parameters.AddWithValue("@name", comboBox5.SelectedItem);
+                        string[] splitName = comboBox5.Text.Split(' ');
+                        Globals.splitText = splitName[0];
+                        cmd.Parameters.AddWithValue("@name", Globals.splitText);
                         // Insert the ID from People Database
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -2062,8 +2084,9 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0).Trim();
-                            comboBox7.Items.Add(names);
+                            Globals.first = reader.GetString(0).Trim();
+                            Globals.last = reader.GetString(1).Trim();
+                            comboBox7.Items.Add(Globals.first + " " + Globals.last);
                         }
                     }
                     // Close Current Connection
@@ -2088,8 +2111,9 @@ namespace Finance_App
                         // Populate combobox with updated material
                         while (reader.Read())
                         {
-                            string names = reader.GetString(0).Trim();
-                            comboBox7.Items.Add(names);
+                            Globals.first = reader.GetString(0).Trim();
+                            Globals.last = reader.GetString(1).Trim();
+                            comboBox7.Items.Add(Globals.first + " " + Globals.last);
                         }
                     }
                     // Close Current Connection
@@ -2113,7 +2137,9 @@ namespace Finance_App
                             cmd.CommandType = CommandType.Text;
                             cmd.Connection = con;
                             con.Open();
-                            cmd.Parameters.AddWithValue("@name", comboBox7.SelectedItem);
+                            string[] splitName = comboBox7.Text.Split(' ');
+                            Globals.splitText = splitName[0];
+                            cmd.Parameters.AddWithValue("@name", Globals.splitText);
                             // Insert the ID from People Database
                             using (SqlDataReader sdr = cmd.ExecuteReader())
                             {
