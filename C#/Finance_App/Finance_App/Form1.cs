@@ -9,6 +9,8 @@ using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.TextBox;
+using static System.Windows.Forms.ComboBox;
 using System.Collections.Generic;
 using MsgBox;
 using static MsgBox.InputBox;
@@ -16,6 +18,10 @@ using System.Diagnostics.Eventing.Reader;
 using System.Drawing.Text;
 using System.Threading;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
+using TextBox = System.Windows.Forms.TextBox;
+using ComboBox = System.Windows.Forms.ComboBox;
 
 namespace Finance_App
 {
@@ -51,6 +57,140 @@ namespace Finance_App
             public static String peopleSelect = "SELECT * FROM People WHERE Id = @id";
             public static String sqlStatement;
 
+        }
+        public void PopulateDropMenus(ComboBox o)
+        {
+            // Run database connection
+            using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
+            {
+                dropDownConn.Open();
+                // Run SQL statement
+                SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
+                // Read the results of statement and add all users into combobox
+                using (SqlDataReader reader = cmm.ExecuteReader())
+                {
+                    // Clear out combobox to avoid duplicates
+                    o.Items.Clear();
+                    // Populate combobox with updated material
+                    while (reader.Read())
+                    {
+                        Globals.first = reader.GetString(0).Trim();
+                        Globals.last = reader.GetString(1).Trim();
+                        o.Items.Add(Globals.first + " " + Globals.last);
+                    }
+                }
+                // Close Current Connection
+                dropDownConn.Close();
+            }
+        }
+        public void IdChecker(ComboBox o, TextBox t1, TextBox t2, TextBox t3, TextBox t4, TextBox t5)
+        {
+            if (Globals.bypass == false)
+            {
+                try
+                {
+                    // Run database connection
+                    using (SqlConnection con = new SqlConnection(Globals.connectionString))
+                    {
+                        // Search for ID from selected user in ComboBox
+                        using (SqlCommand cmd = new SqlCommand(Globals.idNameSelect))
+                        {
+                            cmd.CommandType = CommandType.Text;
+                            cmd.Connection = con;
+                            con.Open();
+                            string[] splitName = o.Text.Split(' ');
+                            Globals.splitText = splitName[0];
+                            cmd.Parameters.AddWithValue("@name", Globals.splitText);
+                            Globals.currentUser = o.Text.ToString();
+
+                            // Insert the ID from People Database
+                            using (SqlDataReader sdr = cmd.ExecuteReader())
+                            {
+                                sdr.Read();
+                                t1.Text = sdr["Id"].ToString();
+                            }
+                            con.Close();
+                            Globals.currentUserId = t1.Text;
+                        }
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                // Attempt to populate fields from Money Database
+                try
+                {
+                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                    cnn.Open();
+                    // Run SQL statement
+                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
+                    // Use ID populated to confirm proper insertion
+                    cmd.Parameters.AddWithValue("@id", t1.Text);
+                    // Create a Message Box that allows users to enter pass code
+                    Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
+                    // Read through database and insert fields into TextBoxes
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sdr.Read();
+                        {
+                            //if (InputBox.ResultValue.ToString() == sdr["Pass"].ToString().Trim())
+                            if (Globals.boxAnswer == sdr["Pass"].ToString().Trim())
+                            {
+                                t2.Text = sdr["Donation"].ToString().Trim();
+                                t3.Text = sdr["Savings"].ToString().Trim();
+                                t4.Text = sdr["GOKF"].ToString().Trim();
+                                t5.Text = sdr["Spending"].ToString().Trim();
+                                Globals.passChecker = true;
+                            }
+                            else
+                            {
+                                t2.Text = ("");
+                                t3.Text = ("");
+                                t4.Text = ("");
+                                t5.Text = ("");
+                                MessageBox.Show("Incorrect Pass Code");
+                            }
+                        }
+                    }
+                    cnn.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+            }
+            else
+            {
+                o.Text = Globals.currentUser;
+                t1.Text = Globals.currentUserId;
+                try
+                {
+                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                    cnn.Open();
+                    // Run SQL statement
+                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
+                    // Use ID populated to confirm proper insertion
+                    cmd.Parameters.AddWithValue("@id", t1.Text);
+                    // Read through database and insert fields into TextBoxes
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sdr.Read();
+                        {
+                            t2.Text = sdr["Donation"].ToString().Trim();
+                            t3.Text = sdr["Savings"].ToString().Trim();
+                            t4.Text = sdr["GOKF"].ToString().Trim();
+                            t5.Text = sdr["Spending"].ToString().Trim();
+                            Globals.passChecker = true;
+                        }
+                    }
+                    cnn.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+            }
         }
         private string MessageBoard(bool answer, bool second)
         {
@@ -666,58 +806,14 @@ namespace Finance_App
         {
             if (comboBox1.Text == "")
             {
-                // Run database connection
-                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
-                {
-                    dropDownConn.Open();
-                    // Run SQL statement
-                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                    // Read the results of statement and add all users into combobox
-                    using (SqlDataReader reader = cmm.ExecuteReader())
-                    {
-                        // Clear out combobox to avoid duplicates
-                        comboBox1.Items.Clear();
-                        // Populate combobox with updated material
-                        while (reader.Read())
-                        {
-                            Globals.first = reader.GetString(0).Trim();
-                            Globals.last = reader.GetString(1).Trim();
-                            comboBox1.Items.Add(Globals.first + " " + Globals.last);
-                        }
-                    }
-                    // Close Current Connection
-                    dropDownConn.Close();
-                }
+                PopulateDropMenus(comboBox1);
             }
             else
             {
                 comboBox1.Items.Clear();
                 Globals.bypass = false;
-                // Run database connection
-                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
-                {
-                    dropDownConn.Open();
-                    // Run SQL statement
-                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                    // Read the results of statement and add all users into combobox
-                    using (SqlDataReader reader = cmm.ExecuteReader())
-                    {
-                        // Clear out combobox to avoid duplicates
-                        comboBox1.Items.Clear();
-                        // Populate combobox with updated material
-                        while (reader.Read())
-                        {
-                            Globals.first = reader.GetString(0).Trim();
-                            Globals.last = reader.GetString(1).Trim();
-                            comboBox1.Items.Add(Globals.first + " " + Globals.last);
-                        }
-                    }
-                    // Close Current Connection
-                    dropDownConn.Close();
-                }
+                PopulateDropMenus(comboBox1);
             }
-            
-
         }
         private void TabPage2_Layout(object sender, LayoutEventArgs e)
         {
@@ -730,174 +826,27 @@ namespace Finance_App
             else
             {
                 Globals.bypass = false;
-            }
-            
+            }            
         }
+
+        
         private void ComboBoxTextChange(object sender, EventArgs e)
         {
             // Attempt to determine the User and populate fields from totals
-            if (Globals.bypass == false)
-            {
-                try
-                {
-                    // Run database connection
-                    using (SqlConnection con = new SqlConnection(Globals.connectionString))
-                    {
-                        // Search for ID from selected user in ComboBox
-                        using (SqlCommand cmd = new SqlCommand(Globals.idNameSelect))
-                        {
-                            cmd.CommandType = CommandType.Text;
-                            cmd.Connection = con;
-                            con.Open();
-                            string[] splitName = comboBox1.Text.Split(' ');
-                            Globals.splitText = splitName[0];
-                            cmd.Parameters.AddWithValue("@name", Globals.splitText);
-                            Globals.currentUser = comboBox1.Text.ToString();
-                            
-                            // Insert the ID from People Database
-                            using (SqlDataReader sdr = cmd.ExecuteReader())
-                            {
-                                sdr.Read();
-                                textBox6.Text = sdr["Id"].ToString();
-                            }
-                            con.Close();
-                            Globals.currentUserId = textBox6.Text;
-                        }
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                // Attempt to populate fields from Money Database
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox6.Text);
-                    // Create a Message Box that allows users to enter pass code
-                    Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        {
-                            //if (InputBox.ResultValue.ToString() == sdr["Pass"].ToString().Trim())
-                            if (Globals.boxAnswer == sdr["Pass"].ToString().Trim())
-                            {
-                                textBox7.Text = sdr["Donation"].ToString().Trim();
-                                textBox8.Text = sdr["Savings"].ToString().Trim();
-                                textBox9.Text = sdr["GOKF"].ToString().Trim();
-                                textBox10.Text = sdr["Spending"].ToString().Trim();
-                                Globals.passChecker = true;
-                            }
-                            else
-                            {
-                                textBox7.Text = ("");
-                                textBox8.Text = ("");
-                                textBox9.Text = ("");
-                                textBox10.Text = ("");
-                                MessageBox.Show("Incorrect Pass Code");
-                            }
-                        }
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-            }
-            else
-            {
-                comboBox1.Text = Globals.currentUser;
-                textBox6.Text = Globals.currentUserId;
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox6.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        {
-                            textBox7.Text = sdr["Donation"].ToString().Trim();
-                            textBox8.Text = sdr["Savings"].ToString().Trim();
-                            textBox9.Text = sdr["GOKF"].ToString().Trim();
-                            textBox10.Text = sdr["Spending"].ToString().Trim();
-                            Globals.passChecker = true;
-                        }
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-            }
-            
+            IdChecker(comboBox1, textBox6, textBox7, textBox8, textBox9, textBox10);            
         }
         // Check to see users available in database
         private void ComboBox2_Click(object sender, EventArgs e)
         {
             if (comboBox2.Text == "")
             {
-                // Run database connection
-                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
-                {
-                    dropDownConn.Open();
-                    // Run SQL statement
-                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                    // Read the results of statement and add all users into combobox
-                    using (SqlDataReader reader = cmm.ExecuteReader())
-                    {
-                        // Clear out combobox to avoid duplicates
-                        comboBox2.Items.Clear();
-                        // Populate combobox with updated material
-                        while (reader.Read())
-                        {
-                            Globals.first = reader.GetString(0).Trim();
-                            Globals.last = reader.GetString(1).Trim();
-                            comboBox2.Items.Add(Globals.first + " " + Globals.last);
-                        }
-                    }
-                    // Close Current Connection
-                    dropDownConn.Close();
-                }
+                PopulateDropMenus(comboBox2);
             }
             else
             {
                 Globals.bypass = false;
                 comboBox2.Items.Clear();
-                // Run database connection
-                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
-                {
-                    dropDownConn.Open();
-                    // Run SQL statement
-                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                    // Read the results of statement and add all users into combobox
-                    using (SqlDataReader reader = cmm.ExecuteReader())
-                    {
-                        // Clear out combobox to avoid duplicates
-                        comboBox2.Items.Clear();
-                        // Populate combobox with updated material
-                        while (reader.Read())
-                        {
-                            Globals.first = reader.GetString(0).Trim();
-                            Globals.last = reader.GetString(1).Trim();
-                            comboBox2.Items.Add(Globals.first + " " + Globals.last);
-                        }
-                    }
-                    // Close Current Connection
-                    dropDownConn.Close();
-                }
+                PopulateDropMenus(comboBox2);
 
             }
         }
@@ -1115,55 +1064,13 @@ namespace Finance_App
         {
             if (comboBox3.Text == "")
             {
-                // Run database connection
-                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
-                {
-                    dropDownConn.Open();
-                    // Run SQL statement
-                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                    // Read the results of statement and add all users into combobox
-                    using (SqlDataReader reader = cmm.ExecuteReader())
-                    {
-                        // Clear out combobox to avoid duplicates
-                        comboBox3.Items.Clear();
-                        // Populate combobox with updated material
-                        while (reader.Read())
-                        {
-                            Globals.first = reader.GetString(0).Trim();
-                            Globals.last = reader.GetString(1).Trim();
-                            comboBox3.Items.Add(Globals.first + " " + Globals.last);
-                        }
-                    }
-                    // Close Current Connection
-                    dropDownConn.Close();
-                }
+                PopulateDropMenus(comboBox3);
             }
             else
             {
                 Globals.bypass = false;
                 comboBox3.Items.Clear();
-                // Run database connection
-                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
-                {
-                    dropDownConn.Open();
-                    // Run SQL statement
-                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                    // Read the results of statement and add all users into combobox
-                    using (SqlDataReader reader = cmm.ExecuteReader())
-                    {
-                        // Clear out combobox to avoid duplicates
-                        comboBox3.Items.Clear();
-                        // Populate combobox with updated material
-                        while (reader.Read())
-                        {
-                            Globals.first = reader.GetString(0).Trim();
-                            Globals.last = reader.GetString(1).Trim();
-                            comboBox3.Items.Add(Globals.first + " " + Globals.last);
-                        }
-                    }
-                    // Close Current Connection
-                    dropDownConn.Close();
-                }
+                PopulateDropMenus(comboBox3);
             }
         }
         private void ComboBoxTextChangeThree(object sender, EventArgs e)
@@ -1384,29 +1291,15 @@ namespace Finance_App
         }
         private void ComboBoxFive_Click(object sender, EventArgs e)
         {
+            if(comboBox5.Text == "")
             {
-                // Run database connection
-                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
-                {
-                    dropDownConn.Open();
-                    // Run SQL statement
-                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                    // Read the results of statement and add all users into combobox
-                    using (SqlDataReader reader = cmm.ExecuteReader())
-                    {
-                        // Clear out combobox to avoid duplicates
-                        comboBox5.Items.Clear();
-                        // Populate combobox with updated material
-                        while (reader.Read())
-                        {
-                            Globals.first = reader.GetString(0).Trim();
-                            Globals.last = reader.GetString(1).Trim();
-                            comboBox5.Items.Add(Globals.first + " " + Globals.last);
-                        }
-                    }
-                    // Close Current Connection
-                    dropDownConn.Close();
-                }
+                PopulateDropMenus(comboBox5);
+            }
+            else 
+            {
+                Globals.bypass = false;
+                comboBox5.Items.Clear();
+                PopulateDropMenus(comboBox5);
             }
 
         }        
@@ -2070,55 +1963,13 @@ namespace Finance_App
         {
             if (comboBox7.Text == "")
             {
-                // Run database connection
-                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
-                {
-                    dropDownConn.Open();
-                    // Run SQL statement
-                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                    // Read the results of statement and add all users into combobox
-                    using (SqlDataReader reader = cmm.ExecuteReader())
-                    {
-                        // Clear out combobox to avoid duplicates
-                        comboBox7.Items.Clear();
-                        // Populate combobox with updated material
-                        while (reader.Read())
-                        {
-                            Globals.first = reader.GetString(0).Trim();
-                            Globals.last = reader.GetString(1).Trim();
-                            comboBox7.Items.Add(Globals.first + " " + Globals.last);
-                        }
-                    }
-                    // Close Current Connection
-                    dropDownConn.Close();
-                }
+                PopulateDropMenus(comboBox7);
             }
             else
             {
                 Globals.bypass = false;
                 comboBox7.Items.Clear();
-                // Run database connection
-                using (SqlConnection dropDownConn = new SqlConnection(Globals.connectionString))
-                {
-                    dropDownConn.Open();
-                    // Run SQL statement
-                    SqlCommand cmm = new SqlCommand(Globals.firstSelect, dropDownConn);
-                    // Read the results of statement and add all users into combobox
-                    using (SqlDataReader reader = cmm.ExecuteReader())
-                    {
-                        // Clear out combobox to avoid duplicates
-                        comboBox7.Items.Clear();
-                        // Populate combobox with updated material
-                        while (reader.Read())
-                        {
-                            Globals.first = reader.GetString(0).Trim();
-                            Globals.last = reader.GetString(1).Trim();
-                            comboBox7.Items.Add(Globals.first + " " + Globals.last);
-                        }
-                    }
-                    // Close Current Connection
-                    dropDownConn.Close();
-                }
+                PopulateDropMenus(comboBox7);
             }
         }
         private void ComboBoxTextChangeSeven(object sender, EventArgs e)
