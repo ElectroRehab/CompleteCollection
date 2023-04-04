@@ -2063,7 +2063,7 @@
             this.button16.TabIndex = 151;
             this.button16.Text = "Transfer\r\nTo Spending";
             this.button16.UseVisualStyleBackColor = false;
-            this.button16.Click += new System.EventHandler(this.button16_Click);
+            this.button16.Click += new System.EventHandler(this.Button16_Click);
             // 
             // button15
             // 
@@ -2076,7 +2076,7 @@
             this.button15.TabIndex = 150;
             this.button15.Text = "Transfer\r\nTo  Savings";
             this.button15.UseVisualStyleBackColor = false;
-            this.button15.Click += new System.EventHandler(this.button15_Click);
+            this.button15.Click += new System.EventHandler(this.Button15_Click);
             // 
             // textBox71
             // 
@@ -2196,7 +2196,7 @@
             this.button8.TabIndex = 137;
             this.button8.Text = "Calculate Expenses";
             this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.button8.Click += new System.EventHandler(this.Button8_Click);
             // 
             // label83
             // 

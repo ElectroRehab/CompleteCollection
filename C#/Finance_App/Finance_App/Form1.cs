@@ -34,9 +34,6 @@ namespace Finance_App
         public static class Globals
         {
             // Database location string
-            public static bool boxUp = true;
-            public static bool boxDown = false;
-            public static bool boxInOut;
             public static bool passChecker;
             public static bool bypass;
             public static bool secondChance = false;
@@ -46,8 +43,12 @@ namespace Finance_App
             public static String first;
             public static String last;
             public static String splitText;
-            public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True";
-            //public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
+            public static String dialogOne = "Enter User's Pass Code:";
+            public static String dialogTwo = "Verify Pass Code";
+            public static String dialogThree = "Change Title of Selection:";
+            public static String dialogFour = "Change Title";
+            //public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True";
+            public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
             public static String firstSelect = "SELECT First,Last FROM People";
             public static String idNameSelect = "SELECT Id FROM People WHERE First = @name";
             public static String longTermSave = "SELECT * FROM LongTermSaves WHERE Id = @id";
@@ -128,7 +129,7 @@ namespace Finance_App
                     // Use ID populated to confirm proper insertion
                     cmd.Parameters.AddWithValue("@id", t1.Text);
                     // Create a Message Box that allows users to enter pass code
-                    Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
+                    Globals.boxAnswer = MessageBoard(Globals.dialogOne, Globals.dialogTwo, InputBox.Icon.Question, InputBox.Type.TextBox);
                     // Read through database and insert fields into TextBoxes
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
@@ -192,56 +193,22 @@ namespace Finance_App
                 }
             }
         }
-        private string MessageBoard(bool answer, bool second)
+        //private string MessageBoard(bool answer, bool second)
+        private string MessageBoard(string first, string second, InputBox.Icon icons, InputBox.Type type)
         {
             string returnAnswer;
-            if (answer == true && second == false)
-            {
-                // Create a Message Box that allows users to enter password
-                InputBox.SetLanguage(InputBox.Language.English);
-                DialogResult res = InputBox.ShowDialog("Enter User's Pass Code:",
-                "Verify Pass Code",   //Text message (mandatory), Title (optional)
-                    InputBox.Icon.Question, //Set icon type (default info)
-                    InputBox.Buttons.Ok, //Set buttons (default ok)
-                    InputBox.Type.TextBox, //Set type (default nothing)
-                    new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
-                    true, //Set visible in taskbar (default false)
-                    new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
-                returnAnswer = InputBox.ResultValue.Trim();
 
-            }
-            else if (answer == false && second == false)
-            {
-                // Create a Message Box that allows users to enter password
-                InputBox.SetLanguage(InputBox.Language.English);
-                DialogResult res = InputBox.ShowDialog("Change Title of Selection:",
-                "Change Title",   //Text message (mandatory), Title (optional)
-                    InputBox.Icon.Information, //Set icon type (default info)
-                    InputBox.Buttons.Ok, //Set buttons (default ok)
-                    InputBox.Type.TextBoxTitle, //Set type (default nothing)
-                    new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
-                    true, //Set visible in taskbar (default false)
-                    new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
-                returnAnswer = InputBox.ResultValue.Trim();
-            }
-            else if (answer == true && second == true)
-            {
-                // Create a Message Box that allows users to enter password
-                InputBox.SetLanguage(InputBox.Language.English);
-                DialogResult res = InputBox.ShowDialog("Choose New User:",
-                "Change Title",   //Text message (mandatory), Title (optional)
-                    InputBox.Icon.Information, //Set icon type (default info)
-                    InputBox.Buttons.Ok, //Set buttons (default ok)
-                    InputBox.Type.ComboBox, //Set type (default nothing)
-                    new string [] {"Item1", "Item2"}, //String field as ComboBox items (default null)
-                    true, //Set visible in taskbar (default false)
-                    new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); ; //Set font (default by system)
-                returnAnswer = InputBox.ResultValue.Trim();
-            }
-            else
-            {
-                returnAnswer = "Nope";
-            }
+            // Create a Message Box that allows users to enter password
+            InputBox.SetLanguage(InputBox.Language.English);
+            DialogResult res = InputBox.ShowDialog(first,
+            second,   //Text message (mandatory), Title (optional)
+                icons, //Set icon type (default info)
+                InputBox.Buttons.Ok, //Set buttons (default ok)
+                type, //Set type (default nothing)
+                new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
+                true, //Set visible in taskbar (default false)
+                new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
+            returnAnswer = InputBox.ResultValue.Trim();
             
             return returnAnswer;
         }
@@ -285,7 +252,6 @@ namespace Finance_App
                     // Close Database
                     cn.Close();
                 }
-
             }
             catch (Exception ex)
             {
@@ -379,7 +345,6 @@ namespace Finance_App
                     cmd.ExecuteNonQuery();
                     // Close Database
                     cn.Close();
-                    
                 }
                 catch
                 {
@@ -454,12 +419,9 @@ namespace Finance_App
             {
                 MessageBox.Show("        Invalid Email Address, \n                 Try Again.");
             }
-
         }
-        
         private void Button1_Click(object sender, EventArgs e)
         {
-            
             double input = 0;
             // Check if user is selected prior to calculations
             if (textBox6.Text != "" && comboBox6.Text != "")
@@ -548,7 +510,6 @@ namespace Finance_App
             if (MessageBox.Show("Confirm Adding Fields Together?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 // Initiate SQL items for when the text is changed within the ComboBox
-                
                 try
                 {
                     double donationCalc = double.Parse(textBox2.Text) + double.Parse(textBox7.Text);
@@ -602,7 +563,6 @@ namespace Finance_App
                 MessageBox.Show("Action Cancelled");
             }
         }
-
         // Undo last transaction from Deposit
         private void Button3_Click(object sender, EventArgs e)
         {
@@ -623,14 +583,11 @@ namespace Finance_App
 
                     cmd.ExecuteNonQuery();
                     conn.Close();
-
-
                 }
                 catch
                 {
                     MessageBox.Show("No Connection");
                 }
-
                 try
                 {
                     SqlConnection cnn = new SqlConnection(Globals.connectionString);
@@ -732,7 +689,6 @@ namespace Finance_App
         }
         private void Button5_Click(object sender, EventArgs e)
         {
-
             // Ensure a user is selected to do calculations
             if (textBox47.Text == "")
             {
@@ -800,7 +756,715 @@ namespace Finance_App
                 }
             }
         }
-        
+        private void Button6_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Confirm Updaing User?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                try
+                {
+                    SqlConnection conn = new SqlConnection(Globals.connectionString);
+                    conn.Open();
+
+                    Globals.sqlStatement = "UPDATE People SET First='" + textBox52.Text.Trim() + "',Last='" + textBox53.Text.Trim() +
+                        "',Email='" + textBox54.Text.Trim() + "',Address1='" + textBox55.Text.Trim() + "',Address2='" + textBox56.Text.Trim() +
+                        "',City='" + textBox57.Text.Trim() + "',State='" + comboBox4.Text.Trim() + "',Zip='" + textBox58.Text.Trim() + "' WHERE Id = " + textBox59.Text;
+                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
+
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                // Attempt to populate fields from Money Database
+                try
+                {
+                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                    cnn.Open();
+                    // Run SQL statement
+                    SqlCommand cmd = new SqlCommand(Globals.peopleSelect, cnn);
+                    // Use ID populated to confirm proper insertion
+                    cmd.Parameters.AddWithValue("@id", textBox59.Text);
+                    // Read through database and insert fields into TextBoxes
+                    using (SqlDataReader sdr = cmd.ExecuteReader())
+                    {
+                        sdr.Read();
+                        textBox52.Text = sdr["First"].ToString().Trim();
+                        textBox53.Text = sdr["Last"].ToString().Trim();
+                        textBox54.Text = sdr["Email"].ToString().Trim();
+                        textBox55.Text = sdr["Address1"].ToString().Trim();
+                        textBox56.Text = sdr["Address2"].ToString().Trim();
+                        textBox57.Text = sdr["City"].ToString().Trim();
+                        comboBox4.Text = sdr["State"].ToString().Trim();
+                        textBox58.Text = sdr["Zip"].ToString().Trim();
+                    }
+                    cnn.Close();
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+            }
+        }
+        private void Button7_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox59.Text);
+                // Create a Message Box that allows users to enter pass code
+                Globals.boxAnswer = MessageBoard(Globals.dialogOne, Globals.dialogTwo, InputBox.Icon.Question, InputBox.Type.TextBox);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    if (Globals.boxAnswer.ToString() == sdr["Pass"].ToString().Trim())
+                    {
+                        // Delete user from People Database                        
+                        SqlConnection connOne = new SqlConnection(Globals.connectionString);
+                        Globals.sqlStatement = "DELETE FROM People WHERE Id=@id";
+                        connOne.Open();
+                        SqlCommand cmdOne = new SqlCommand(Globals.sqlStatement, connOne);
+                        cmdOne.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                        cmdOne.CommandType = CommandType.Text;
+                        cmdOne.ExecuteNonQuery();
+                        connOne.Close();
+                        // Delete user from People Database                        
+                        SqlConnection connTwo = new SqlConnection(Globals.connectionString);
+                        Globals.sqlStatement = "DELETE FROM MonthlyCosts WHERE Id=@id";
+                        connTwo.Open();
+                        SqlCommand cmdTwo = new SqlCommand(Globals.sqlStatement, connTwo);
+                        cmdTwo.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                        cmdTwo.CommandType = CommandType.Text;
+                        cmdTwo.ExecuteNonQuery();
+                        connTwo.Close();
+                        // Delete user from Money Database
+                        SqlConnection connThree = new SqlConnection(Globals.connectionString);
+                        Globals.sqlStatement = "DELETE FROM Money WHERE Id=@id";
+                        connThree.Open();
+                        SqlCommand cmdThree = new SqlCommand(Globals.sqlStatement, connThree);
+                        cmdThree.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                        cmdThree.CommandType = CommandType.Text;
+                        cmdThree.ExecuteNonQuery();
+                        connThree.Close();
+                        // Delete user from LongTermTitles Database
+                        SqlConnection connFour = new SqlConnection(Globals.connectionString);
+                        Globals.sqlStatement = "DELETE LongTermTitles WHERE Id=@id";
+                        connFour.Open();
+                        SqlCommand cmdFour = new SqlCommand(Globals.sqlStatement, connFour);
+                        cmdFour.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                        cmdFour.CommandType = CommandType.Text;
+                        cmdFour.ExecuteNonQuery();
+                        connFour.Close();
+                        // Delete user from LongTermSaves Database                        
+                        SqlConnection connFive = new SqlConnection(Globals.connectionString);
+                        Globals.sqlStatement = "DELETE FROM LongTermSaves WHERE Id=@id";
+                        connFive.Open();
+                        SqlCommand cmdFive = new SqlCommand(Globals.sqlStatement, connFive);
+                        cmdFive.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+                        cmdFive.CommandType = CommandType.Text;
+                        cmdFive.ExecuteNonQuery();
+                        connFive.Close();
+                        MessageBox.Show("User Successfully Deleted");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Incorrect Password");
+                    }
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
+        private void Button8_Click(object sender, EventArgs e)
+        {
+            // Ensure a user is selected to do calculations
+            if (textBox66.Text == "")
+            {
+                MessageBox.Show("Select A User.");
+            }
+            // User is available to complete calculations
+            else
+            {
+                if (MessageBox.Show("Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    try
+                    {
+                        // Combine all the expenses into a single variable.
+                        double expensesCalc = double.Parse(textBox65.Text) + double.Parse(textBox62.Text) + double.Parse(textBox64.Text)
+                            + double.Parse(textBox5.Text) + double.Parse(textBox63.Text) + double.Parse(textBox4.Text);
+                        // Find the difference between what is available to what expenses are being used.
+                        double differenceCalc = double.Parse(textBox69.Text) - expensesCalc;
+                        // Display all expenses
+                        textBox73.Text = expensesCalc.ToString();
+                        // Display the difference
+                        if (differenceCalc < 0)
+                        {
+                            textBox72.BackColor = Color.Black;
+                            textBox72.ForeColor = Color.Red;
+                            textBox72.Text = differenceCalc.ToString();
+                        }
+                        else
+                        {
+                            textBox72.BackColor = Color.Green;
+                            textBox72.Text = differenceCalc.ToString();
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Calculations could not be performed");
+                    }
+                    try
+                    {
+                        SqlConnection conn = new SqlConnection(Globals.connectionString);
+                        conn.Open();
+
+                        string updateQuery = "UPDATE LongTermSaves SET SaveOne='" + textBox65.Text + "',SaveTwo='" + textBox62.Text + "',SaveThree='" + textBox64.Text + "',SaveFour='" + textBox5.Text + "',SaveFive='" + textBox63.Text + "',SaveSix='" + textBox4.Text + "'  WHERE Id = " + textBox66.Text;
+                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                    catch
+                    {
+                        MessageBox.Show("No Connection");
+                    }
+
+                }
+            }
+        }
+        private void Button9_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter titles
+            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
+            try
+            {
+                SqlConnection conn = new SqlConnection(Globals.connectionString);
+                conn.Open();
+
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemOne='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
+        private void Button10_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter titles
+            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
+            try
+            {
+                SqlConnection conn = new SqlConnection(Globals.connectionString);
+                conn.Open();
+
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemTwo='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
+        private void Button11_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter titles
+            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
+            try
+            {
+                SqlConnection conn = new SqlConnection(Globals.connectionString);
+                conn.Open();
+
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFour='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
+        private void Button12_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter titles
+            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
+            try
+            {
+                SqlConnection conn = new SqlConnection(Globals.connectionString);
+                conn.Open();
+
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemThree='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
+        private void Button13_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter titles
+            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
+            try
+            {
+                SqlConnection conn = new SqlConnection(Globals.connectionString);
+                conn.Open();
+
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemSix='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
+        private void Button14_Click(object sender, EventArgs e)
+        {
+            // Create a Message Box that allows users to enter titles
+            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
+            try
+            {
+                SqlConnection conn = new SqlConnection(Globals.connectionString);
+                conn.Open();
+
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFive='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
+
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                // Database location string
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement 
+                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
+        private void Button15_Click(object sender, EventArgs e)
+        {
+            if (textBox69.Text != "" && textBox67.Text != "")
+            {
+                try
+                {
+                    double savingAddition = double.Parse(textBox71.Text) + double.Parse(textBox69.Text);
+                    double spendingSubtract = double.Parse(textBox67.Text) - double.Parse(textBox71.Text);
+                    if (spendingSubtract < 0)
+                    {
+                        MessageBox.Show("Not enough funds to complete transfer.");
+                    }
+                    else
+                    {
+                        SqlConnection conn = new SqlConnection(Globals.connectionString);
+                        conn.Open();
+
+                        string updateQuery = "UPDATE Money SET Savings='" + savingAddition.ToString() + "',Spending='" + spendingSubtract.ToString() + "' WHERE Id = " + textBox66.Text;
+                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                if (Globals.passChecker == true && Globals.currentUser != "")
+                {
+                    Globals.bypass = true;
+                    ComboBoxTextChangeSeven(sender, e);
+                }
+                else
+                {
+                    Globals.bypass = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select User");
+            }
+        }
+        private void Button16_Click(object sender, EventArgs e)
+        {
+            if (textBox69.Text != "" && textBox67.Text != "")
+            {
+                try
+                {
+                    double spendingAddition = double.Parse(textBox71.Text) + double.Parse(textBox67.Text);
+                    double savingSubtract = double.Parse(textBox69.Text) - double.Parse(textBox71.Text);
+                    if (savingSubtract < 0)
+                    {
+                        MessageBox.Show("Not enough funds to complete transfer.");
+                    }
+                    else
+                    {
+                        SqlConnection conn = new SqlConnection(Globals.connectionString);
+                        conn.Open();
+
+                        string updateQuery = "UPDATE Money SET Savings='" + savingSubtract.ToString() + "',Spending='" + spendingAddition.ToString() + "' WHERE Id = " + textBox66.Text;
+                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
+
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("No Connection");
+                }
+                if (Globals.passChecker == true && Globals.currentUser != "")
+                {
+                    Globals.bypass = true;
+                    ComboBoxTextChangeSeven(sender, e);
+                }
+                else
+                {
+                    Globals.bypass = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Select User");
+            }
+        }
         // Check to see users available in database
         private void ComboBox1_Click(object sender, EventArgs e)
         {
@@ -815,21 +1479,6 @@ namespace Finance_App
                 PopulateDropMenus(comboBox1);
             }
         }
-        private void TabPage2_Layout(object sender, LayoutEventArgs e)
-        {
-
-            if (Globals.passChecker == true && Globals.currentUser != "")
-            {
-                Globals.bypass = true;
-                ComboBoxTextChange(sender, e);
-            }
-            else
-            {
-                Globals.bypass = false;
-            }            
-        }
-
-        
         private void ComboBoxTextChange(object sender, EventArgs e)
         {
             // Attempt to determine the User and populate fields from totals
@@ -847,219 +1496,77 @@ namespace Finance_App
                 Globals.bypass = false;
                 comboBox2.Items.Clear();
                 PopulateDropMenus(comboBox2);
-
             }
         }
         private void ComboBoxTextChangeTwo(object sender, EventArgs e)
         {
-            if (Globals.bypass == false)
+            IdChecker(comboBox2, textBox30, textBox31, textBox32, textBox33, textBox34);
+            
+            try
             {
-                // Attempt to determine the User and populate fields from totals
-                try
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.monthSelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox30.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
-                    // Run database connection
-                    using (SqlConnection con = new SqlConnection(Globals.connectionString))
-                    {
-                        // Search for ID from selected user in ComboBox
-                        using (SqlCommand cmd = new SqlCommand(Globals.idNameSelect))
-                        {
-                            cmd.CommandType = CommandType.Text;
-                            cmd.Connection = con;
-                            con.Open();
-                            string[] splitName = comboBox2.Text.Split(' ');
-                            Globals.splitText = splitName[0];
-                            cmd.Parameters.AddWithValue("@name", Globals.splitText);
-                            // Insert the ID from People Database
-                            using (SqlDataReader sdr = cmd.ExecuteReader())
-                            {
-                                sdr.Read();
-                                textBox30.Text = sdr["Id"].ToString().Trim();
-                            }
-                            con.Close();
-                            Globals.currentUserId = textBox30.Text;
-                            Globals.currentUser = comboBox2.Text.ToString();
-                        }
-                    }
+                    sdr.Read();
+                    textBox18.Text = sdr["MonthlyOne"].ToString().Trim();
+                    textBox19.Text = sdr["MonthlyTwo"].ToString().Trim();
+                    textBox20.Text = sdr["MonthlyThree"].ToString().Trim();
+                    textBox21.Text = sdr["MonthlyFour"].ToString().Trim();
+                    textBox22.Text = sdr["MonthlyFive"].ToString().Trim();
+                    textBox23.Text = sdr["MonthlySix"].ToString().Trim();
+                    textBox24.Text = sdr["MonthlySeven"].ToString().Trim();
+                    textBox25.Text = sdr["MonthlyEight"].ToString().Trim();
+                    textBox26.Text = sdr["MonthlyNine"].ToString().Trim();
+                    textBox27.Text = sdr["MonthlyTen"].ToString().Trim();
                 }
-                catch
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            try
+            {
+                // Combine all the expenses into a single variable.
+                double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
+                    + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
+                    + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
+                        + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
+                        + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                // Main Expense Totals
+                double mainExpense = double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
+                        + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
+                        + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                // Find the difference between what is available to what expenses are being used.
+                double differenceCalc = double.Parse(textBox34.Text) - expensesCalc;
+                // Display all expenses
+                textBox28.Text = expensesCalc.ToString();
+                textBox60.Text = mainExpense.ToString();
+                // Display the difference
+                if (differenceCalc < 0)
                 {
-                    MessageBox.Show("No Connection");
+                    textBox29.BackColor = Color.Black;
+                    textBox29.ForeColor = Color.Red;
+                    textBox29.Text = differenceCalc.ToString();
                 }
-                // Attempt to populate fields from Money Database
-                try
+                else
                 {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox30.Text);
-                    // Create a Message Box that allows users to enter pass code
-                    Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        if (Globals.boxAnswer.ToString() == sdr["Pass"].ToString().Trim())
-                        {
-                            textBox31.Text = sdr["Donation"].ToString().Trim();
-                            textBox32.Text = sdr["Savings"].ToString().Trim();
-                            textBox33.Text = sdr["GOKF"].ToString().Trim();
-                            textBox34.Text = sdr["Spending"].ToString().Trim();
-                            Globals.passChecker = true;
-                        }
-                        else
-                        {
-                            textBox31.Text = ("");
-                            textBox32.Text = ("");
-                            textBox33.Text = ("");
-                            textBox34.Text = ("");
-                            MessageBox.Show("Incorrect Pass Code");
-                            Globals.passChecker = false;
-                        }
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.monthSelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox30.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox18.Text = sdr["MonthlyOne"].ToString().Trim();
-                        textBox19.Text = sdr["MonthlyTwo"].ToString().Trim();
-                        textBox20.Text = sdr["MonthlyThree"].ToString().Trim();
-                        textBox21.Text = sdr["MonthlyFour"].ToString().Trim();
-                        textBox22.Text = sdr["MonthlyFive"].ToString().Trim();
-                        textBox23.Text = sdr["MonthlySix"].ToString().Trim();
-                        textBox24.Text = sdr["MonthlySeven"].ToString().Trim();
-                        textBox25.Text = sdr["MonthlyEight"].ToString().Trim();
-                        textBox26.Text = sdr["MonthlyNine"].ToString().Trim();
-                        textBox27.Text = sdr["MonthlyTen"].ToString().Trim();
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
+                    textBox29.BackColor = Color.Green;
+                    textBox29.ForeColor = Color.Black;
+                    textBox29.Text = differenceCalc.ToString();
                 }
             }
-            else
+            catch
             {
-                textBox30.Text = Globals.currentUserId;
-                comboBox2.Text = Globals.currentUser;
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox30.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox31.Text = sdr["Donation"].ToString().Trim();
-                        textBox32.Text = sdr["Savings"].ToString().Trim();
-                        textBox33.Text = sdr["GOKF"].ToString().Trim();
-                        textBox34.Text = sdr["Spending"].ToString().Trim();                        
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.monthSelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox30.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox18.Text = sdr["MonthlyOne"].ToString().Trim();
-                        textBox19.Text = sdr["MonthlyTwo"].ToString().Trim();
-                        textBox20.Text = sdr["MonthlyThree"].ToString().Trim();
-                        textBox21.Text = sdr["MonthlyFour"].ToString().Trim();
-                        textBox22.Text = sdr["MonthlyFive"].ToString().Trim();
-                        textBox23.Text = sdr["MonthlySix"].ToString().Trim();
-                        textBox24.Text = sdr["MonthlySeven"].ToString().Trim();
-                        textBox25.Text = sdr["MonthlyEight"].ToString().Trim();
-                        textBox26.Text = sdr["MonthlyNine"].ToString().Trim();
-                        textBox27.Text = sdr["MonthlyTen"].ToString().Trim();
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                try
-                {
-                    // Combine all the expenses into a single variable.
-                    double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
-                        + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
-                        + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
-                         + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
-                          + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
-                    // Main Expense Totals
-                    double mainExpense = double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
-                         + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
-                          + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
-                    // Find the difference between what is available to what expenses are being used.
-                    double differenceCalc = double.Parse(textBox34.Text) - expensesCalc;
-                    // Display all expenses
-                    textBox28.Text = expensesCalc.ToString();
-                    textBox60.Text = mainExpense.ToString();
-                    // Display the difference
-                    if (differenceCalc < 0)
-                    {
-                        textBox29.BackColor = Color.Black;
-                        textBox29.ForeColor = Color.Red;
-                        textBox29.Text = differenceCalc.ToString();
-                    }
-                    else
-                    {
-                        textBox29.BackColor = Color.Green;
-                        textBox29.ForeColor = Color.Black;
-                        textBox29.Text = differenceCalc.ToString();
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("Calculations could not be performed");
-                }
+                MessageBox.Show("Calculations could not be performed");
             }
         }
-        private void TabPage3_Layout(object sender, LayoutEventArgs e)
-        {
-            if (Globals.passChecker == true && Globals.currentUser != "")
-            {
-                Globals.bypass = true;
-                ComboBoxTextChangeTwo(sender, e);
-            }
-            else
-            {
-                Globals.bypass = false;
-            }
-        }
-
         private void ComboBox3_Click(object sender, EventArgs e)
         {
             if (comboBox3.Text == "")
@@ -1075,219 +1582,84 @@ namespace Finance_App
         }
         private void ComboBoxTextChangeThree(object sender, EventArgs e)
         {
-            if (Globals.bypass == false)
+            IdChecker(comboBox3, textBox47, textBox48, textBox49, textBox50, textBox51);
+
+            try
             {
-                // Attempt to determine the User and populate fields from totals
-                try
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.monthSelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox47.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
-                    // Run database connection
-                    using (SqlConnection con = new SqlConnection(Globals.connectionString))
-                    {
-                        // Search for ID from selected user in ComboBox
-                        using (SqlCommand cmd = new SqlCommand(Globals.idNameSelect))
-                        {
-                            cmd.CommandType = CommandType.Text;
-                            cmd.Connection = con;
-                            con.Open();
-                            string[] splitName = comboBox3.Text.Split(' ');
-                            Globals.splitText = splitName[0];
-                            cmd.Parameters.AddWithValue("@name", Globals.splitText);
-                            // Insert the ID from People Database
-                            using (SqlDataReader sdr = cmd.ExecuteReader())
-                            {
-                                sdr.Read();
-                                textBox30.Text = sdr["Id"].ToString().Trim();
-                            }
-                            con.Close();
-                            Globals.currentUserId = textBox47.Text;
-                            Globals.currentUser = comboBox3.Text.ToString();
-                        }
-                    }
+                    sdr.Read();
+                    textBox35.Text = sdr["MonthlyOne"].ToString().Trim();
+                    textBox36.Text = sdr["MonthlyTwo"].ToString().Trim();
+                    textBox37.Text = sdr["MonthlyThree"].ToString().Trim();
+                    textBox38.Text = sdr["MonthlyFour"].ToString().Trim();
+                    textBox39.Text = sdr["MonthlyFive"].ToString().Trim();
+                    textBox40.Text = sdr["MonthlySix"].ToString().Trim();
+                    textBox41.Text = sdr["MonthlySeven"].ToString().Trim();
+                    textBox42.Text = sdr["MonthlyEight"].ToString().Trim();
+                    textBox43.Text = sdr["MonthlyNine"].ToString().Trim();
+                    textBox44.Text = sdr["MonthlyTen"].ToString().Trim();
+                    textBox35.Text = sdr["MonthlyEleven"].ToString().Trim();
+                    textBox36.Text = sdr["MonthlyTwelve"].ToString().Trim();
+                    textBox37.Text = sdr["MonthlyThirteen"].ToString().Trim();
+                    textBox38.Text = sdr["MonthlyFourteen"].ToString().Trim();
+                    textBox39.Text = sdr["MonthlyFifteen"].ToString().Trim();
+                    textBox40.Text = sdr["MonthlySixteen"].ToString().Trim();
+                    textBox41.Text = sdr["MonthlySeventeen"].ToString().Trim();
+                    textBox42.Text = sdr["MonthlyEighteen"].ToString().Trim();
+                    textBox43.Text = sdr["MonthlyNineteen"].ToString().Trim();
+                    textBox44.Text = sdr["MonthlyTwenty"].ToString().Trim();
                 }
-                catch
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+
+            try
+            {
+                // Combine all the expenses into a single variable.
+                double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
+                    + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
+                    + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
+                        + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
+                        + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                // Additional Expenses Total
+                double additionalExpenses = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
+                    + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
+                    + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text);
+                // Find the difference between what is available to what expenses are being used.
+                double differenceCalc = double.Parse(textBox51.Text) - expensesCalc;
+                // Display all expenses
+                textBox45.Text = expensesCalc.ToString();
+                textBox61.Text = additionalExpenses.ToString();
+                // Display the difference
+                if (differenceCalc < 0)
                 {
-                    MessageBox.Show("No Connection");
+                    textBox46.BackColor = Color.Black;
+                    textBox46.ForeColor = Color.Red;
+                    textBox46.Text = differenceCalc.ToString();
                 }
-                // Attempt to populate fields from Money Database
-                try
+                else
                 {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox47.Text);
-                    // Create a Message Box that allows users to enter pass code
-                    Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        if (Globals.boxAnswer.ToString() == sdr["Pass"].ToString().Trim())
-                        {
-                            textBox48.Text = sdr["Donation"].ToString().Trim();
-                            textBox49.Text = sdr["Savings"].ToString().Trim();
-                            textBox50.Text = sdr["GOKF"].ToString().Trim();
-                            textBox51.Text = sdr["Spending"].ToString().Trim();
-                            Globals.passChecker = true;
-                        }
-                        else
-                        {
-                            textBox48.Text = ("");
-                            textBox49.Text = ("");
-                            textBox50.Text = ("");
-                            textBox51.Text = ("");
-                            MessageBox.Show("Incorrect Pass Code");
-                            Globals.passChecker = false;
-                        }
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.monthSelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox47.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox35.Text = sdr["MonthlyOne"].ToString().Trim();
-                        textBox36.Text = sdr["MonthlyTwo"].ToString().Trim();
-                        textBox37.Text = sdr["MonthlyThree"].ToString().Trim();
-                        textBox38.Text = sdr["MonthlyFour"].ToString().Trim();
-                        textBox39.Text = sdr["MonthlyFive"].ToString().Trim();
-                        textBox40.Text = sdr["MonthlySix"].ToString().Trim();
-                        textBox41.Text = sdr["MonthlySeven"].ToString().Trim();
-                        textBox42.Text = sdr["MonthlyEight"].ToString().Trim();
-                        textBox43.Text = sdr["MonthlyNine"].ToString().Trim();
-                        textBox44.Text = sdr["MonthlyTen"].ToString().Trim();
-                        textBox35.Text = sdr["MonthlyEleven"].ToString().Trim();
-                        textBox36.Text = sdr["MonthlyTwelve"].ToString().Trim();
-                        textBox37.Text = sdr["MonthlyThirteen"].ToString().Trim();
-                        textBox38.Text = sdr["MonthlyFourteen"].ToString().Trim();
-                        textBox39.Text = sdr["MonthlyFifteen"].ToString().Trim();
-                        textBox40.Text = sdr["MonthlySixteen"].ToString().Trim();
-                        textBox41.Text = sdr["MonthlySeventeen"].ToString().Trim();
-                        textBox42.Text = sdr["MonthlyEighteen"].ToString().Trim();
-                        textBox43.Text = sdr["MonthlyNineteen"].ToString().Trim();
-                        textBox44.Text = sdr["MonthlyTwenty"].ToString().Trim();
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
+                    textBox46.BackColor = Color.Green;
+                    textBox46.ForeColor = Color.Black;
+                    textBox46.Text = differenceCalc.ToString();
                 }
             }
-            else
+            catch
             {
-                textBox47.Text = Globals.currentUserId;
-                comboBox3.Text = Globals.currentUser;
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox47.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox48.Text = sdr["Donation"].ToString().Trim();
-                        textBox49.Text = sdr["Savings"].ToString().Trim();
-                        textBox50.Text = sdr["GOKF"].ToString().Trim();
-                        textBox51.Text = sdr["Spending"].ToString().Trim();
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.monthSelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox47.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox35.Text = sdr["MonthlyOne"].ToString().Trim();
-                        textBox36.Text = sdr["MonthlyTwo"].ToString().Trim();
-                        textBox37.Text = sdr["MonthlyThree"].ToString().Trim();
-                        textBox38.Text = sdr["MonthlyFour"].ToString().Trim();
-                        textBox39.Text = sdr["MonthlyFive"].ToString().Trim();
-                        textBox40.Text = sdr["MonthlySix"].ToString().Trim();
-                        textBox41.Text = sdr["MonthlySeven"].ToString().Trim();
-                        textBox42.Text = sdr["MonthlyEight"].ToString().Trim();
-                        textBox43.Text = sdr["MonthlyNine"].ToString().Trim();
-                        textBox44.Text = sdr["MonthlyTen"].ToString().Trim();
-                        textBox35.Text = sdr["MonthlyEleven"].ToString().Trim();
-                        textBox36.Text = sdr["MonthlyTwelve"].ToString().Trim();
-                        textBox37.Text = sdr["MonthlyThirteen"].ToString().Trim();
-                        textBox38.Text = sdr["MonthlyFourteen"].ToString().Trim();
-                        textBox39.Text = sdr["MonthlyFifteen"].ToString().Trim();
-                        textBox40.Text = sdr["MonthlySixteen"].ToString().Trim();
-                        textBox41.Text = sdr["MonthlySeventeen"].ToString().Trim();
-                        textBox42.Text = sdr["MonthlyEighteen"].ToString().Trim();
-                        textBox43.Text = sdr["MonthlyNineteen"].ToString().Trim();
-                        textBox44.Text = sdr["MonthlyTwenty"].ToString().Trim();
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                try
-                {
-                    // Combine all the expenses into a single variable.
-                    double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
-                        + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
-                        + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
-                         + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
-                          + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
-                    // Additional Expenses Total
-                    double additionalExpenses = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
-                        + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
-                        + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text);
-                    // Find the difference between what is available to what expenses are being used.
-                    double differenceCalc = double.Parse(textBox51.Text) - expensesCalc;
-                    // Display all expenses
-                    textBox45.Text = expensesCalc.ToString();
-                    textBox61.Text = additionalExpenses.ToString();
-                    // Display the difference
-                    if (differenceCalc < 0)
-                    {
-                        textBox46.BackColor = Color.Black;
-                        textBox46.ForeColor = Color.Red;
-                        textBox46.Text = differenceCalc.ToString();
-                    }
-                    else
-                    {
-                        textBox46.BackColor = Color.Green;
-                        textBox46.Text = differenceCalc.ToString();
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("Calculations could not be performed");
-                }
+                MessageBox.Show("Calculations could not be performed");
             }
+            
         }
         private void ComboBoxFive_Click(object sender, EventArgs e)
         {
@@ -1301,7 +1673,6 @@ namespace Finance_App
                 comboBox5.Items.Clear();
                 PopulateDropMenus(comboBox5);
             }
-
         }        
         private void ComboBoxTextChangeFive(object sender, EventArgs e)
         {
@@ -1375,590 +1746,6 @@ namespace Finance_App
             textBox45.Text = expensesCalc.ToString();
             textBox28.Text = expensesCalc.ToString();
         }
-
-        private void Button6_Click(object sender, EventArgs e)
-        {
-            if (MessageBox.Show("Confirm Updaing User?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                try
-                {
-                    SqlConnection conn = new SqlConnection(Globals.connectionString);
-                    conn.Open();
-
-                    Globals.sqlStatement = "UPDATE People SET First='" + textBox52.Text.Trim() + "',Last='" + textBox53.Text.Trim() +
-                        "',Email='" + textBox54.Text.Trim() + "',Address1='" + textBox55.Text.Trim() + "',Address2='" + textBox56.Text.Trim() +
-                        "',City='" + textBox57.Text.Trim() + "',State='" + comboBox4.Text.Trim() + "',Zip='" + textBox58.Text.Trim() + "' WHERE Id = " + textBox59.Text;
-                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                // Attempt to populate fields from Money Database
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.peopleSelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox59.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox52.Text = sdr["First"].ToString().Trim();
-                        textBox53.Text = sdr["Last"].ToString().Trim();
-                        textBox54.Text = sdr["Email"].ToString().Trim();
-                        textBox55.Text = sdr["Address1"].ToString().Trim();
-                        textBox56.Text = sdr["Address2"].ToString().Trim();
-                        textBox57.Text = sdr["City"].ToString().Trim();
-                        comboBox4.Text = sdr["State"].ToString().Trim();
-                        textBox58.Text = sdr["Zip"].ToString().Trim();
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-            }
-        }
-
-        private void Button7_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox59.Text);
-                // Create a Message Box that allows users to enter pass code
-                Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    if (Globals.boxAnswer.ToString() == sdr["Pass"].ToString().Trim())
-                    {
-                        // Delete user from People Database                        
-                        SqlConnection connOne = new SqlConnection(Globals.connectionString);
-                        Globals.sqlStatement = "DELETE FROM People WHERE Id=@id";
-                        connOne.Open();
-                        SqlCommand cmdOne = new SqlCommand(Globals.sqlStatement, connOne);
-                        cmdOne.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                        cmdOne.CommandType = CommandType.Text;
-                        cmdOne.ExecuteNonQuery();
-                        connOne.Close();                        
-                        // Delete user from People Database                        
-                        SqlConnection connTwo = new SqlConnection(Globals.connectionString);
-                        Globals.sqlStatement = "DELETE FROM MonthlyCosts WHERE Id=@id";
-                        connTwo.Open();
-                        SqlCommand cmdTwo = new SqlCommand(Globals.sqlStatement, connTwo);
-                        cmdTwo.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                        cmdTwo.CommandType = CommandType.Text;
-                        cmdTwo.ExecuteNonQuery();
-                        connTwo.Close();
-                        // Delete user from Money Database
-                        SqlConnection connThree = new SqlConnection(Globals.connectionString);
-                        Globals.sqlStatement = "DELETE FROM Money WHERE Id=@id";
-                        connThree.Open();
-                        SqlCommand cmdThree = new SqlCommand(Globals.sqlStatement, connThree);
-                        cmdThree.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                        cmdThree.CommandType = CommandType.Text;
-                        cmdThree.ExecuteNonQuery();
-                        connThree.Close();
-                        // Delete user from LongTermTitles Database
-                        SqlConnection connFour = new SqlConnection(Globals.connectionString);
-                        Globals.sqlStatement = "DELETE LongTermTitles WHERE Id=@id";
-                        connFour.Open();
-                        SqlCommand cmdFour = new SqlCommand(Globals.sqlStatement, connFour);
-                        cmdFour.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                        cmdFour.CommandType = CommandType.Text;
-                        cmdFour.ExecuteNonQuery();
-                        connFour.Close();                        
-                        // Delete user from LongTermSaves Database                        
-                        SqlConnection connFive = new SqlConnection(Globals.connectionString);
-                        Globals.sqlStatement = "DELETE FROM LongTermSaves WHERE Id=@id";
-                        connFive.Open();
-                        SqlCommand cmdFive = new SqlCommand(Globals.sqlStatement, connFive);
-                        cmdFive.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                        cmdFive.CommandType = CommandType.Text;
-                        cmdFive.ExecuteNonQuery();
-                        connFive.Close();
-                        MessageBox.Show("User Successfully Deleted");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Incorrect Password");
-                    }
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-        }
-
-        private void Button9_Click(object sender, EventArgs e)
-        {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemOne='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-
-        }
-        private void Button10_Click(object sender, EventArgs e)
-        {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemTwo='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-
-        }
-        private void Button11_Click(object sender, EventArgs e)
-        {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFour='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-
-        }
-        private void Button12_Click(object sender, EventArgs e)
-        {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemThree='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-
-        }
-        private void Button13_Click(object sender, EventArgs e)
-        {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemSix='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-        }
-        private void Button14_Click(object sender, EventArgs e)
-        {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.boxDown, Globals.secondChance);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFive='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-
-
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                // Database location string
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement 
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-
-        }
-
         private void ComboBox7_Click(object sender, EventArgs e)
         {
             if (comboBox7.Text == "")
@@ -1974,75 +1761,27 @@ namespace Finance_App
         }
         private void ComboBoxTextChangeSeven(object sender, EventArgs e)
         {
-            if (Globals.bypass == false)
-            {
-                // Attempt to determine the User and populate fields from totals
-                try
-                {
-                    // Run database connection
-                    using (SqlConnection con = new SqlConnection(Globals.connectionString))
-                    {
-                        // Search for ID from selected user in ComboBox
-                        using (SqlCommand cmd = new SqlCommand(Globals.idNameSelect))
-                        {
-                            cmd.CommandType = CommandType.Text;
-                            cmd.Connection = con;
-                            con.Open();
-                            string[] splitName = comboBox7.Text.Split(' ');
-                            Globals.splitText = splitName[0];
-                            cmd.Parameters.AddWithValue("@name", Globals.splitText);
-                            // Insert the ID from People Database
-                            using (SqlDataReader sdr = cmd.ExecuteReader())
-                            {
-                                sdr.Read();
-                                textBox66.Text = sdr["Id"].ToString();
-                            }
-                            con.Close();
-                        }
-                        Globals.currentUserId = textBox66.Text;
-                        Globals.currentUser = comboBox7.SelectedItem.ToString();
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                // Attempt to populate fields from Money Database
+            IdChecker(comboBox7, textBox66, textBox70, textBox69, textBox68, textBox67); 
+            // Attempt to populate fields from Money Database
                 try
                 {
                     // Database location string
                     SqlConnection cnn = new SqlConnection(Globals.connectionString);
                     cnn.Open();
                     // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
+                    SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
                     // Use ID populated to confirm proper insertion
                     cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                    // Create a Message Box that allows users to enter pass code
-                    Globals.boxAnswer = MessageBoard(Globals.boxUp, Globals.secondChance);
                     // Read through database and insert fields into TextBoxes
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
                         sdr.Read();
-                        {
-                            if (Globals.boxAnswer.ToString() == sdr["Pass"].ToString().Trim())
-                            {
-                                textBox70.Text = sdr["Donation"].ToString().Trim();
-                                textBox69.Text = sdr["Savings"].ToString().Trim();
-                                textBox68.Text = sdr["GOKF"].ToString().Trim();
-                                textBox67.Text = sdr["Spending"].ToString().Trim();
-                                Globals.boxInOut = true;
-                                Globals.passChecker = true;
-                            }
-                            else
-                            {
-                                textBox70.Text = ("");
-                                textBox69.Text = ("");
-                                textBox68.Text = ("");
-                                textBox67.Text = ("");
-                                Globals.boxInOut = false;
-                                Globals.passChecker = false;
-                            }
-                        }
+                        textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                        textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                        textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                        textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                        textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                        textBox4.Text = sdr["SaveSix"].ToString().Trim();
 
                     }
                     cnn.Close();
@@ -2051,76 +1790,6 @@ namespace Finance_App
                 {
                     MessageBox.Show("No Connection");
                 }
-                if (Globals.boxInOut == true)
-                {
-                    // Attempt to populate fields from Money Database
-                    try
-                    {
-                        // Database location string
-                        SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                        cnn.Open();
-                        // Run SQL statement
-                        SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                        // Use ID populated to confirm proper insertion
-                        cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                        // Read through database and insert fields into TextBoxes
-                        using (SqlDataReader sdr = cmd.ExecuteReader())
-                        {
-                            sdr.Read();
-                            textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                            textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                            textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                            textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                            textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                            textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                        }
-                        cnn.Close();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("No Connection");
-                    }
-                    // Attempt to populate fields from Money Database
-                    try
-                    {
-                        // Database location string
-                        SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                        cnn.Open();
-                        // Run SQL statement
-                        SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                        // Use ID populated to confirm proper insertion
-                        cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                        // Read through database and insert fields into TextBoxes
-                        using (SqlDataReader sdr = cmd.ExecuteReader())
-                        {
-                            sdr.Read();
-                            button9.Text = sdr["ItemOne"].ToString().Trim();
-                            button10.Text = sdr["ItemTwo"].ToString().Trim();
-                            button12.Text = sdr["ItemThree"].ToString().Trim();
-                            button11.Text = sdr["ItemFour"].ToString().Trim();
-                            button14.Text = sdr["ItemFive"].ToString().Trim();
-                            button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                        }
-                        cnn.Close();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("No Connection");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Incorrect Pass Code");
-                }
-            }
-            else
-            {
-                // Attempt to determine the User and populate fields from totals
-                comboBox7.Text = Globals.currentUser;
-                textBox66.Text = Globals.currentUserId;
-              
                 // Attempt to populate fields from Money Database
                 try
                 {
@@ -2128,20 +1797,20 @@ namespace Finance_App
                     SqlConnection cnn = new SqlConnection(Globals.connectionString);
                     cnn.Open();
                     // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
+                    SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
                     // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox66.Text);                    
+                    cmd.Parameters.AddWithValue("@id", textBox66.Text);
                     // Read through database and insert fields into TextBoxes
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
                         sdr.Read();
-                        {
-                            textBox70.Text = sdr["Donation"].ToString().Trim();
-                            textBox69.Text = sdr["Savings"].ToString().Trim();
-                            textBox68.Text = sdr["GOKF"].ToString().Trim();
-                            textBox67.Text = sdr["Spending"].ToString().Trim();
-                            Globals.boxInOut = true;
-                        }
+                        button9.Text = sdr["ItemOne"].ToString().Trim();
+                        button10.Text = sdr["ItemTwo"].ToString().Trim();
+                        button12.Text = sdr["ItemThree"].ToString().Trim();
+                        button11.Text = sdr["ItemFour"].ToString().Trim();
+                        button14.Text = sdr["ItemFive"].ToString().Trim();
+                        button13.Text = sdr["ItemSix"].ToString().Trim();
+
                     }
                     cnn.Close();
                 }
@@ -2149,142 +1818,32 @@ namespace Finance_App
                 {
                     MessageBox.Show("No Connection");
                 }
-                if (Globals.boxInOut == true)
-                {
-                    // Attempt to populate fields from Money Database
-                    try
-                    {
-                        // Database location string
-                        SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                        cnn.Open();
-                        // Run SQL statement
-                        SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                        // Use ID populated to confirm proper insertion
-                        cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                        // Read through database and insert fields into TextBoxes
-                        using (SqlDataReader sdr = cmd.ExecuteReader())
-                        {
-                            sdr.Read();
-                            textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                            textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                            textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                            textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                            textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                            textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                        }
-                        cnn.Close();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("No Connection");
-                    }
-                    // Attempt to populate fields from Money Database
-                    try
-                    {
-                        // Database location string
-                        SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                        cnn.Open();
-                        // Run SQL statement
-                        SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                        // Use ID populated to confirm proper insertion
-                        cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                        // Read through database and insert fields into TextBoxes
-                        using (SqlDataReader sdr = cmd.ExecuteReader())
-                        {
-                            sdr.Read();
-                            button9.Text = sdr["ItemOne"].ToString().Trim();
-                            button10.Text = sdr["ItemTwo"].ToString().Trim();
-                            button12.Text = sdr["ItemThree"].ToString().Trim();
-                            button11.Text = sdr["ItemFour"].ToString().Trim();
-                            button14.Text = sdr["ItemFive"].ToString().Trim();
-                            button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                        }
-                        cnn.Close();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("No Connection");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Incorrect Pass Code");
-                }
-            }
         }
-        private void button8_Click(object sender, EventArgs e)
+        private void TabPage2_Layout(object sender, LayoutEventArgs e)
         {
-            // Ensure a user is selected to do calculations
-            if (textBox66.Text == "")
-            {
-                MessageBox.Show("Select A User.");
-            }
-            // User is available to complete calculations
-            else
-            {
-                if (MessageBox.Show("Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    try
-                    {
-                        // Combine all the expenses into a single variable.
-                        double expensesCalc = double.Parse(textBox65.Text) + double.Parse(textBox62.Text) + double.Parse(textBox64.Text)
-                            + double.Parse(textBox5.Text) + double.Parse(textBox63.Text) + double.Parse(textBox4.Text);
-                        // Find the difference between what is available to what expenses are being used.
-                        double differenceCalc = double.Parse(textBox69.Text) - expensesCalc;
-                        // Display all expenses
-                        textBox73.Text = expensesCalc.ToString();
-                        // Display the difference
-                        if (differenceCalc < 0)
-                        {
-                            textBox72.BackColor = Color.Black;
-                            textBox72.ForeColor = Color.Red;
-                            textBox72.Text = differenceCalc.ToString();
-                        }
-                        else
-                        {
-                            textBox72.BackColor = Color.Green;
-                            textBox72.Text = differenceCalc.ToString();
-                        }
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Calculations could not be performed");
-                    }
-                    try
-                    {
-                        SqlConnection conn = new SqlConnection(Globals.connectionString);
-                        conn.Open();
 
-                        string updateQuery = "UPDATE LongTermSaves SET SaveOne='" + textBox65.Text + "',SaveTwo='" + textBox62.Text + "',SaveThree='" + textBox64.Text + "',SaveFour='" + textBox5.Text + "',SaveFive='" + textBox63.Text + "',SaveSix='" + textBox4.Text + "'  WHERE Id = " + textBox66.Text;
-                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
-
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                    }
-                    catch
-                    {
-                        MessageBox.Show("No Connection");
-                    }
-
-                }
-            }
-        }
-
-        private void TabPage5_Layout(object sender, LayoutEventArgs e)
-        {
             if (Globals.passChecker == true && Globals.currentUser != "")
             {
                 Globals.bypass = true;
-                ComboBoxTextChangeThree(sender, e);
+                ComboBoxTextChange(sender, e);
             }
             else
             {
                 Globals.bypass = false;
             }
         }
-
+        private void TabPage3_Layout(object sender, LayoutEventArgs e)
+        {
+            if (Globals.passChecker == true && Globals.currentUser != "")
+            {
+                Globals.bypass = true;
+                ComboBoxTextChangeTwo(sender, e);
+            }
+            else
+            {
+                Globals.bypass = false;
+            }
+        }
         private void tabPage4_Layout(object sender, LayoutEventArgs e)
         {
             if (Globals.passChecker == true && Globals.currentUser != "")
@@ -2297,96 +1856,18 @@ namespace Finance_App
                 Globals.bypass = false;
             }
         }
-
-        private void button15_Click(object sender, EventArgs e)
+        private void TabPage5_Layout(object sender, LayoutEventArgs e)
         {
-            if (textBox69.Text != "" && textBox67.Text != "")
+            if (Globals.passChecker == true && Globals.currentUser != "")
             {
-                try
-                {
-                    
-                    double savingAddition = double.Parse(textBox71.Text) + double.Parse(textBox69.Text);
-                    double spendingSubtract = double.Parse(textBox67.Text) - double.Parse(textBox71.Text);
-                    if (spendingSubtract < 0)
-                    {
-                        MessageBox.Show("Not enough funds to complete transfer.");
-                    }
-                    else
-                    {
-                        SqlConnection conn = new SqlConnection(Globals.connectionString);
-                        conn.Open();
-
-                        string updateQuery = "UPDATE Money SET Savings='" + savingAddition.ToString() + "',Spending='" + spendingSubtract.ToString() + "' WHERE Id = " + textBox66.Text;
-                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
-
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                if (Globals.passChecker == true && Globals.currentUser != "")
-                {
-                    Globals.bypass = true;
-                    ComboBoxTextChangeSeven(sender, e);
-                }
-                else
-                {
-                    Globals.bypass = false;
-                }
+                Globals.bypass = true;
+                ComboBoxTextChangeThree(sender, e);
             }
             else
             {
-                MessageBox.Show("Select User");
+                Globals.bypass = false;
             }
         }
-
-        private void button16_Click(object sender, EventArgs e)
-        {
-            if (textBox69.Text != "" && textBox67.Text != "")
-            {
-                try
-                {
-                    double spendingAddition = double.Parse(textBox71.Text) + double.Parse(textBox67.Text);
-                    double savingSubtract = double.Parse(textBox69.Text) - double.Parse(textBox71.Text);
-                    if (savingSubtract < 0)
-                    {
-                        MessageBox.Show("Not enough funds to complete transfer.");
-                    }
-                    else 
-                    {
-                        SqlConnection conn = new SqlConnection(Globals.connectionString);
-                        conn.Open();
-
-                        string updateQuery = "UPDATE Money SET Savings='" + savingSubtract.ToString() + "',Spending='" + spendingAddition.ToString() + "' WHERE Id = " + textBox66.Text;
-                        SqlCommand cmd = new SqlCommand(updateQuery, conn);
-
-                        cmd.ExecuteNonQuery();
-                        conn.Close();
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                if (Globals.passChecker == true && Globals.currentUser != "")
-                {
-                    Globals.bypass = true;
-                    ComboBoxTextChangeSeven(sender, e);
-                }
-                else
-                {
-                    Globals.bypass = false;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Select User");
-            }
-        }
-
         private void TextBox71_MouseClick(object sender, MouseEventArgs e)
         {
             textBox71.Text = "";
