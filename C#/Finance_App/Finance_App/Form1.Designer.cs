@@ -2190,7 +2190,7 @@
             // button8
             // 
             this.button8.Font = new System.Drawing.Font("Arial", 13F);
-            this.button8.Location = new System.Drawing.Point(423, 180);
+            this.button8.Location = new System.Drawing.Point(423, 67);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(185, 28);
             this.button8.TabIndex = 137;
@@ -2202,7 +2202,7 @@
             // 
             this.label83.AutoSize = true;
             this.label83.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label83.Location = new System.Drawing.Point(419, 292);
+            this.label83.Location = new System.Drawing.Point(419, 180);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(64, 16);
             this.label83.TabIndex = 136;
@@ -2211,7 +2211,7 @@
             // textBox72
             // 
             this.textBox72.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox72.Location = new System.Drawing.Point(422, 311);
+            this.textBox72.Location = new System.Drawing.Point(422, 198);
             this.textBox72.Name = "textBox72";
             this.textBox72.ReadOnly = true;
             this.textBox72.Size = new System.Drawing.Size(186, 29);
@@ -2221,7 +2221,7 @@
             // 
             this.label84.AutoSize = true;
             this.label84.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label84.Location = new System.Drawing.Point(419, 232);
+            this.label84.Location = new System.Drawing.Point(419, 119);
             this.label84.Name = "label84";
             this.label84.Size = new System.Drawing.Size(96, 16);
             this.label84.TabIndex = 134;
@@ -2230,7 +2230,7 @@
             // textBox73
             // 
             this.textBox73.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox73.Location = new System.Drawing.Point(422, 251);
+            this.textBox73.Location = new System.Drawing.Point(422, 138);
             this.textBox73.Name = "textBox73";
             this.textBox73.ReadOnly = true;
             this.textBox73.Size = new System.Drawing.Size(186, 29);

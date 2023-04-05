@@ -193,7 +193,112 @@ namespace Finance_App
                 }
             }
         }
-        //private string MessageBoard(bool answer, bool second)
+        public void DepoInfo(TextBox t1, TextBox t2, TextBox t3, TextBox t4, TextBox t5)
+        {
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox6.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    t2.Text = sdr["Donation"].ToString().Trim();
+                    t3.Text = sdr["Savings"].ToString().Trim();
+                    t4.Text = sdr["GOKF"].ToString().Trim();
+                    t5.Text = sdr["Spending"].ToString().Trim();
+                    t2.BackColor = Color.Green;
+                    t3.BackColor = Color.Green;
+                    t4.BackColor = Color.Green;
+                    t5.BackColor = Color.Green;
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
+        public void SaveInfo()
+        {
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+            // Attempt to populate fields from Money Database
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox66.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button9.Text = sdr["ItemOne"].ToString().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show("No Connection");
+            }
+        }
+        public double ExpCalc()
+        {
+            double answer = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
+                            + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
+                            + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
+                             + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
+                              + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+            return answer;
+        }
+        public void DelUser()
+        {
+            // Delete user from People Database                        
+            SqlConnection connOne = new SqlConnection(Globals.connectionString);            
+            connOne.Open();
+            SqlCommand cmdOne = new SqlCommand(Globals.sqlStatement, connOne);
+            cmdOne.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
+            cmdOne.CommandType = CommandType.Text;
+            cmdOne.ExecuteNonQuery();
+            connOne.Close();
+        }
         private string MessageBoard(string first, string second, InputBox.Icon icons, InputBox.Type type)
         {
             string returnAnswer;
@@ -214,51 +319,52 @@ namespace Finance_App
         }
         private void CreateButton_Click(object sender, EventArgs e)
         {
-            try
+            if (textBox13.Text.Contains("@") && textBox3.Text.Length == 4)
             {
-                // Setup user with new People Fields in Database
-                Globals.sqlStatement = "INSERT INTO People(First,Last,Email,Address1,Address2,City,State,Zip) Values(@firstName,@lastName,@email,@address1,@address2,@city,@state,@zip)";
-                SqlConnection cn = new SqlConnection(Globals.connectionString);
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
-                // Determine what field parameters are
-                cmd.Parameters.Add(new SqlParameter("@firstName", SqlDbType.Char, 30));
-                cmd.Parameters.Add(new SqlParameter("@lastName", SqlDbType.Char, 30));
-                cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.Char, 50));
-                cmd.Parameters.Add(new SqlParameter("@address1", SqlDbType.Char, 50));
-                cmd.Parameters.Add(new SqlParameter("@address2", SqlDbType.Char, 50));
-                cmd.Parameters.Add(new SqlParameter("@city", SqlDbType.Char, 50));
-                cmd.Parameters.Add(new SqlParameter("@state", SqlDbType.Char, 2));
-                cmd.Parameters.Add(new SqlParameter("@zip", SqlDbType.Char, 10));
-                // Set user inputted values within the database
-                cmd.Parameters["@firstname"].Value = textBox11.Text.Trim();
-                cmd.Parameters["@lastname"].Value = textBox12.Text.Trim();
-                cmd.Parameters["@email"].Value = textBox13.Text.Trim();
-                cmd.Parameters["@address1"].Value = textBox14.Text.Trim();
-                cmd.Parameters["@address2"].Value = textBox15.Text.Trim();
-                cmd.Parameters["@city"].Value = textBox16.Text.Trim();
-                cmd.Parameters["@state"].Value = stateBox1.Text.Trim();
-                cmd.Parameters["@zip"].Value = textBox17.Text.Trim();
-                // Open Database
-                cn.Open();
-                if (textBox13.Text.Contains("@"))
+                try
                 {
-                    // Run SQL Statement
-                    cmd.ExecuteNonQuery();
-                    // Close Database
-                    cn.Close();
+                    // Setup user with new People Fields in Database
+                    Globals.sqlStatement = "INSERT INTO People(First,Last,Email,Address1,Address2,City,State,Zip) Values(@firstName,@lastName,@email,@address1,@address2,@city,@state,@zip)";
+                    SqlConnection cn = new SqlConnection(Globals.connectionString);
+                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
+                    // Determine what field parameters are
+                    cmd.Parameters.Add(new SqlParameter("@firstName", SqlDbType.Char, 30));
+                    cmd.Parameters.Add(new SqlParameter("@lastName", SqlDbType.Char, 30));
+                    cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.Char, 50));
+                    cmd.Parameters.Add(new SqlParameter("@address1", SqlDbType.Char, 50));
+                    cmd.Parameters.Add(new SqlParameter("@address2", SqlDbType.Char, 50));
+                    cmd.Parameters.Add(new SqlParameter("@city", SqlDbType.Char, 50));
+                    cmd.Parameters.Add(new SqlParameter("@state", SqlDbType.Char, 2));
+                    cmd.Parameters.Add(new SqlParameter("@zip", SqlDbType.Char, 10));
+                    // Set user inputted values within the database
+                    cmd.Parameters["@firstname"].Value = textBox11.Text.Trim();
+                    cmd.Parameters["@lastname"].Value = textBox12.Text.Trim();
+                    cmd.Parameters["@email"].Value = textBox13.Text.Trim();
+                    cmd.Parameters["@address1"].Value = textBox14.Text.Trim();
+                    cmd.Parameters["@address2"].Value = textBox15.Text.Trim();
+                    cmd.Parameters["@city"].Value = textBox16.Text.Trim();
+                    cmd.Parameters["@state"].Value = stateBox1.Text.Trim();
+                    cmd.Parameters["@zip"].Value = textBox17.Text.Trim();
+                    // Open Database
+                    cn.Open();
+                    if (textBox13.Text.Contains("@"))
+                    {
+                        // Run SQL Statement
+                        cmd.ExecuteNonQuery();
+                        // Close Database
+                        cn.Close();
+                    }
+                    else
+                    {
+                        // Close Database
+                        cn.Close();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    // Close Database
-                    cn.Close();
+                    MessageBox.Show(ex.Message);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            if (textBox13.Text.Contains("@"))
-            {
+
                 try
                 {
                     // Setup user with new Money Fields in Database
@@ -281,7 +387,6 @@ namespace Finance_App
                     cn.Open();
                     // Run SQL Statement
                     cmd.ExecuteNonQuery();
-                    // Close Database
                     cn.Close();
                 }
                 catch
@@ -417,7 +522,14 @@ namespace Finance_App
             }
             else
             {
-                MessageBox.Show("        Invalid Email Address, \n                 Try Again.");
+                if (!textBox13.Text.Contains("@"))
+                {
+                    MessageBox.Show("        Invalid Email Address, \n                 Try Again.");
+                }
+                else
+                {
+                    MessageBox.Show("Passcode must be 4 characters in length.");
+                }
             }
         }
         private void Button1_Click(object sender, EventArgs e)
@@ -530,33 +642,8 @@ namespace Finance_App
                 {
                     MessageBox.Show("No Connection");
                 }
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox6.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox7.Text = sdr["Donation"].ToString().Trim();
-                        textBox8.Text = sdr["Savings"].ToString().Trim();
-                        textBox9.Text = sdr["GOKF"].ToString().Trim();
-                        textBox10.Text = sdr["Spending"].ToString().Trim();
-                        textBox7.BackColor = Color.Green;
-                        textBox8.BackColor = Color.Green;
-                        textBox9.BackColor = Color.Green;
-                        textBox10.BackColor = Color.Green;
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
+                DepoInfo(textBox6, textBox7, textBox8, textBox9, textBox10);
+                
             }
             else
             {
@@ -588,33 +675,7 @@ namespace Finance_App
                 {
                     MessageBox.Show("No Connection");
                 }
-                try
-                {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox6.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox7.Text = sdr["Donation"].ToString().Trim();
-                        textBox8.Text = sdr["Savings"].ToString().Trim();
-                        textBox9.Text = sdr["GOKF"].ToString().Trim();
-                        textBox10.Text = sdr["Spending"].ToString().Trim();
-                        textBox7.BackColor = Color.White;
-                        textBox8.BackColor = Color.White;
-                        textBox9.BackColor = Color.White;
-                        textBox10.BackColor = Color.White;
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
+                DepoInfo(textBox6, textBox7, textBox8, textBox9, textBox10);
             }
         }
         private void Button4_Click(object sender, EventArgs e)
@@ -632,11 +693,7 @@ namespace Finance_App
                     try
                     {
                         // Combine all the expenses into a single variable.
-                        double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
-                            + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
-                            + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
-                             + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
-                              + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                        double expensesCalc = ExpCalc();
                         // Main Expense Totals
                         double mainExpense = double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
                              + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
@@ -702,11 +759,7 @@ namespace Finance_App
                     try
                     {
                         // Combine all the expenses into a single variable.
-                        double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
-                            + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
-                            + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
-                             + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
-                              + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                        double expensesCalc = ExpCalc();
                         // Additional Expenses Total
                         double additionalExpenses = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
                             + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
@@ -825,51 +878,21 @@ namespace Finance_App
                     sdr.Read();
                     if (Globals.boxAnswer.ToString() == sdr["Pass"].ToString().Trim())
                     {
-                        // Delete user from People Database                        
-                        SqlConnection connOne = new SqlConnection(Globals.connectionString);
+                        // Delete user from People Database
                         Globals.sqlStatement = "DELETE FROM People WHERE Id=@id";
-                        connOne.Open();
-                        SqlCommand cmdOne = new SqlCommand(Globals.sqlStatement, connOne);
-                        cmdOne.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                        cmdOne.CommandType = CommandType.Text;
-                        cmdOne.ExecuteNonQuery();
-                        connOne.Close();
-                        // Delete user from People Database                        
-                        SqlConnection connTwo = new SqlConnection(Globals.connectionString);
+                        DelUser();
+                        // Delete user from People Database
                         Globals.sqlStatement = "DELETE FROM MonthlyCosts WHERE Id=@id";
-                        connTwo.Open();
-                        SqlCommand cmdTwo = new SqlCommand(Globals.sqlStatement, connTwo);
-                        cmdTwo.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                        cmdTwo.CommandType = CommandType.Text;
-                        cmdTwo.ExecuteNonQuery();
-                        connTwo.Close();
+                        DelUser();
                         // Delete user from Money Database
-                        SqlConnection connThree = new SqlConnection(Globals.connectionString);
                         Globals.sqlStatement = "DELETE FROM Money WHERE Id=@id";
-                        connThree.Open();
-                        SqlCommand cmdThree = new SqlCommand(Globals.sqlStatement, connThree);
-                        cmdThree.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                        cmdThree.CommandType = CommandType.Text;
-                        cmdThree.ExecuteNonQuery();
-                        connThree.Close();
+                        DelUser();
                         // Delete user from LongTermTitles Database
-                        SqlConnection connFour = new SqlConnection(Globals.connectionString);
                         Globals.sqlStatement = "DELETE LongTermTitles WHERE Id=@id";
-                        connFour.Open();
-                        SqlCommand cmdFour = new SqlCommand(Globals.sqlStatement, connFour);
-                        cmdFour.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                        cmdFour.CommandType = CommandType.Text;
-                        cmdFour.ExecuteNonQuery();
-                        connFour.Close();
-                        // Delete user from LongTermSaves Database                        
-                        SqlConnection connFive = new SqlConnection(Globals.connectionString);
+                        DelUser();                        
+                        // Delete user from LongTermSaves Database
                         Globals.sqlStatement = "DELETE FROM LongTermSaves WHERE Id=@id";
-                        connFive.Open();
-                        SqlCommand cmdFive = new SqlCommand(Globals.sqlStatement, connFive);
-                        cmdFive.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
-                        cmdFive.CommandType = CommandType.Text;
-                        cmdFive.ExecuteNonQuery();
-                        connFive.Close();
+                        DelUser();                        
                         MessageBox.Show("User Successfully Deleted");
                     }
                     else
@@ -961,58 +984,7 @@ namespace Finance_App
                 MessageBox.Show("No Connection");
             }
             // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
+            SaveInfo();
         }
         private void Button10_Click(object sender, EventArgs e)
         {
@@ -1034,59 +1006,7 @@ namespace Finance_App
                 MessageBox.Show("No Connection");
             }
             // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
+            SaveInfo();
         }
         private void Button11_Click(object sender, EventArgs e)
         {
@@ -1108,59 +1028,7 @@ namespace Finance_App
                 MessageBox.Show("No Connection");
             }
             // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
+            SaveInfo();
         }
         private void Button12_Click(object sender, EventArgs e)
         {
@@ -1182,57 +1050,7 @@ namespace Finance_App
                 MessageBox.Show("No Connection");
             }
             // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
+            SaveInfo();
         }
         private void Button13_Click(object sender, EventArgs e)
         {
@@ -1254,57 +1072,7 @@ namespace Finance_App
                 MessageBox.Show("No Connection");
             }
             // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
+            SaveInfo();
         }
         private void Button14_Click(object sender, EventArgs e)
         {
@@ -1326,58 +1094,7 @@ namespace Finance_App
                 MessageBox.Show("No Connection");
             }
             // Attempt to populate fields from Money Database
-            try
-            {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            try
-            {
-                // Database location string
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement 
-                SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
-                }
-                cnn.Close();
-            }
-            catch
-            {
-                MessageBox.Show("No Connection");
-            }
+            SaveInfo();
         }
         private void Button15_Click(object sender, EventArgs e)
         {
@@ -1534,11 +1251,7 @@ namespace Finance_App
             try
             {
                 // Combine all the expenses into a single variable.
-                double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
-                    + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
-                    + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
-                        + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
-                        + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                double expensesCalc = ExpCalc();
                 // Main Expense Totals
                 double mainExpense = double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
                         + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
@@ -1627,11 +1340,7 @@ namespace Finance_App
             try
             {
                 // Combine all the expenses into a single variable.
-                double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
-                    + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
-                    + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
-                        + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
-                        + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+                double expensesCalc = ExpCalc();
                 // Additional Expenses Total
                 double additionalExpenses = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
                     + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
@@ -1737,11 +1446,7 @@ namespace Finance_App
         private void ChangeTabs(object sender, EventArgs e)
         {
             // Combine all the expenses into a single variable.
-            double expensesCalc = double.Parse(textBox35.Text) + double.Parse(textBox36.Text) + double.Parse(textBox37.Text)
-                + double.Parse(textBox38.Text) + double.Parse(textBox39.Text) + double.Parse(textBox40.Text) + double.Parse(textBox41.Text)
-                + double.Parse(textBox42.Text) + double.Parse(textBox43.Text) + double.Parse(textBox44.Text) + double.Parse(textBox18.Text) + double.Parse(textBox19.Text) + double.Parse(textBox20.Text)
-                 + double.Parse(textBox21.Text) + double.Parse(textBox22.Text) + double.Parse(textBox23.Text) + double.Parse(textBox24.Text)
-                  + double.Parse(textBox25.Text) + double.Parse(textBox26.Text) + double.Parse(textBox27.Text);
+            double expensesCalc = ExpCalc();
             // Display all expenses
             textBox45.Text = expensesCalc.ToString();
             textBox28.Text = expensesCalc.ToString();
@@ -1761,63 +1466,9 @@ namespace Finance_App
         }
         private void ComboBoxTextChangeSeven(object sender, EventArgs e)
         {
-            IdChecker(comboBox7, textBox66, textBox70, textBox69, textBox68, textBox67); 
+            IdChecker(comboBox7, textBox66, textBox70, textBox69, textBox68, textBox67);
             // Attempt to populate fields from Money Database
-                try
-                {
-                    // Database location string
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.longTermSave, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                        textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                        textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                        textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                        textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                        textBox4.Text = sdr["SaveSix"].ToString().Trim();
-
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
-                // Attempt to populate fields from Money Database
-                try
-                {
-                    // Database location string
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.longTermSelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox66.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        button9.Text = sdr["ItemOne"].ToString().Trim();
-                        button10.Text = sdr["ItemTwo"].ToString().Trim();
-                        button12.Text = sdr["ItemThree"].ToString().Trim();
-                        button11.Text = sdr["ItemFour"].ToString().Trim();
-                        button14.Text = sdr["ItemFive"].ToString().Trim();
-                        button13.Text = sdr["ItemSix"].ToString().Trim();
-
-                    }
-                    cnn.Close();
-                }
-                catch
-                {
-                    MessageBox.Show("No Connection");
-                }
+            SaveInfo();
         }
         private void TabPage2_Layout(object sender, LayoutEventArgs e)
         {
