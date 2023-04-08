@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Reflection;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using static Finance_App.Form1;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Windows.Forms;
+using static Finance_App.Form1;
 
 namespace MsgBox
 {

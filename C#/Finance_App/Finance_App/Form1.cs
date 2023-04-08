@@ -1,27 +1,13 @@
-﻿using System;
-using System.Data;
-using System.Data.Entity;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
-using System.Drawing;
-using System.Reflection.Emit;
-using System.Security.Cryptography;
-using System.Windows.Forms;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.TextBox;
-using static System.Windows.Forms.ComboBox;
-using System.Collections.Generic;
+﻿using IronXL;
+using IronXL.Formatting.Enums;
+using IronXL.Styles;
 using MsgBox;
-using static MsgBox.InputBox;
-using System.Diagnostics.Eventing.Reader;
-using System.Drawing.Text;
-using System.Threading;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
-using TextBox = System.Windows.Forms.TextBox;
+using System;
+using System.Data;
+using System.Data.SqlClient;
+using System.Windows.Forms;
 using ComboBox = System.Windows.Forms.ComboBox;
+using TextBox = System.Windows.Forms.TextBox;
 
 namespace Finance_App
 {
@@ -54,10 +40,348 @@ namespace Finance_App
             public static String longTermSave = "SELECT * FROM LongTermSaves WHERE Id = @id";
             public static String longTermSelect = "SELECT * FROM LongTermTitles WHERE Id = @id";
             public static String moneySelect = "SELECT * FROM Money WHERE Id = @id";
-            public static String monthSelect = "SELECT * FROM MonthlyCosts WHERE Id = @id";            
+            public static String monthSelect = "SELECT * FROM MonthlyCosts WHERE Id = @id";
             public static String peopleSelect = "SELECT * FROM People WHERE Id = @id";
+            public static String selectAllPeople = "SELECT * FROM People";
+            public static String selectAllMonCo = "SELECT * FROM MonthlyCosts";
+            public static String selectAllMoney = "SELECT * FROM Money";
+            public static String selectAllLongTitles = "SELECT * FROM LongTermTitles";
+            public static String selectAllLongSaves = "SELECT * FROM LongTermSaves";
+            public static String selectWherePeople = "SELECT * FROM People WHERE Id = ";
+            public static String selectWhereMonCo = "SELECT * FROM MonthlyCosts WHERE Id = ";
+            public static String selectWhereMoney = "SELECT * FROM Money WHERE Id = ";
+            public static String selectWhereLongTitles = "SELECT * FROM LongTermTitles WHERE Id = ";
+            public static String selectWhereLongSaves = "SELECT * FROM LongTermSaves WHERE Id = ";
+
             public static String sqlStatement;
 
+
+        }
+        private void Create_Excel_All(string one, string two, string three, string four, string five)
+        {
+            // Create workbook
+            WorkBook workbook = WorkBook.Create(ExcelFileFormat.XLSX);
+            // Create Seperate sheets for specific databases
+            var sheet = workbook.CreateWorkSheet("People");
+            var sheetTwo = workbook.CreateWorkSheet("Monthly Costs");
+            var sheetThree = workbook.CreateWorkSheet("Money");
+            var sheetFour = workbook.CreateWorkSheet("Long Term Titles");
+            var sheetFive = workbook.CreateWorkSheet("Long Term Saves");
+
+            // Transfer all database information into Excel Spreadsheet
+            try
+            {
+                //Create database objects to populate data from database
+                DataSet ds = new DataSet("DataSetName");
+                SqlConnection con;
+                SqlDataAdapter da;
+                //Open Connection & Fill DataSet
+                con = new SqlConnection(Globals.connectionString);
+                da = new SqlDataAdapter(one, con);
+                con.Open();
+                da.Fill(ds);
+                sheet["A1"].Value = "Id".ToString().Trim().Trim();
+                sheet["B1"].Value = "First Name".ToString().Trim().Trim();
+                sheet["C1"].Value = "Last Name".ToString().Trim();
+                sheet["D1"].Value = "Email".ToString().Trim();
+                sheet["E1"].Value = "Address 1".ToString().Trim();
+                sheet["F1"].Value = "Address 2".ToString().Trim();
+                sheet["G1"].Value = "City".ToString().Trim();
+                sheet["H1"].Value = "State".ToString().Trim();
+                sheet["I1"].Value = "Zip Code".ToString().Trim();
+
+                sheet.ProtectSheet("Password");
+                sheet.CreateFreezePane(0, 1);
+                //Loop through contents of dataset
+                foreach (DataTable table in ds.Tables)
+                {
+                    int Count = table.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= Count + 1; j++)
+                    {
+                        sheet["A" + j].Value = table.Rows[i]["Id"];
+                        sheet["B" + j].Value = table.Rows[i]["First"].ToString().Trim();
+                        sheet["C" + j].Value = table.Rows[i]["Last"].ToString().Trim();
+                        sheet["D" + j].Value = table.Rows[i]["Email"].ToString().Trim();
+                        sheet["E" + j].Value = table.Rows[i]["Address1"].ToString().Trim();
+                        sheet["F" + j].Value = table.Rows[i]["Address2"].ToString().Trim();
+                        sheet["G" + j].Value = table.Rows[i]["City"].ToString().Trim();
+                        sheet["H" + j].Value = table.Rows[i]["State"].ToString().Trim();
+                        sheet["I" + j].Value = table.Rows[i]["Zip"];
+                        i++;
+                    }
+
+                    Count++;
+                }
+
+                DataSet dsTwo = new DataSet("DataSetName");
+                SqlConnection conTwo;
+                SqlDataAdapter daTwo;
+                //Open Connection & Fill DataSet
+                conTwo = new SqlConnection(Globals.connectionString);
+                daTwo = new SqlDataAdapter(two, conTwo);
+                conTwo.Open();
+                daTwo.Fill(dsTwo);
+                sheetTwo["A1"].Value = "Id".ToString().Trim();
+                sheetTwo["B1"].Value = "Mortgage".ToString().Trim();
+                sheetTwo["C1"].Value = "Electric".ToString().Trim();
+                sheetTwo["D1"].Value = "Water".ToString().Trim();
+                sheetTwo["E1"].Value = "Gas".ToString().Trim();
+                sheetTwo["F1"].Value = "Trash".ToString().Trim();
+                sheetTwo["G1"].Value = "Vehicle Payment".ToString().Trim();
+                sheetTwo["H1"].Value = "Vehicle Insurance".ToString().Trim();
+                sheetTwo["I1"].Value = "Medical Insurance".ToString().Trim();
+                sheetTwo["J1"].Value = "Dental Insurance".ToString().Trim();
+                sheetTwo["K1"].Value = "Groceries".ToString().Trim();
+                sheetTwo["L1"].Value = "Hulu".ToString().Trim();
+                sheetTwo["M1"].Value = "Netflix".ToString().Trim();
+                sheetTwo["N1"].Value = "Amazon Prime".ToString().Trim();
+                sheetTwo["O1"].Value = "Disney Plus".ToString().Trim();
+                sheetTwo["P1"].Value = "Other Streaming Services".ToString().Trim();
+                sheetTwo["Q1"].Value = "Dining Out".ToString().Trim();
+                sheetTwo["R1"].Value = "Vehicle Gas".ToString().Trim();
+                sheetTwo["S1"].Value = "Internet & Cable".ToString().Trim();
+                sheetTwo["T1"].Value = "Cell Phone".ToString().Trim();
+                sheetTwo["U1"].Value = "Child Care".ToString().Trim();
+
+                //Loop through contents of dataset
+                foreach (DataTable tableTwo in dsTwo.Tables)
+                {
+                    int CountTwo = tableTwo.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= CountTwo + 1; j++)
+                    {
+                        sheetTwo["A" + j].Value = tableTwo.Rows[i]["Id"];
+                        sheetTwo["B" + j].Value = tableTwo.Rows[i]["MonthlyOne"];
+                        sheetTwo["C" + j].Value = tableTwo.Rows[i]["MonthlyTwo"];
+                        sheetTwo["D" + j].Value = tableTwo.Rows[i]["MonthlyThree"];
+                        sheetTwo["E" + j].Value = tableTwo.Rows[i]["MonthlyFour"];
+                        sheetTwo["F" + j].Value = tableTwo.Rows[i]["MonthlyFive"];
+                        sheetTwo["G" + j].Value = tableTwo.Rows[i]["MonthlySix"];
+                        sheetTwo["H" + j].Value = tableTwo.Rows[i]["MonthlySeven"];
+                        sheetTwo["I" + j].Value = tableTwo.Rows[i]["MonthlyEight"];
+                        sheetTwo["J" + j].Value = tableTwo.Rows[i]["MonthlyNine"];
+                        sheetTwo["K" + j].Value = tableTwo.Rows[i]["MonthlyTen"];
+                        sheetTwo["L" + j].Value = tableTwo.Rows[i]["MonthlyEleven"];
+                        sheetTwo["M" + j].Value = tableTwo.Rows[i]["MonthlyTwelve"];
+                        sheetTwo["N" + j].Value = tableTwo.Rows[i]["MonthlyThirteen"];
+                        sheetTwo["O" + j].Value = tableTwo.Rows[i]["MonthlyFourteen"];
+                        sheetTwo["P" + j].Value = tableTwo.Rows[i]["MonthlyFifteen"];
+                        sheetTwo["Q" + j].Value = tableTwo.Rows[i]["MonthlySixteen"];
+                        sheetTwo["R" + j].Value = tableTwo.Rows[i]["MonthlySeventeen"];
+                        sheetTwo["S" + j].Value = tableTwo.Rows[i]["MonthlyEighteen"];
+                        sheetTwo["T" + j].Value = tableTwo.Rows[i]["MonthlyNineteen"];
+                        sheetTwo["U" + j].Value = tableTwo.Rows[i]["MonthlyTwenty"];
+                        i++;
+                    }
+                    CountTwo++;
+                }
+
+                DataSet dsThree = new DataSet("DataSetName");
+                SqlConnection conThree;
+                SqlDataAdapter daThree;
+                //Open Connection & Fill DataSet
+                conThree = new SqlConnection(Globals.connectionString);
+                daThree = new SqlDataAdapter(three, conThree);
+                conThree.Open();
+                daThree.Fill(dsThree);
+                sheetThree["A1"].Value = "Id".ToString().Trim();
+                sheetThree["B1"].Value = "Donations".ToString().Trim();
+                sheetThree["C1"].Value = "Savings".ToString().Trim();
+                sheetThree["D1"].Value = "God Only Knows Funds".ToString().Trim();
+                sheetThree["E1"].Value = "Spending".ToString().Trim();
+                sheetThree["F1"].Value = "PassCode".ToString().Trim();
+
+                //Loop through contents of dataset
+                foreach (DataTable tableThree in dsThree.Tables)
+                {
+                    int CountThree = tableThree.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= CountThree + 1; j++)
+                    {
+                        sheetThree["A" + j].Value = tableThree.Rows[i]["Id"];
+                        sheetThree["B" + j].Value = tableThree.Rows[i]["Donation"];
+                        sheetThree["C" + j].Value = tableThree.Rows[i]["Savings"];
+                        sheetThree["D" + j].Value = tableThree.Rows[i]["GOKF"];
+                        sheetThree["E" + j].Value = tableThree.Rows[i]["Spending"];
+                        sheetThree["F" + j].Value = tableThree.Rows[i]["Pass"];
+                        i++;
+                    }
+                    CountThree++;
+                }
+
+                DataSet dsFour = new DataSet("DataSetName");
+                SqlConnection conFour;
+                SqlDataAdapter daFour;
+                //Open Connection & Fill DataSet
+                conFour = new SqlConnection(Globals.connectionString);
+                daFour = new SqlDataAdapter(four, conFour);
+                conFour.Open();
+                daFour.Fill(dsFour);
+                sheetFour["A1"].Value = "Id".ToString().Trim();
+                sheetFour["B1"].Value = "Item One".ToString().Trim();
+                sheetFour["C1"].Value = "Item Two".ToString().Trim();
+                sheetFour["D1"].Value = "Item Three".ToString().Trim();
+                sheetFour["E1"].Value = "Item Four".ToString().Trim();
+                sheetFour["F1"].Value = "Item Five".ToString().Trim();
+                sheetFour["G1"].Value = "Item Six".ToString().Trim();
+
+                //Loop through contents of dataset
+                foreach (DataTable tableFour in dsFour.Tables)
+                {
+                    int CountFour = tableFour.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= CountFour + 1; j++)
+                    {
+                        sheetFour["A" + j].Value = tableFour.Rows[i]["Id"];
+                        sheetFour["B" + j].Value = tableFour.Rows[i]["ItemOne"].ToString().Trim();
+                        sheetFour["C" + j].Value = tableFour.Rows[i]["ItemTwo"].ToString().Trim();
+                        sheetFour["D" + j].Value = tableFour.Rows[i]["ItemThree"].ToString().Trim();
+                        sheetFour["E" + j].Value = tableFour.Rows[i]["ItemFour"].ToString().Trim();
+                        sheetFour["F" + j].Value = tableFour.Rows[i]["ItemFive"].ToString().Trim();
+                        sheetFour["G" + j].Value = tableFour.Rows[i]["ItemSix"].ToString().Trim();
+                        i++;
+                    }
+                    CountFour++;
+                }
+
+                DataSet dsFive = new DataSet("DataSetName");
+                SqlConnection conFive;
+                SqlDataAdapter daFive;
+                //Open Connection & Fill DataSet
+                conFive = new SqlConnection(Globals.connectionString);
+                daFive = new SqlDataAdapter(five, conFive);
+                conFive.Open();
+                daFive.Fill(dsFive);
+                sheetFive["A1"].Value = "Id".ToString().Trim();
+                sheetFive["B1"].Value = "Save One".ToString().Trim().Trim();
+                sheetFive["C1"].Value = "Save Two".ToString().Trim();
+                sheetFive["D1"].Value = "Save Three".ToString().Trim();
+                sheetFive["E1"].Value = "Save Five".ToString().Trim();
+                sheetFive["F1"].Value = "Save Five".ToString().Trim();
+                sheetFive["G1"].Value = "Save Six".ToString().Trim();
+
+                //Loop through contents of dataset
+                foreach (DataTable tableFive in dsFive.Tables)
+                {
+                    int CountFive = tableFive.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= CountFive + 1; j++)
+                    {
+                        sheetFive["A" + j].Value = tableFive.Rows[i]["Id"];
+                        sheetFive["B" + j].Value = tableFive.Rows[i]["SaveOne"];
+                        sheetFive["C" + j].Value = tableFive.Rows[i]["SaveTwo"];
+                        sheetFive["D" + j].Value = tableFive.Rows[i]["SaveThree"];
+                        sheetFive["E" + j].Value = tableFive.Rows[i]["SaveFour"];
+                        sheetFive["F" + j].Value = tableFive.Rows[i]["SaveFive"];
+                        sheetFive["G" + j].Value = tableFive.Rows[i]["SaveSix"];
+                        i++;
+                    }
+                    CountFive++;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Spreadsheet was not created!");
+            }
+            // Auto Size Sheet One
+            for (int t = 0; t < sheet.ColumnCount; t++)
+            {
+                sheet.AutoSizeColumn(t);
+            }
+            for (int t = 0; t < sheet.RowCount; t++)
+            {
+                sheet.AutoSizeRow(t);
+            }
+
+            for (int t = 0; t < sheetTwo.ColumnCount; t++)
+            {
+                sheetTwo.AutoSizeColumn(t);
+            }
+            for (int t = 0; t < sheetTwo.RowCount; t++)
+            {
+                sheetTwo.AutoSizeRow(t);
+            }
+
+            for (int t = 0; t < sheetThree.ColumnCount; t++)
+            {
+                sheetThree.AutoSizeColumn(t);
+            }
+            for (int t = 0; t < sheetThree.RowCount; t++)
+            {
+                sheetThree.AutoSizeRow(t);
+            }
+
+            for (int t = 0; t < sheetFour.ColumnCount; t++)
+            {
+                sheetFour.AutoSizeColumn(t);
+            }
+            for (int t = 0; t < sheetFour.RowCount; t++)
+            {
+                sheetFour.AutoSizeRow(t);
+            }
+            for (int t = 0; t < sheetFive.ColumnCount; t++)
+            {
+                sheetFive.AutoSizeColumn(t);
+            }
+            for (int t = 0; t < sheetFive.RowCount; t++)
+            {
+                sheetFive.AutoSizeRow(t);
+            }
+            // Save Created Worksheet
+            workbook.SaveAs("Budget.xls");
+            FormatSpread();
+            MessageBox.Show("Spreadsheet was created!");
+        }
+        public void FormatSpread()
+        {
+            WorkBook workBook = WorkBook.Load("Budget.xls");
+            for (int i = 0; i < 5; i++)
+            {
+                WorkSheet workSheet = workBook.WorkSheets[i];
+
+                // Create conditional formatting rule
+                var rule = workSheet.ConditionalFormatting.CreateConditionalFormattingRule(ComparisonOperator.GreaterThanOrEqual, "0");
+                // Set style options
+                rule.FontFormatting.IsBold = true;
+                rule.FontFormatting.FontColor = "#123456";
+                rule.BorderFormatting.TopBorderType = BorderType.Thin;
+                rule.BorderFormatting.TopBorderColor = "#ffffff";
+                rule.BorderFormatting.BottomBorderType = BorderType.Thin;
+                rule.BorderFormatting.BottomBorderColor = "#ffffff";
+                rule.BorderFormatting.LeftBorderType = BorderType.Thin;
+                rule.BorderFormatting.LeftBorderColor = "#ffffff";
+                rule.BorderFormatting.RightBorderType = BorderType.Thin;
+                rule.BorderFormatting.RightBorderColor = "#ffffff";
+                rule.PatternFormatting.BackgroundColor = "#54bdd9";
+                workSheet.FormatString = "0.00";
+                // Apply formatting on specified region
+                workSheet.ConditionalFormatting.AddConditionalFormatting("B1:Z100", rule);
+                workBook.SaveAs("Budget.xls");
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                WorkSheet workSheet = workBook.WorkSheets[i];
+
+                // Create conditional formatting rule
+                var rule = workSheet.ConditionalFormatting.CreateConditionalFormattingRule(ComparisonOperator.GreaterThanOrEqual, "0");
+                // Set style options
+                rule.FontFormatting.IsBold = true;
+                rule.FontFormatting.FontColor = "#123456";
+                rule.BorderFormatting.TopBorderType = BorderType.Thin;
+                rule.BorderFormatting.TopBorderColor = "#ffffff";
+                rule.BorderFormatting.BottomBorderType = BorderType.Thin;
+                rule.BorderFormatting.BottomBorderColor = "#ffffff";
+                rule.BorderFormatting.LeftBorderType = BorderType.Thin;
+                rule.BorderFormatting.LeftBorderColor = "#ffffff";
+                rule.BorderFormatting.RightBorderType = BorderType.Thin;
+                rule.BorderFormatting.RightBorderColor = "#ffffff";
+                rule.PatternFormatting.BackgroundColor = "#54bdd9";
+                workSheet.FormatString = "0";
+                // Apply formatting on specified region
+                workSheet.ConditionalFormatting.AddConditionalFormatting("A1:A100", rule);
+                workBook.SaveAs("Budget.xls");
+            }
         }
         public void PopulateDropMenus(ComboBox o)
         {
@@ -102,13 +426,13 @@ namespace Finance_App
                             string[] splitName = o.Text.Split(' ');
                             Globals.splitText = splitName[0];
                             cmd.Parameters.AddWithValue("@name", Globals.splitText);
-                            Globals.currentUser = o.Text.ToString();
+                            Globals.currentUser = o.Text.ToString().Trim();
 
                             // Insert the ID from People Database
                             using (SqlDataReader sdr = cmd.ExecuteReader())
                             {
                                 sdr.Read();
-                                t1.Text = sdr["Id"].ToString();
+                                t1.Text = sdr["Id"].ToString().Trim();
                             }
                             con.Close();
                             Globals.currentUserId = t1.Text;
@@ -135,13 +459,13 @@ namespace Finance_App
                     {
                         sdr.Read();
                         {
-                            //if (InputBox.ResultValue.ToString() == sdr["Pass"].ToString().Trim())
-                            if (Globals.boxAnswer == sdr["Pass"].ToString().Trim())
+                            //if (InputBox.ResultValue.ToString().Trim() == sdr["Pass"].ToString().Trim().Trim())
+                            if (Globals.boxAnswer == sdr["Pass"].ToString().Trim().Trim())
                             {
-                                t2.Text = sdr["Donation"].ToString().Trim();
-                                t3.Text = sdr["Savings"].ToString().Trim();
-                                t4.Text = sdr["GOKF"].ToString().Trim();
-                                t5.Text = sdr["Spending"].ToString().Trim();
+                                t2.Text = sdr["Donation"].ToString().Trim().Trim();
+                                t3.Text = sdr["Savings"].ToString().Trim().Trim();
+                                t4.Text = sdr["GOKF"].ToString().Trim().Trim();
+                                t5.Text = sdr["Spending"].ToString().Trim().Trim();
                                 Globals.passChecker = true;
                             }
                             else
@@ -178,10 +502,10 @@ namespace Finance_App
                     {
                         sdr.Read();
                         {
-                            t2.Text = sdr["Donation"].ToString().Trim();
-                            t3.Text = sdr["Savings"].ToString().Trim();
-                            t4.Text = sdr["GOKF"].ToString().Trim();
-                            t5.Text = sdr["Spending"].ToString().Trim();
+                            t2.Text = sdr["Donation"].ToString().Trim().Trim();
+                            t3.Text = sdr["Savings"].ToString().Trim().Trim();
+                            t4.Text = sdr["GOKF"].ToString().Trim().Trim();
+                            t5.Text = sdr["Spending"].ToString().Trim().Trim();
                             Globals.passChecker = true;
                         }
                     }
@@ -202,19 +526,19 @@ namespace Finance_App
                 // Run SQL statement
                 SqlCommand cmd = new SqlCommand(Globals.moneySelect, cnn);
                 // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox6.Text);
+                cmd.Parameters.AddWithValue("@id", t1.Text);
                 // Read through database and insert fields into TextBoxes
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    t2.Text = sdr["Donation"].ToString().Trim();
-                    t3.Text = sdr["Savings"].ToString().Trim();
-                    t4.Text = sdr["GOKF"].ToString().Trim();
-                    t5.Text = sdr["Spending"].ToString().Trim();
-                    t2.BackColor = Color.Green;
-                    t3.BackColor = Color.Green;
-                    t4.BackColor = Color.Green;
-                    t5.BackColor = Color.Green;
+                    t2.Text = sdr["Donation"].ToString().Trim().Trim();
+                    t3.Text = sdr["Savings"].ToString().Trim().Trim();
+                    t4.Text = sdr["GOKF"].ToString().Trim().Trim();
+                    t5.Text = sdr["Spending"].ToString().Trim().Trim();
+                    t2.BackColor = System.Drawing.Color.Green;
+                    t3.BackColor = System.Drawing.Color.Green;
+                    t4.BackColor = System.Drawing.Color.Green;
+                    t5.BackColor = System.Drawing.Color.Green;
                 }
                 cnn.Close();
             }
@@ -238,12 +562,12 @@ namespace Finance_App
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    textBox65.Text = sdr["SaveOne"].ToString().Trim();
-                    textBox62.Text = sdr["SaveTwo"].ToString().Trim();
-                    textBox64.Text = sdr["SaveThree"].ToString().Trim();
-                    textBox5.Text = sdr["SaveFour"].ToString().Trim();
-                    textBox63.Text = sdr["SaveFive"].ToString().Trim();
-                    textBox4.Text = sdr["SaveSix"].ToString().Trim();
+                    textBox65.Text = sdr["SaveOne"].ToString().Trim().Trim();
+                    textBox62.Text = sdr["SaveTwo"].ToString().Trim().Trim();
+                    textBox64.Text = sdr["SaveThree"].ToString().Trim().Trim();
+                    textBox5.Text = sdr["SaveFour"].ToString().Trim().Trim();
+                    textBox63.Text = sdr["SaveFive"].ToString().Trim().Trim();
+                    textBox4.Text = sdr["SaveSix"].ToString().Trim().Trim();
 
                 }
                 cnn.Close();
@@ -265,12 +589,12 @@ namespace Finance_App
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    button9.Text = sdr["ItemOne"].ToString().Trim();
-                    button10.Text = sdr["ItemTwo"].ToString().Trim();
-                    button12.Text = sdr["ItemThree"].ToString().Trim();
-                    button11.Text = sdr["ItemFour"].ToString().Trim();
-                    button14.Text = sdr["ItemFive"].ToString().Trim();
-                    button13.Text = sdr["ItemSix"].ToString().Trim();
+                    button9.Text = sdr["ItemOne"].ToString().Trim().Trim();
+                    button10.Text = sdr["ItemTwo"].ToString().Trim().Trim();
+                    button12.Text = sdr["ItemThree"].ToString().Trim().Trim();
+                    button11.Text = sdr["ItemFour"].ToString().Trim().Trim();
+                    button14.Text = sdr["ItemFive"].ToString().Trim().Trim();
+                    button13.Text = sdr["ItemSix"].ToString().Trim().Trim();
                 }
                 cnn.Close();
             }
@@ -291,7 +615,7 @@ namespace Finance_App
         public void DelUser()
         {
             // Delete user from People Database                        
-            SqlConnection connOne = new SqlConnection(Globals.connectionString);            
+            SqlConnection connOne = new SqlConnection(Globals.connectionString);
             connOne.Open();
             SqlCommand cmdOne = new SqlCommand(Globals.sqlStatement, connOne);
             cmdOne.Parameters.AddWithValue("@id", "" + textBox59.Text + "");
@@ -314,7 +638,7 @@ namespace Finance_App
                 true, //Set visible in taskbar (default false)
                 new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
             returnAnswer = InputBox.ResultValue.Trim();
-            
+
             return returnAnswer;
         }
         private void CreateButton_Click(object sender, EventArgs e)
@@ -561,48 +885,48 @@ namespace Finance_App
                         double preCheck = double.Parse(textBox9.Text) + (input * 0.25);
 
                         // Calculate Remaining Sections
-                        textBox2.Text = Decimal.Round((decimal)(input * 0.10), 2).ToString();
+                        textBox2.Text = Decimal.Round((decimal)(input * 0.10), 2).ToString().Trim();
 
                         // If God Only Knows Fund is already at set cap, take remainder and add it to Spending Section*
                         if (checkAmount >= double.Parse(comboBox6.Text) && radioButton2.Checked)
                         {
-                            savingsBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
-                            GOKFBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
+                            savingsBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString().Trim();
+                            GOKFBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString().Trim();
                             double remainder = double.Parse(GOKFBox.Text);
-                            GOKFBox.Text = 0.00.ToString();
-                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString();
+                            GOKFBox.Text = 0.00.ToString().Trim();
+                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString().Trim();
                         }
                         // If God Only Knows Fund is already at set cap, take remainder and add it to Saving Section*
                         else if (checkAmount >= double.Parse(comboBox6.Text) && radioButton1.Checked)
                         {
-                            GOKFBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
+                            GOKFBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString().Trim();
                             double remainder = double.Parse(GOKFBox.Text);
-                            savingsBox.Text = Decimal.Round((decimal)((input * 0.25) + remainder), 2).ToString();
-                            GOKFBox.Text = 0.00.ToString();
-                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40)), 2).ToString();
+                            savingsBox.Text = Decimal.Round((decimal)((input * 0.25) + remainder), 2).ToString().Trim();
+                            GOKFBox.Text = 0.00.ToString().Trim();
+                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40)), 2).ToString().Trim();
                         }
                         // If God Only Knows Fund deposit reaches set cap, take remainder and add it to Spending Section*
                         else if (preCheck >= double.Parse(comboBox6.Text) && radioButton2.Checked)
                         {
                             double remainder = (input * 0.25) - double.Parse(GOKFBox.Text);
-                            savingsBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
-                            GOKFBox.Text = (double.Parse(comboBox6.Text) - double.Parse(textBox9.Text)).ToString();
-                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString();
+                            savingsBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString().Trim();
+                            GOKFBox.Text = (double.Parse(comboBox6.Text) - double.Parse(textBox9.Text)).ToString().Trim();
+                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString().Trim();
                         }
                         // If God Only Knows Fund deposit reaches set cap, take remainder and add it to Spending Section*
                         else if (preCheck >= double.Parse(comboBox6.Text) && radioButton1.Checked)
                         {
                             double remainder = (input * 0.25) - double.Parse(GOKFBox.Text);
-                            savingsBox.Text = Decimal.Round((decimal)((input * 0.25) + remainder), 2).ToString();
-                            GOKFBox.Text = (double.Parse(comboBox6.Text) - double.Parse(textBox9.Text)).ToString();
-                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40)), 2).ToString();
+                            savingsBox.Text = Decimal.Round((decimal)((input * 0.25) + remainder), 2).ToString().Trim();
+                            GOKFBox.Text = (double.Parse(comboBox6.Text) - double.Parse(textBox9.Text)).ToString().Trim();
+                            spendingBox.Text = Decimal.Round((decimal)((input * 0.40)), 2).ToString().Trim();
                         }
                         // If neither calculation reaches the maximum amount of set cap in the GOKF, complete calulations without any changes.
                         else
                         {
-                            savingsBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
-                            GOKFBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString();
-                            spendingBox.Text = Decimal.Round((decimal)(input * 0.40), 2).ToString();
+                            savingsBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString().Trim();
+                            GOKFBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString().Trim();
+                            spendingBox.Text = Decimal.Round((decimal)(input * 0.40), 2).ToString().Trim();
                         }
                     }
                     else
@@ -632,7 +956,7 @@ namespace Finance_App
                     SqlConnection conn = new SqlConnection(Globals.connectionString);
                     conn.Open();
 
-                    string updateQuery = "UPDATE Money SET Donation='" + donationCalc.ToString() + "',Savings='" + savingCalc.ToString() + "',GOKF='" + gokfCalc.ToString() + "',Spending='" + spendingCalc.ToString() + "' WHERE Id = " + textBox6.Text;
+                    string updateQuery = "UPDATE Money SET Donation='" + donationCalc.ToString().Trim() + "',Savings='" + savingCalc.ToString().Trim() + "',GOKF='" + gokfCalc.ToString().Trim() + "',Spending='" + spendingCalc.ToString().Trim() + "' WHERE Id = " + textBox6.Text;
                     SqlCommand cmd = new SqlCommand(updateQuery, conn);
 
                     cmd.ExecuteNonQuery();
@@ -643,7 +967,7 @@ namespace Finance_App
                     MessageBox.Show("No Connection");
                 }
                 DepoInfo(textBox6, textBox7, textBox8, textBox9, textBox10);
-                
+
             }
             else
             {
@@ -665,7 +989,7 @@ namespace Finance_App
                     SqlConnection conn = new SqlConnection(Globals.connectionString);
                     conn.Open();
 
-                    string updateQuery = "UPDATE Money SET Donation='" + donationCalc.ToString() + "',Savings='" + savingCalc.ToString() + "',GOKF='" + gokfCalc.ToString() + "',Spending='" + spendingCalc.ToString() + "' WHERE Id = " + textBox6.Text;
+                    string updateQuery = "UPDATE Money SET Donation='" + donationCalc.ToString().Trim() + "',Savings='" + savingCalc.ToString().Trim() + "',GOKF='" + gokfCalc.ToString().Trim() + "',Spending='" + spendingCalc.ToString().Trim() + "' WHERE Id = " + textBox6.Text;
                     SqlCommand cmd = new SqlCommand(updateQuery, conn);
 
                     cmd.ExecuteNonQuery();
@@ -701,20 +1025,20 @@ namespace Finance_App
                         // Find the difference between what is available to what expenses are being used.
                         double differenceCalc = double.Parse(textBox34.Text) - expensesCalc;
                         // Display all expenses
-                        textBox28.Text = expensesCalc.ToString();
-                        textBox60.Text = mainExpense.ToString();
+                        textBox28.Text = expensesCalc.ToString().Trim();
+                        textBox60.Text = mainExpense.ToString().Trim();
                         // Display the difference
                         if (differenceCalc < 0)
                         {
-                            textBox29.BackColor = Color.Black;
-                            textBox29.ForeColor = Color.Red;
-                            textBox29.Text = differenceCalc.ToString();
+                            textBox29.BackColor = System.Drawing.Color.Black;
+                            textBox29.ForeColor = System.Drawing.Color.Red;
+                            textBox29.Text = differenceCalc.ToString().Trim();
                         }
                         else
                         {
-                            textBox29.BackColor = Color.Green;
-                            textBox29.ForeColor = Color.Black;
-                            textBox29.Text = differenceCalc.ToString();
+                            textBox29.BackColor = System.Drawing.Color.Green;
+                            textBox29.ForeColor = System.Drawing.Color.Black;
+                            textBox29.Text = differenceCalc.ToString().Trim();
                         }
                     }
                     catch
@@ -767,19 +1091,19 @@ namespace Finance_App
                         // Find the difference between what is available to what expenses are being used.
                         double differenceCalc = double.Parse(textBox51.Text) - expensesCalc;
                         // Display all expenses
-                        textBox45.Text = expensesCalc.ToString();
-                        textBox61.Text = additionalExpenses.ToString();
+                        textBox45.Text = expensesCalc.ToString().Trim();
+                        textBox61.Text = additionalExpenses.ToString().Trim();
                         // Display the difference
                         if (differenceCalc < 0)
                         {
-                            textBox46.BackColor = Color.Black;
-                            textBox46.ForeColor = Color.Red;
-                            textBox46.Text = differenceCalc.ToString();
+                            textBox46.BackColor = System.Drawing.Color.Black;
+                            textBox46.ForeColor = System.Drawing.Color.Red;
+                            textBox46.Text = differenceCalc.ToString().Trim();
                         }
                         else
                         {
-                            textBox46.BackColor = Color.Green;
-                            textBox46.Text = differenceCalc.ToString();
+                            textBox46.BackColor = System.Drawing.Color.Green;
+                            textBox46.Text = differenceCalc.ToString().Trim();
                         }
                     }
                     catch
@@ -843,14 +1167,14 @@ namespace Finance_App
                     using (SqlDataReader sdr = cmd.ExecuteReader())
                     {
                         sdr.Read();
-                        textBox52.Text = sdr["First"].ToString().Trim();
-                        textBox53.Text = sdr["Last"].ToString().Trim();
-                        textBox54.Text = sdr["Email"].ToString().Trim();
-                        textBox55.Text = sdr["Address1"].ToString().Trim();
-                        textBox56.Text = sdr["Address2"].ToString().Trim();
-                        textBox57.Text = sdr["City"].ToString().Trim();
-                        comboBox4.Text = sdr["State"].ToString().Trim();
-                        textBox58.Text = sdr["Zip"].ToString().Trim();
+                        textBox52.Text = sdr["First"].ToString().Trim().Trim();
+                        textBox53.Text = sdr["Last"].ToString().Trim().Trim();
+                        textBox54.Text = sdr["Email"].ToString().Trim().Trim();
+                        textBox55.Text = sdr["Address1"].ToString().Trim().Trim();
+                        textBox56.Text = sdr["Address2"].ToString().Trim().Trim();
+                        textBox57.Text = sdr["City"].ToString().Trim().Trim();
+                        comboBox4.Text = sdr["State"].ToString().Trim().Trim();
+                        textBox58.Text = sdr["Zip"].ToString().Trim().Trim();
                     }
                     cnn.Close();
                 }
@@ -876,7 +1200,7 @@ namespace Finance_App
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    if (Globals.boxAnswer.ToString() == sdr["Pass"].ToString().Trim())
+                    if (Globals.boxAnswer.ToString().Trim() == sdr["Pass"].ToString().Trim().Trim())
                     {
                         // Delete user from People Database
                         Globals.sqlStatement = "DELETE FROM People WHERE Id=@id";
@@ -889,10 +1213,10 @@ namespace Finance_App
                         DelUser();
                         // Delete user from LongTermTitles Database
                         Globals.sqlStatement = "DELETE LongTermTitles WHERE Id=@id";
-                        DelUser();                        
+                        DelUser();
                         // Delete user from LongTermSaves Database
                         Globals.sqlStatement = "DELETE FROM LongTermSaves WHERE Id=@id";
-                        DelUser();                        
+                        DelUser();
                         MessageBox.Show("User Successfully Deleted");
                     }
                     else
@@ -927,18 +1251,18 @@ namespace Finance_App
                         // Find the difference between what is available to what expenses are being used.
                         double differenceCalc = double.Parse(textBox69.Text) - expensesCalc;
                         // Display all expenses
-                        textBox73.Text = expensesCalc.ToString();
+                        textBox73.Text = expensesCalc.ToString().Trim();
                         // Display the difference
                         if (differenceCalc < 0)
                         {
-                            textBox72.BackColor = Color.Black;
-                            textBox72.ForeColor = Color.Red;
-                            textBox72.Text = differenceCalc.ToString();
+                            textBox72.BackColor = System.Drawing.Color.Black;
+                            textBox72.ForeColor = System.Drawing.Color.Red;
+                            textBox72.Text = differenceCalc.ToString().Trim();
                         }
                         else
                         {
-                            textBox72.BackColor = Color.Green;
-                            textBox72.Text = differenceCalc.ToString();
+                            textBox72.BackColor = System.Drawing.Color.Green;
+                            textBox72.Text = differenceCalc.ToString().Trim();
                         }
                     }
                     catch
@@ -973,7 +1297,7 @@ namespace Finance_App
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemOne='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemOne='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -995,7 +1319,7 @@ namespace Finance_App
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemTwo='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemTwo='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1017,7 +1341,7 @@ namespace Finance_App
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFour='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFour='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1039,7 +1363,7 @@ namespace Finance_App
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemThree='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemThree='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1061,7 +1385,7 @@ namespace Finance_App
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemSix='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemSix='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1083,7 +1407,7 @@ namespace Finance_App
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFive='" + Globals.boxAnswer.Trim().ToString() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFive='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1113,7 +1437,7 @@ namespace Finance_App
                         SqlConnection conn = new SqlConnection(Globals.connectionString);
                         conn.Open();
 
-                        string updateQuery = "UPDATE Money SET Savings='" + savingAddition.ToString() + "',Spending='" + spendingSubtract.ToString() + "' WHERE Id = " + textBox66.Text;
+                        string updateQuery = "UPDATE Money SET Savings='" + savingAddition.ToString().Trim() + "',Spending='" + spendingSubtract.ToString().Trim() + "' WHERE Id = " + textBox66.Text;
                         SqlCommand cmd = new SqlCommand(updateQuery, conn);
 
                         cmd.ExecuteNonQuery();
@@ -1156,7 +1480,7 @@ namespace Finance_App
                         SqlConnection conn = new SqlConnection(Globals.connectionString);
                         conn.Open();
 
-                        string updateQuery = "UPDATE Money SET Savings='" + savingSubtract.ToString() + "',Spending='" + spendingAddition.ToString() + "' WHERE Id = " + textBox66.Text;
+                        string updateQuery = "UPDATE Money SET Savings='" + savingSubtract.ToString().Trim() + "',Spending='" + spendingAddition.ToString().Trim() + "' WHERE Id = " + textBox66.Text;
                         SqlCommand cmd = new SqlCommand(updateQuery, conn);
 
                         cmd.ExecuteNonQuery();
@@ -1199,7 +1523,7 @@ namespace Finance_App
         private void ComboBoxTextChange(object sender, EventArgs e)
         {
             // Attempt to determine the User and populate fields from totals
-            IdChecker(comboBox1, textBox6, textBox7, textBox8, textBox9, textBox10);            
+            IdChecker(comboBox1, textBox6, textBox7, textBox8, textBox9, textBox10);
         }
         // Check to see users available in database
         private void ComboBox2_Click(object sender, EventArgs e)
@@ -1218,7 +1542,7 @@ namespace Finance_App
         private void ComboBoxTextChangeTwo(object sender, EventArgs e)
         {
             IdChecker(comboBox2, textBox30, textBox31, textBox32, textBox33, textBox34);
-            
+
             try
             {
                 SqlConnection cnn = new SqlConnection(Globals.connectionString);
@@ -1231,16 +1555,16 @@ namespace Finance_App
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    textBox18.Text = sdr["MonthlyOne"].ToString().Trim();
-                    textBox19.Text = sdr["MonthlyTwo"].ToString().Trim();
-                    textBox20.Text = sdr["MonthlyThree"].ToString().Trim();
-                    textBox21.Text = sdr["MonthlyFour"].ToString().Trim();
-                    textBox22.Text = sdr["MonthlyFive"].ToString().Trim();
-                    textBox23.Text = sdr["MonthlySix"].ToString().Trim();
-                    textBox24.Text = sdr["MonthlySeven"].ToString().Trim();
-                    textBox25.Text = sdr["MonthlyEight"].ToString().Trim();
-                    textBox26.Text = sdr["MonthlyNine"].ToString().Trim();
-                    textBox27.Text = sdr["MonthlyTen"].ToString().Trim();
+                    textBox18.Text = sdr["MonthlyOne"].ToString().Trim().Trim();
+                    textBox19.Text = sdr["MonthlyTwo"].ToString().Trim().Trim();
+                    textBox20.Text = sdr["MonthlyThree"].ToString().Trim().Trim();
+                    textBox21.Text = sdr["MonthlyFour"].ToString().Trim().Trim();
+                    textBox22.Text = sdr["MonthlyFive"].ToString().Trim().Trim();
+                    textBox23.Text = sdr["MonthlySix"].ToString().Trim().Trim();
+                    textBox24.Text = sdr["MonthlySeven"].ToString().Trim().Trim();
+                    textBox25.Text = sdr["MonthlyEight"].ToString().Trim().Trim();
+                    textBox26.Text = sdr["MonthlyNine"].ToString().Trim().Trim();
+                    textBox27.Text = sdr["MonthlyTen"].ToString().Trim().Trim();
                 }
                 cnn.Close();
             }
@@ -1259,20 +1583,20 @@ namespace Finance_App
                 // Find the difference between what is available to what expenses are being used.
                 double differenceCalc = double.Parse(textBox34.Text) - expensesCalc;
                 // Display all expenses
-                textBox28.Text = expensesCalc.ToString();
-                textBox60.Text = mainExpense.ToString();
+                textBox28.Text = expensesCalc.ToString().Trim();
+                textBox60.Text = mainExpense.ToString().Trim();
                 // Display the difference
                 if (differenceCalc < 0)
                 {
-                    textBox29.BackColor = Color.Black;
-                    textBox29.ForeColor = Color.Red;
-                    textBox29.Text = differenceCalc.ToString();
+                    textBox29.BackColor = System.Drawing.Color.Black;
+                    textBox29.ForeColor = System.Drawing.Color.Red;
+                    textBox29.Text = differenceCalc.ToString().Trim();
                 }
                 else
                 {
-                    textBox29.BackColor = Color.Green;
-                    textBox29.ForeColor = Color.Black;
-                    textBox29.Text = differenceCalc.ToString();
+                    textBox29.BackColor = System.Drawing.Color.Green;
+                    textBox29.ForeColor = System.Drawing.Color.Black;
+                    textBox29.Text = differenceCalc.ToString().Trim();
                 }
             }
             catch
@@ -1309,26 +1633,26 @@ namespace Finance_App
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    textBox35.Text = sdr["MonthlyOne"].ToString().Trim();
-                    textBox36.Text = sdr["MonthlyTwo"].ToString().Trim();
-                    textBox37.Text = sdr["MonthlyThree"].ToString().Trim();
-                    textBox38.Text = sdr["MonthlyFour"].ToString().Trim();
-                    textBox39.Text = sdr["MonthlyFive"].ToString().Trim();
-                    textBox40.Text = sdr["MonthlySix"].ToString().Trim();
-                    textBox41.Text = sdr["MonthlySeven"].ToString().Trim();
-                    textBox42.Text = sdr["MonthlyEight"].ToString().Trim();
-                    textBox43.Text = sdr["MonthlyNine"].ToString().Trim();
-                    textBox44.Text = sdr["MonthlyTen"].ToString().Trim();
-                    textBox35.Text = sdr["MonthlyEleven"].ToString().Trim();
-                    textBox36.Text = sdr["MonthlyTwelve"].ToString().Trim();
-                    textBox37.Text = sdr["MonthlyThirteen"].ToString().Trim();
-                    textBox38.Text = sdr["MonthlyFourteen"].ToString().Trim();
-                    textBox39.Text = sdr["MonthlyFifteen"].ToString().Trim();
-                    textBox40.Text = sdr["MonthlySixteen"].ToString().Trim();
-                    textBox41.Text = sdr["MonthlySeventeen"].ToString().Trim();
-                    textBox42.Text = sdr["MonthlyEighteen"].ToString().Trim();
-                    textBox43.Text = sdr["MonthlyNineteen"].ToString().Trim();
-                    textBox44.Text = sdr["MonthlyTwenty"].ToString().Trim();
+                    textBox35.Text = sdr["MonthlyOne"].ToString().Trim().Trim();
+                    textBox36.Text = sdr["MonthlyTwo"].ToString().Trim().Trim();
+                    textBox37.Text = sdr["MonthlyThree"].ToString().Trim().Trim();
+                    textBox38.Text = sdr["MonthlyFour"].ToString().Trim().Trim();
+                    textBox39.Text = sdr["MonthlyFive"].ToString().Trim().Trim();
+                    textBox40.Text = sdr["MonthlySix"].ToString().Trim().Trim();
+                    textBox41.Text = sdr["MonthlySeven"].ToString().Trim().Trim();
+                    textBox42.Text = sdr["MonthlyEight"].ToString().Trim().Trim();
+                    textBox43.Text = sdr["MonthlyNine"].ToString().Trim().Trim();
+                    textBox44.Text = sdr["MonthlyTen"].ToString().Trim().Trim();
+                    textBox35.Text = sdr["MonthlyEleven"].ToString().Trim().Trim();
+                    textBox36.Text = sdr["MonthlyTwelve"].ToString().Trim().Trim();
+                    textBox37.Text = sdr["MonthlyThirteen"].ToString().Trim().Trim();
+                    textBox38.Text = sdr["MonthlyFourteen"].ToString().Trim().Trim();
+                    textBox39.Text = sdr["MonthlyFifteen"].ToString().Trim().Trim();
+                    textBox40.Text = sdr["MonthlySixteen"].ToString().Trim().Trim();
+                    textBox41.Text = sdr["MonthlySeventeen"].ToString().Trim().Trim();
+                    textBox42.Text = sdr["MonthlyEighteen"].ToString().Trim().Trim();
+                    textBox43.Text = sdr["MonthlyNineteen"].ToString().Trim().Trim();
+                    textBox44.Text = sdr["MonthlyTwenty"].ToString().Trim().Trim();
                 }
                 cnn.Close();
             }
@@ -1348,41 +1672,41 @@ namespace Finance_App
                 // Find the difference between what is available to what expenses are being used.
                 double differenceCalc = double.Parse(textBox51.Text) - expensesCalc;
                 // Display all expenses
-                textBox45.Text = expensesCalc.ToString();
-                textBox61.Text = additionalExpenses.ToString();
+                textBox45.Text = expensesCalc.ToString().Trim();
+                textBox61.Text = additionalExpenses.ToString().Trim();
                 // Display the difference
                 if (differenceCalc < 0)
                 {
-                    textBox46.BackColor = Color.Black;
-                    textBox46.ForeColor = Color.Red;
-                    textBox46.Text = differenceCalc.ToString();
+                    textBox46.BackColor = System.Drawing.Color.Black;
+                    textBox46.ForeColor = System.Drawing.Color.Red;
+                    textBox46.Text = differenceCalc.ToString().Trim();
                 }
                 else
                 {
-                    textBox46.BackColor = Color.Green;
-                    textBox46.ForeColor = Color.Black;
-                    textBox46.Text = differenceCalc.ToString();
+                    textBox46.BackColor = System.Drawing.Color.Green;
+                    textBox46.ForeColor = System.Drawing.Color.Black;
+                    textBox46.Text = differenceCalc.ToString().Trim();
                 }
             }
             catch
             {
                 MessageBox.Show("Calculations could not be performed");
             }
-            
+
         }
         private void ComboBoxFive_Click(object sender, EventArgs e)
         {
-            if(comboBox5.Text == "")
+            if (comboBox5.Text == "")
             {
                 PopulateDropMenus(comboBox5);
             }
-            else 
+            else
             {
                 Globals.bypass = false;
                 comboBox5.Items.Clear();
                 PopulateDropMenus(comboBox5);
             }
-        }        
+        }
         private void ComboBoxTextChangeFive(object sender, EventArgs e)
         {
             // Attempt to determine the User and populate fields from totals
@@ -1404,7 +1728,7 @@ namespace Finance_App
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
                             sdr.Read();
-                            textBox59.Text = sdr["Id"].ToString().Trim();
+                            textBox59.Text = sdr["Id"].ToString().Trim().Trim();
                             con.Close();
                         }
                     }
@@ -1427,14 +1751,14 @@ namespace Finance_App
                 using (SqlDataReader sdr = cmd.ExecuteReader())
                 {
                     sdr.Read();
-                    textBox52.Text = sdr["First"].ToString().Trim();
-                    textBox53.Text = sdr["Last"].ToString().Trim();
-                    textBox54.Text = sdr["Email"].ToString().Trim();
-                    textBox55.Text = sdr["Address1"].ToString().Trim();
-                    textBox56.Text = sdr["Address2"].ToString().Trim();
-                    textBox57.Text = sdr["City"].ToString().Trim();
-                    comboBox4.Text = sdr["State"].ToString().Trim();
-                    textBox58.Text = sdr["Zip"].ToString().Trim();
+                    textBox52.Text = sdr["First"].ToString().Trim().Trim();
+                    textBox53.Text = sdr["Last"].ToString().Trim().Trim();
+                    textBox54.Text = sdr["Email"].ToString().Trim().Trim();
+                    textBox55.Text = sdr["Address1"].ToString().Trim().Trim();
+                    textBox56.Text = sdr["Address2"].ToString().Trim().Trim();
+                    textBox57.Text = sdr["City"].ToString().Trim().Trim();
+                    comboBox4.Text = sdr["State"].ToString().Trim().Trim();
+                    textBox58.Text = sdr["Zip"].ToString().Trim().Trim();
                 }
                 cnn.Close();
             }
@@ -1448,8 +1772,8 @@ namespace Finance_App
             // Combine all the expenses into a single variable.
             double expensesCalc = ExpCalc();
             // Display all expenses
-            textBox45.Text = expensesCalc.ToString();
-            textBox28.Text = expensesCalc.ToString();
+            textBox45.Text = expensesCalc.ToString().Trim();
+            textBox28.Text = expensesCalc.ToString().Trim();
         }
         private void ComboBox7_Click(object sender, EventArgs e)
         {
@@ -1469,6 +1793,24 @@ namespace Finance_App
             IdChecker(comboBox7, textBox66, textBox70, textBox69, textBox68, textBox67);
             // Attempt to populate fields from Money Database
             SaveInfo();
+        }
+        private void comboBox8_Click(object sender, EventArgs e)
+        {
+            if (comboBox8.Text == "")
+            {
+                PopulateDropMenus(comboBox8);
+            }
+            else
+            {
+                Globals.bypass = false;
+                comboBox8.Items.Clear();
+                PopulateDropMenus(comboBox8);
+            }
+        }
+
+        private void comboBox8_TextChanged(object sender, EventArgs e)
+        {
+            IdChecker(comboBox8, textBox78, textBox77, textBox76, textBox75, textBox74);
         }
         private void TabPage2_Layout(object sender, LayoutEventArgs e)
         {
@@ -1519,9 +1861,41 @@ namespace Finance_App
                 Globals.bypass = false;
             }
         }
+        private void tabPage7_Layout(object sender, LayoutEventArgs e)
+        {
+            if (Globals.passChecker == true && Globals.currentUser != "")
+            {
+                Globals.bypass = true;
+                comboBox8_TextChanged(sender, e);
+            }
+            else
+            {
+                Globals.bypass = false;
+            }
+        }
         private void TextBox71_MouseClick(object sender, MouseEventArgs e)
         {
             textBox71.Text = "";
+        }
+
+        private void Button17_Click(object sender, EventArgs e)
+        {
+            Create_Excel_All(Globals.selectAllPeople, Globals.selectAllMonCo, Globals.selectAllMoney, Globals.selectAllLongTitles,
+                Globals.selectAllLongSaves);
+        }
+
+        private void Button18_Click(object sender, EventArgs e)
+        {
+            if (textBox78.Text != "")
+            {
+                Create_Excel_All(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
+                    Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
+                    Globals.selectWhereLongSaves + textBox78.Text);
+            }
+            else
+            {
+                MessageBox.Show("No User currently available");
+            }
         }
     }
 }

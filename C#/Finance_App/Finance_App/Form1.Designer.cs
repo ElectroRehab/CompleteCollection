@@ -221,6 +221,20 @@
             this.textBox64 = new System.Windows.Forms.TextBox();
             this.textBox65 = new System.Windows.Forms.TextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.button17 = new System.Windows.Forms.Button();
+            this.label70 = new System.Windows.Forms.Label();
+            this.textBox74 = new System.Windows.Forms.TextBox();
+            this.label71 = new System.Windows.Forms.Label();
+            this.textBox75 = new System.Windows.Forms.TextBox();
+            this.label72 = new System.Windows.Forms.Label();
+            this.textBox76 = new System.Windows.Forms.TextBox();
+            this.label73 = new System.Windows.Forms.Label();
+            this.textBox77 = new System.Windows.Forms.TextBox();
+            this.textBox78 = new System.Windows.Forms.TextBox();
+            this.label74 = new System.Windows.Forms.Label();
+            this.comboBox8 = new System.Windows.Forms.ComboBox();
+            this.label75 = new System.Windows.Forms.Label();
+            this.button18 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -232,6 +246,7 @@
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            this.tabPage7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -925,7 +940,7 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(238, 28);
             this.button2.TabIndex = 72;
-            this.button2.Text = "Total Deposit";
+            this.button2.Text = "Deposit Totals";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
@@ -2418,6 +2433,20 @@
             // 
             // tabPage7
             // 
+            this.tabPage7.Controls.Add(this.button18);
+            this.tabPage7.Controls.Add(this.label75);
+            this.tabPage7.Controls.Add(this.label70);
+            this.tabPage7.Controls.Add(this.textBox74);
+            this.tabPage7.Controls.Add(this.label71);
+            this.tabPage7.Controls.Add(this.textBox75);
+            this.tabPage7.Controls.Add(this.label72);
+            this.tabPage7.Controls.Add(this.textBox76);
+            this.tabPage7.Controls.Add(this.label73);
+            this.tabPage7.Controls.Add(this.textBox77);
+            this.tabPage7.Controls.Add(this.textBox78);
+            this.tabPage7.Controls.Add(this.label74);
+            this.tabPage7.Controls.Add(this.comboBox8);
+            this.tabPage7.Controls.Add(this.button17);
             this.tabPage7.Location = new System.Drawing.Point(4, 25);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
@@ -2425,6 +2454,150 @@
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "tabPage7";
             this.tabPage7.UseVisualStyleBackColor = true;
+            this.tabPage7.TextChanged += new System.EventHandler(this.comboBox8_TextChanged);
+            this.tabPage7.Click += new System.EventHandler(this.comboBox8_Click);
+            this.tabPage7.Layout += new System.Windows.Forms.LayoutEventHandler(this.tabPage7_Layout);
+            // 
+            // button17
+            // 
+            this.button17.Font = new System.Drawing.Font("Arial", 14.25F);
+            this.button17.Location = new System.Drawing.Point(257, 86);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(238, 28);
+            this.button17.TabIndex = 61;
+            this.button17.Text = "All Users Excel File";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.Button17_Click);
+            // 
+            // label70
+            // 
+            this.label70.AutoSize = true;
+            this.label70.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label70.Location = new System.Drawing.Point(626, 292);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(92, 16);
+            this.label70.TabIndex = 143;
+            this.label70.Text = "Spending Total";
+            // 
+            // textBox74
+            // 
+            this.textBox74.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox74.Location = new System.Drawing.Point(629, 311);
+            this.textBox74.Name = "textBox74";
+            this.textBox74.ReadOnly = true;
+            this.textBox74.Size = new System.Drawing.Size(186, 29);
+            this.textBox74.TabIndex = 142;
+            // 
+            // label71
+            // 
+            this.label71.AutoSize = true;
+            this.label71.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label71.Location = new System.Drawing.Point(626, 235);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(169, 16);
+            this.label71.TabIndex = 141;
+            this.label71.Text = "God Only Knows Fund Total";
+            // 
+            // textBox75
+            // 
+            this.textBox75.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox75.Location = new System.Drawing.Point(629, 251);
+            this.textBox75.Name = "textBox75";
+            this.textBox75.ReadOnly = true;
+            this.textBox75.Size = new System.Drawing.Size(186, 29);
+            this.textBox75.TabIndex = 140;
+            // 
+            // label72
+            // 
+            this.label72.AutoSize = true;
+            this.label72.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label72.Location = new System.Drawing.Point(626, 182);
+            this.label72.Name = "label72";
+            this.label72.Size = new System.Drawing.Size(83, 16);
+            this.label72.TabIndex = 139;
+            this.label72.Text = "Savings Total";
+            // 
+            // textBox76
+            // 
+            this.textBox76.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox76.Location = new System.Drawing.Point(629, 198);
+            this.textBox76.Name = "textBox76";
+            this.textBox76.ReadOnly = true;
+            this.textBox76.Size = new System.Drawing.Size(186, 29);
+            this.textBox76.TabIndex = 138;
+            // 
+            // label73
+            // 
+            this.label73.AutoSize = true;
+            this.label73.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label73.Location = new System.Drawing.Point(626, 124);
+            this.label73.Name = "label73";
+            this.label73.Size = new System.Drawing.Size(89, 16);
+            this.label73.TabIndex = 137;
+            this.label73.Text = "Donation Total";
+            // 
+            // textBox77
+            // 
+            this.textBox77.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox77.Location = new System.Drawing.Point(629, 140);
+            this.textBox77.Name = "textBox77";
+            this.textBox77.ReadOnly = true;
+            this.textBox77.Size = new System.Drawing.Size(186, 29);
+            this.textBox77.TabIndex = 136;
+            // 
+            // textBox78
+            // 
+            this.textBox78.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox78.Location = new System.Drawing.Point(629, 85);
+            this.textBox78.Name = "textBox78";
+            this.textBox78.ReadOnly = true;
+            this.textBox78.Size = new System.Drawing.Size(186, 29);
+            this.textBox78.TabIndex = 135;
+            // 
+            // label74
+            // 
+            this.label74.AutoSize = true;
+            this.label74.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label74.Location = new System.Drawing.Point(626, 18);
+            this.label74.Name = "label74";
+            this.label74.Size = new System.Drawing.Size(63, 16);
+            this.label74.TabIndex = 134;
+            this.label74.Text = "Customer";
+            // 
+            // comboBox8
+            // 
+            this.comboBox8.DropDownHeight = 200;
+            this.comboBox8.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox8.FormattingEnabled = true;
+            this.comboBox8.IntegralHeight = false;
+            this.comboBox8.Location = new System.Drawing.Point(629, 34);
+            this.comboBox8.Name = "comboBox8";
+            this.comboBox8.Size = new System.Drawing.Size(238, 30);
+            this.comboBox8.Sorted = true;
+            this.comboBox8.TabIndex = 133;
+            this.comboBox8.TextChanged += new System.EventHandler(this.comboBox8_TextChanged);
+            this.comboBox8.Click += new System.EventHandler(this.comboBox8_Click);
+            // 
+            // label75
+            // 
+            this.label75.AutoSize = true;
+            this.label75.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label75.Location = new System.Drawing.Point(626, 69);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(19, 16);
+            this.label75.TabIndex = 144;
+            this.label75.Text = "ID";
+            // 
+            // button18
+            // 
+            this.button18.Font = new System.Drawing.Font("Arial", 14.25F);
+            this.button18.Location = new System.Drawing.Point(257, 36);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(238, 28);
+            this.button18.TabIndex = 145;
+            this.button18.Text = "Current User Excel File";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.Button18_Click);
             // 
             // Form1
             // 
@@ -2452,6 +2625,8 @@
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -2650,6 +2825,20 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.Button button17;
+        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.TextBox textBox74;
+        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.TextBox textBox75;
+        private System.Windows.Forms.Label label72;
+        private System.Windows.Forms.TextBox textBox76;
+        private System.Windows.Forms.Label label73;
+        private System.Windows.Forms.TextBox textBox77;
+        private System.Windows.Forms.TextBox textBox78;
+        private System.Windows.Forms.Label label74;
+        private System.Windows.Forms.ComboBox comboBox8;
+        private System.Windows.Forms.Label label75;
+        private System.Windows.Forms.Button button18;
     }
 }
 
