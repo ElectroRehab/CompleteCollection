@@ -1,4 +1,5 @@
 ﻿using IronXL;
+using IronXL.Drawing.Charts;
 using IronXL.Formatting;
 using IronXL.Formatting.Enums;
 using IronXL.Styles;
@@ -63,8 +64,30 @@ namespace Finance_App
 
 
         }
+        public void ProgressBar(int place)
+        {
+            progressBar1.Value = place;
+            if (place == 0)
+            {
+                label82.Text = "Creating File";
+            }
+            else if (place == 25)
+            {
+                label82.Text = "Creating File..";
+            }
+            else if (place == 50)
+            {
+                label82.Text = "Creating File..";
+            }
+            else
+            {
+                label82.Text = "Creating File...";
+            }
+
+        }
         private void Create_Excel_All(string one, string two, string three, string four, string five)
         {
+            ProgressBar(25);
             // Create workbook
             WorkBook workbook = WorkBook.Create(ExcelFileFormat.XLSX);
             // Create Seperate sheets for specific databases
@@ -119,7 +142,7 @@ namespace Finance_App
 
                     Count++;
                 }
-
+                ProgressBar(25);
                 DataSet dsTwo = new DataSet("DataSetName");
                 SqlConnection conTwo;
                 SqlDataAdapter daTwo;
@@ -215,7 +238,7 @@ namespace Finance_App
                     }
                     CountThree++;
                 }
-
+                ProgressBar(50);
                 DataSet dsFour = new DataSet("DataSetName");
                 SqlConnection conFour;
                 SqlDataAdapter daFour;
@@ -290,6 +313,7 @@ namespace Finance_App
             {
                 MessageBox.Show("Spreadsheet was not created!");
             }
+            ProgressBar(50);
             // Auto Size Sheet One
             for (int t = 0; t < sheet.ColumnCount; t++)
             {
@@ -336,11 +360,15 @@ namespace Finance_App
             }
             // Save Created Worksheet
             workbook.SaveAs("Budget.xls");
+            ProgressBar(75);
             // Format Spreadsheet
             FormatSpread();
+            ProgressBar(100);
             // Open File Location
             Process.Start("explorer.exe", ".");
+            label82.Text = "File Created";
             MessageBox.Show("Spreadsheet was created!");
+            label82.Text = "";
         }
         public void FormatSpread()
         {
@@ -351,17 +379,17 @@ namespace Finance_App
                 // Create conditional formatting rule
                 var rule = workSheet.ConditionalFormatting.CreateConditionalFormattingRule(ComparisonOperator.GreaterThanOrEqual, "0");
                 // Set style options
-                rule.FontFormatting.IsBold = true;
-                rule.FontFormatting.FontColor = "#123456";
+                //rule.FontFormatting.IsBold = true;
+                rule.FontFormatting.FontColor = "#000000";
                 rule.BorderFormatting.TopBorderType = BorderType.Thin;
-                rule.BorderFormatting.TopBorderColor = "#ffffff";
+                rule.BorderFormatting.TopBorderColor = "#000000";
                 rule.BorderFormatting.BottomBorderType = BorderType.Thin;
-                rule.BorderFormatting.BottomBorderColor = "#ffffff";
+                rule.BorderFormatting.BottomBorderColor = "#000000";
                 rule.BorderFormatting.LeftBorderType = BorderType.Thin;
-                rule.BorderFormatting.LeftBorderColor = "#ffffff";
+                rule.BorderFormatting.LeftBorderColor = "#000000";
                 rule.BorderFormatting.RightBorderType = BorderType.Thin;
-                rule.BorderFormatting.RightBorderColor = "#ffffff";
-                rule.PatternFormatting.BackgroundColor = "#54bdd9";
+                rule.BorderFormatting.RightBorderColor = "#000000";
+                rule.PatternFormatting.BackgroundColor = "#4DFF00";
                 workSheet.FormatString = "0.00";
                 
                 // Apply formatting on specified region
@@ -375,17 +403,17 @@ namespace Finance_App
                 // Create conditional formatting rule
                 var rule = workSheet.ConditionalFormatting.CreateConditionalFormattingRule(ComparisonOperator.GreaterThanOrEqual, "0");
                 // Set style options
-                rule.FontFormatting.IsBold = true;
-                rule.FontFormatting.FontColor = "#123456";
+                //rule.FontFormatting.IsBold = true;
+                rule.FontFormatting.FontColor = "#000000";
                 rule.BorderFormatting.TopBorderType = BorderType.Thin;
-                rule.BorderFormatting.TopBorderColor = "#ffffff";
+                rule.BorderFormatting.TopBorderColor = "#000000";
                 rule.BorderFormatting.BottomBorderType = BorderType.Thin;
-                rule.BorderFormatting.BottomBorderColor = "#ffffff";
+                rule.BorderFormatting.BottomBorderColor = "#000000";
                 rule.BorderFormatting.LeftBorderType = BorderType.Thin;
-                rule.BorderFormatting.LeftBorderColor = "#ffffff";
+                rule.BorderFormatting.LeftBorderColor = "#000000";
                 rule.BorderFormatting.RightBorderType = BorderType.Thin;
-                rule.BorderFormatting.RightBorderColor = "#ffffff";
-                rule.PatternFormatting.BackgroundColor = "#54bdd9";
+                rule.BorderFormatting.RightBorderColor = "#000000";
+                rule.PatternFormatting.BackgroundColor = "#4DFF00";
                 workSheet.FormatString = "0";
                 // Apply formatting on specified region
                 workSheet.ConditionalFormatting.AddConditionalFormatting("A1:" + workSheet.RowCount, rule);
@@ -1890,6 +1918,7 @@ namespace Finance_App
 
         private void Button17_Click(object sender, EventArgs e)
         {
+            ProgressBar(25);
             Create_Excel_All(Globals.selectAllPeople, Globals.selectAllMonCo, Globals.selectAllMoney, Globals.selectAllLongTitles,
                 Globals.selectAllLongSaves);
         }
@@ -1898,7 +1927,7 @@ namespace Finance_App
         {
             if (textBox78.Text != "")
             {
-               
+                ProgressBar(25);                
                 Create_Excel_All(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
                     Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
                     Globals.selectWhereLongSaves + textBox78.Text);

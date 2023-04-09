@@ -235,6 +235,8 @@
             this.label74 = new System.Windows.Forms.Label();
             this.comboBox8 = new System.Windows.Forms.ComboBox();
             this.button17 = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label82 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -2433,6 +2435,8 @@
             // 
             // tabPage7
             // 
+            this.tabPage7.Controls.Add(this.label82);
+            this.tabPage7.Controls.Add(this.progressBar1);
             this.tabPage7.Controls.Add(this.button18);
             this.tabPage7.Controls.Add(this.label75);
             this.tabPage7.Controls.Add(this.label70);
@@ -2598,6 +2602,21 @@
             this.button17.Text = "All Users Excel File";
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.Button17_Click);
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(257, 140);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(238, 23);
+            this.progressBar1.TabIndex = 146;
+            // 
+            // label82
+            // 
+            this.label82.AutoSize = true;
+            this.label82.Location = new System.Drawing.Point(257, 170);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(0, 16);
+            this.label82.TabIndex = 147;
             // 
             // Form1
             // 
@@ -2839,6 +2858,8 @@
         private System.Windows.Forms.ComboBox comboBox8;
         private System.Windows.Forms.Label label75;
         private System.Windows.Forms.Button button18;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label82;
     }
 }
 
