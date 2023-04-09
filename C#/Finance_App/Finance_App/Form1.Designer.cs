@@ -221,7 +221,8 @@
             this.textBox64 = new System.Windows.Forms.TextBox();
             this.textBox65 = new System.Windows.Forms.TextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.button17 = new System.Windows.Forms.Button();
+            this.button18 = new System.Windows.Forms.Button();
+            this.label75 = new System.Windows.Forms.Label();
             this.label70 = new System.Windows.Forms.Label();
             this.textBox74 = new System.Windows.Forms.TextBox();
             this.label71 = new System.Windows.Forms.Label();
@@ -233,8 +234,7 @@
             this.textBox78 = new System.Windows.Forms.TextBox();
             this.label74 = new System.Windows.Forms.Label();
             this.comboBox8 = new System.Windows.Forms.ComboBox();
-            this.label75 = new System.Windows.Forms.Label();
-            this.button18 = new System.Windows.Forms.Button();
+            this.button17 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -2452,22 +2452,32 @@
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage7.Size = new System.Drawing.Size(1026, 399);
             this.tabPage7.TabIndex = 6;
-            this.tabPage7.Text = "tabPage7";
+            this.tabPage7.Text = "Excel Spreadsheet";
             this.tabPage7.UseVisualStyleBackColor = true;
             this.tabPage7.TextChanged += new System.EventHandler(this.comboBox8_TextChanged);
             this.tabPage7.Click += new System.EventHandler(this.comboBox8_Click);
             this.tabPage7.Layout += new System.Windows.Forms.LayoutEventHandler(this.tabPage7_Layout);
             // 
-            // button17
+            // button18
             // 
-            this.button17.Font = new System.Drawing.Font("Arial", 14.25F);
-            this.button17.Location = new System.Drawing.Point(257, 86);
-            this.button17.Name = "button17";
-            this.button17.Size = new System.Drawing.Size(238, 28);
-            this.button17.TabIndex = 61;
-            this.button17.Text = "All Users Excel File";
-            this.button17.UseVisualStyleBackColor = true;
-            this.button17.Click += new System.EventHandler(this.Button17_Click);
+            this.button18.Font = new System.Drawing.Font("Arial", 14.25F);
+            this.button18.Location = new System.Drawing.Point(257, 36);
+            this.button18.Name = "button18";
+            this.button18.Size = new System.Drawing.Size(238, 28);
+            this.button18.TabIndex = 145;
+            this.button18.Text = "Current User Excel File";
+            this.button18.UseVisualStyleBackColor = true;
+            this.button18.Click += new System.EventHandler(this.Button18_Click);
+            // 
+            // label75
+            // 
+            this.label75.AutoSize = true;
+            this.label75.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label75.Location = new System.Drawing.Point(626, 69);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(19, 16);
+            this.label75.TabIndex = 144;
+            this.label75.Text = "ID";
             // 
             // label70
             // 
@@ -2578,26 +2588,16 @@
             this.comboBox8.TextChanged += new System.EventHandler(this.comboBox8_TextChanged);
             this.comboBox8.Click += new System.EventHandler(this.comboBox8_Click);
             // 
-            // label75
+            // button17
             // 
-            this.label75.AutoSize = true;
-            this.label75.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label75.Location = new System.Drawing.Point(626, 69);
-            this.label75.Name = "label75";
-            this.label75.Size = new System.Drawing.Size(19, 16);
-            this.label75.TabIndex = 144;
-            this.label75.Text = "ID";
-            // 
-            // button18
-            // 
-            this.button18.Font = new System.Drawing.Font("Arial", 14.25F);
-            this.button18.Location = new System.Drawing.Point(257, 36);
-            this.button18.Name = "button18";
-            this.button18.Size = new System.Drawing.Size(238, 28);
-            this.button18.TabIndex = 145;
-            this.button18.Text = "Current User Excel File";
-            this.button18.UseVisualStyleBackColor = true;
-            this.button18.Click += new System.EventHandler(this.Button18_Click);
+            this.button17.Font = new System.Drawing.Font("Arial", 14.25F);
+            this.button17.Location = new System.Drawing.Point(257, 86);
+            this.button17.Name = "button17";
+            this.button17.Size = new System.Drawing.Size(238, 28);
+            this.button17.TabIndex = 61;
+            this.button17.Text = "All Users Excel File";
+            this.button17.UseVisualStyleBackColor = true;
+            this.button17.Click += new System.EventHandler(this.Button17_Click);
             // 
             // Form1
             // 

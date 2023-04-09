@@ -1,11 +1,16 @@
 ﻿using IronXL;
+using IronXL.Formatting;
 using IronXL.Formatting.Enums;
 using IronXL.Styles;
 using MsgBox;
 using System;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using ComboBox = System.Windows.Forms.ComboBox;
 using TextBox = System.Windows.Forms.TextBox;
 
@@ -17,6 +22,7 @@ namespace Finance_App
         {
             InitializeComponent();
         }
+        
         public static class Globals
         {
             // Database location string
@@ -330,7 +336,10 @@ namespace Finance_App
             }
             // Save Created Worksheet
             workbook.SaveAs("Budget.xls");
+            // Format Spreadsheet
             FormatSpread();
+            // Open File Location
+            Process.Start("explorer.exe", ".");
             MessageBox.Show("Spreadsheet was created!");
         }
         public void FormatSpread()
@@ -338,8 +347,7 @@ namespace Finance_App
             WorkBook workBook = WorkBook.Load("Budget.xls");
             for (int i = 0; i < 5; i++)
             {
-                WorkSheet workSheet = workBook.WorkSheets[i];
-
+                WorkSheet workSheet = workBook.WorkSheets[i];                
                 // Create conditional formatting rule
                 var rule = workSheet.ConditionalFormatting.CreateConditionalFormattingRule(ComparisonOperator.GreaterThanOrEqual, "0");
                 // Set style options
@@ -355,8 +363,9 @@ namespace Finance_App
                 rule.BorderFormatting.RightBorderColor = "#ffffff";
                 rule.PatternFormatting.BackgroundColor = "#54bdd9";
                 workSheet.FormatString = "0.00";
+                
                 // Apply formatting on specified region
-                workSheet.ConditionalFormatting.AddConditionalFormatting("B1:Z100", rule);
+                workSheet.ConditionalFormatting.AddConditionalFormatting("B1:" + workSheet.RowCount, rule);
                 workBook.SaveAs("Budget.xls");
             }
             for (int i = 0; i < 5; i++)
@@ -379,7 +388,7 @@ namespace Finance_App
                 rule.PatternFormatting.BackgroundColor = "#54bdd9";
                 workSheet.FormatString = "0";
                 // Apply formatting on specified region
-                workSheet.ConditionalFormatting.AddConditionalFormatting("A1:A100", rule);
+                workSheet.ConditionalFormatting.AddConditionalFormatting("A1:" + workSheet.RowCount, rule);
                 workBook.SaveAs("Budget.xls");
             }
         }
@@ -1485,6 +1494,7 @@ namespace Finance_App
 
                         cmd.ExecuteNonQuery();
                         conn.Close();
+                        
                     }
                 }
                 catch
@@ -1888,6 +1898,7 @@ namespace Finance_App
         {
             if (textBox78.Text != "")
             {
+               
                 Create_Excel_All(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
                     Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
                     Globals.selectWhereLongSaves + textBox78.Text);
