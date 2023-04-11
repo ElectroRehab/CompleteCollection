@@ -10,6 +10,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using ComboBox = System.Windows.Forms.ComboBox;
@@ -23,13 +24,15 @@ namespace Finance_App
         {
             InitializeComponent();
         }
-        
+        DateTime now = DateTime.Now;
         public static class Globals
         {
+            
             // Database location string
             public static bool passChecker;
             public static bool bypass;
             public static bool secondChance = false;
+            public static bool switchHit = true;
             public static String boxAnswer;
             public static String currentUser;
             public static String currentUserId;
@@ -66,28 +69,215 @@ namespace Finance_App
         }
         public void ProgressBar(int place)
         {
-            progressBar1.Value = place;
-            if (place == 0)
+            
+            if (place == 25)
             {
-                label82.Text = "Creating File";
-            }
-            else if (place == 25)
-            {
-                label82.Text = "Creating File..";
+                progressBar1.Value = place;
             }
             else if (place == 50)
+            {                
+                progressBar1.Value = place;
+            }
+            else if (place == 75)
             {
-                label82.Text = "Creating File..";
+                progressBar1.Value = place;
             }
             else
             {
-                label82.Text = "Creating File...";
+                progressBar1.Value = place;
             }
+        }
+        private void AdaptTemp(string one, string two, string three, string four, string five)
+        {
+            // Supported for XLSX, XLS, XLSM, XLTX, CSV and TSV
+            WorkBook workBook = WorkBook.Load("Budget_Template.xlsx");
+            WorkSheet sheet = workBook.WorkSheets[0];
+            try 
+            {
+                ProgressBar(0);
+                //Create database objects to populate data from database
+                DataSet ds = new DataSet("DataSetName");
+                SqlConnection con;
+                SqlDataAdapter da;
+                //Open Connection & Fill DataSet
+                con = new SqlConnection(Globals.connectionString);
+                da = new SqlDataAdapter(one, con);
+                con.Open();
+                da.Fill(ds);
+                foreach (DataTable table in ds.Tables)
+                {
+                    int Count = table.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= Count + 1; j++)
+                    {
+                        sheet["AH5"].Value = table.Rows[i]["Id"];
+                        sheet["Y2"].Value = table.Rows[i]["First"].ToString().Trim() + " " + table.Rows[i]["Last"].ToString().Trim();
+                        sheet["AH2"].Value = table.Rows[i]["Email"].ToString().Trim();
+                        sheet["Y3"].Value = table.Rows[i]["Address1"].ToString().Trim();
+                        sheet["Y4"].Value = table.Rows[i]["Address2"].ToString().Trim();
+                        sheet["Y5"].Value = table.Rows[i]["City"].ToString().Trim();
+                        sheet["AH3"].Value = table.Rows[i]["State"].ToString().Trim();
+                        sheet["AH4"].Value = table.Rows[i]["Zip"];
+                        i++;
+                    }
 
+                    Count++;
+                }
+                DataSet dsTwo = new DataSet("DataSetName");
+                SqlConnection conTwo;
+                SqlDataAdapter daTwo;
+                //Open Connection & Fill DataSet
+                conTwo = new SqlConnection(Globals.connectionString);
+                daTwo = new SqlDataAdapter(two, conTwo);
+                conTwo.Open();
+                daTwo.Fill(dsTwo);
+                sheet["AH5"].Value = "Id".ToString().Trim();
+                sheet["D12"].Value = "Mortgage".ToString().Trim();
+                sheet["D13"].Value = "Electric".ToString().Trim();
+                sheet["D14"].Value = "Water".ToString().Trim();
+                sheet["D15"].Value = "Gas".ToString().Trim();
+                sheet["D16"].Value = "Trash".ToString().Trim();
+                sheet["D17"].Value = "Vehicle Payment".ToString().Trim();
+                sheet["D18"].Value = "Vehicle Insurance".ToString().Trim();
+                sheet["D19"].Value = "Medical Insurance".ToString().Trim();
+                sheet["D20"].Value = "Dental Insurance".ToString().Trim();
+                sheet["D21"].Value = "Groceries".ToString().Trim();
+                sheet["Q12"].Value = "Hulu".ToString().Trim();
+                sheet["Q13"].Value = "Netflix".ToString().Trim();
+                sheet["Q14"].Value = "Amazon Prime".ToString().Trim();
+                sheet["Q15"].Value = "Disney Plus".ToString().Trim();
+                sheet["Q16"].Value = "Other Streaming Services".ToString().Trim();
+                sheet["Q17"].Value = "Dining Out".ToString().Trim();
+                sheet["Q18"].Value = "Vehicle Gas".ToString().Trim();
+                sheet["Q19"].Value = "Internet & Cable".ToString().Trim();
+                sheet["Q20"].Value = "Cell Phone".ToString().Trim();
+                sheet["Q21"].Value = "Child Care".ToString().Trim();
+
+                //Loop through contents of dataset
+                foreach (DataTable tableTwo in dsTwo.Tables)
+                {
+                    int CountTwo = tableTwo.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= CountTwo + 1; j++)
+                    {
+                        sheet["AH5"].Value = tableTwo.Rows[i]["Id"];
+                        sheet["P52"].Value = tableTwo.Rows[i]["MonthlyOne"];
+                        sheet["P53"].Value = tableTwo.Rows[i]["MonthlyTwo"];
+                        sheet["P54"].Value = tableTwo.Rows[i]["MonthlyThree"];
+                        sheet["P55"].Value = tableTwo.Rows[i]["MonthlyFour"];
+                        sheet["P56"].Value = tableTwo.Rows[i]["MonthlyFive"];
+                        sheet["P57"].Value = tableTwo.Rows[i]["MonthlySix"];
+                        sheet["P58"].Value = tableTwo.Rows[i]["MonthlySeven"];
+                        sheet["P59"].Value = tableTwo.Rows[i]["MonthlyEight"];
+                        sheet["P60"].Value = tableTwo.Rows[i]["MonthlyNine"];
+                        sheet["P61"].Value = tableTwo.Rows[i]["MonthlyTen"];
+                        sheet["P63"].Value = tableTwo.Rows[i]["MonthlyEleven"];
+                        sheet["P64"].Value = tableTwo.Rows[i]["MonthlyTwelve"];
+                        sheet["P65"].Value = tableTwo.Rows[i]["MonthlyThirteen"];
+                        sheet["P66"].Value = tableTwo.Rows[i]["MonthlyFourteen"];
+                        sheet["P67"].Value = tableTwo.Rows[i]["MonthlyFifteen"];
+                        sheet["P68"].Value = tableTwo.Rows[i]["MonthlySixteen"];
+                        sheet["P69"].Value = tableTwo.Rows[i]["MonthlySeventeen"];
+                        sheet["P70"].Value = tableTwo.Rows[i]["MonthlyEighteen"];
+                        sheet["P71"].Value = tableTwo.Rows[i]["MonthlyNineteen"];
+                        sheet["P72"].Value = tableTwo.Rows[i]["MonthlyTwenty"];
+                        i++;
+                    }
+                    CountTwo++;
+                }
+                ProgressBar(30);
+                DataSet dsThree = new DataSet("DataSetName");
+                SqlConnection conThree;
+                SqlDataAdapter daThree;
+                //Open Connection & Fill DataSet
+                conThree = new SqlConnection(Globals.connectionString);
+                daThree = new SqlDataAdapter(three, conThree);
+                conThree.Open();
+                daThree.Fill(dsThree);
+
+                //Loop through contents of dataset
+                foreach (DataTable tableThree in dsThree.Tables)
+                {
+                    int CountThree = tableThree.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= CountThree + 1; j++)
+                    {
+                        sheet["T27"].Value = tableThree.Rows[i]["Savings"];
+                        sheet["T40"].Value = tableThree.Rows[i]["Spending"];
+                        i++;
+                    }
+                    CountThree++;
+                }
+                ProgressBar(50);
+                DataSet dsFour = new DataSet("DataSetName");
+                SqlConnection conFour;
+                SqlDataAdapter daFour;
+                //Open Connection & Fill DataSet
+                conFour = new SqlConnection(Globals.connectionString);
+                daFour = new SqlDataAdapter(four, conFour);
+                conFour.Open();
+                daFour.Fill(dsFour);
+                //Loop through contents of dataset
+                foreach (DataTable tableFour in dsFour.Tables)
+                {
+                    int CountFour = tableFour.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= CountFour + 1; j++)
+                    {
+                        sheet["AD12"].Value = tableFour.Rows[i]["ItemOne"].ToString().Trim();
+                        sheet["AD13"].Value = tableFour.Rows[i]["ItemTwo"].ToString().Trim();
+                        sheet["AD14"].Value = tableFour.Rows[i]["ItemThree"].ToString().Trim();
+                        sheet["AD15"].Value = tableFour.Rows[i]["ItemFour"].ToString().Trim();
+                        sheet["AD16"].Value = tableFour.Rows[i]["ItemFive"].ToString().Trim();
+                        sheet["AD17"].Value = tableFour.Rows[i]["ItemSix"].ToString().Trim();
+                        i++;
+                    }
+                    CountFour++;
+                }
+                ProgressBar(80);
+                DataSet dsFive = new DataSet("DataSetName");
+                SqlConnection conFive;
+                SqlDataAdapter daFive;
+                //Open Connection & Fill DataSet
+                conFive = new SqlConnection(Globals.connectionString);
+                daFive = new SqlDataAdapter(five, conFive);
+                conFive.Open();
+                daFive.Fill(dsFive);
+                //Loop through contents of dataset
+                foreach (DataTable tableFive in dsFive.Tables)
+                {
+                    int CountFive = tableFive.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= CountFive + 1; j++)
+                    {
+                        sheet["P74"].Value = tableFive.Rows[i]["SaveOne"];
+                        sheet["P75"].Value = tableFive.Rows[i]["SaveTwo"];
+                        sheet["P76"].Value = tableFive.Rows[i]["SaveThree"];
+                        sheet["P77"].Value = tableFive.Rows[i]["SaveFour"];
+                        sheet["P78"].Value = tableFive.Rows[i]["SaveFive"];
+                        sheet["P79"].Value = tableFive.Rows[i]["SaveSix"];
+                        i++;
+                    }
+                    CountFive++;
+                }
+                sheet.Sum();
+
+                workBook.SaveAs("Budget - "+ comboBox8.Text +".xlsx");
+                con.Close();
+                conTwo.Close();
+                conThree.Close();
+                conFour.Close();
+                conFive.Close();
+
+                ProgressBar(100);
+            }
+            catch (Exception ex)
+            {
+            }
         }
         private void Create_Excel_All(string one, string two, string three, string four, string five)
         {
-            ProgressBar(25);
+            ProgressBar(0);
             // Create workbook
             WorkBook workbook = WorkBook.Create(ExcelFileFormat.XLSX);
             // Create Seperate sheets for specific databases
@@ -313,7 +503,7 @@ namespace Finance_App
             {
                 MessageBox.Show("Spreadsheet was not created!");
             }
-            ProgressBar(50);
+            ProgressBar(65);
             // Auto Size Sheet One
             for (int t = 0; t < sheet.ColumnCount; t++)
             {
@@ -358,8 +548,15 @@ namespace Finance_App
             {
                 sheetFive.AutoSizeRow(t);
             }
-            // Save Created Worksheet
-            workbook.SaveAs("Budget.xls");
+            // Save Created Worksheetif (Globals.switchHit == true)
+            if (Globals.switchHit == true)
+            {
+                workbook.SaveAs("Budget Basic - " + comboBox8.Text + ".xlsx");
+            }
+            else
+            {
+                workbook.SaveAs("Budget Basic.xlsx");
+            }
             ProgressBar(75);
             // Format Spreadsheet
             FormatSpread();
@@ -367,12 +564,27 @@ namespace Finance_App
             // Open File Location
             Process.Start("explorer.exe", ".");
             label82.Text = "File Created";
-            MessageBox.Show("Spreadsheet was created!");
-            label82.Text = "";
+            if (Globals.switchHit == true)
+            {
+                MessageBox.Show("Spreadsheets are now created!");
+            }
+            else
+            {
+                MessageBox.Show("Spreadsheet is now created!");
+            }
+            ProgressBar(0);
         }
         public void FormatSpread()
         {
-            WorkBook workBook = WorkBook.Load("Budget.xls");
+            WorkBook workBook = new WorkBook();
+            if (Globals.switchHit == true)
+            {
+                workBook = WorkBook.Load("Budget Basic - " + comboBox8.Text + ".xlsx");
+            }
+            else
+            {
+                workBook = WorkBook.Load("Budget Basic.xlsx");
+            }
             for (int i = 0; i < 5; i++)
             {
                 WorkSheet workSheet = workBook.WorkSheets[i];                
@@ -394,7 +606,7 @@ namespace Finance_App
                 
                 // Apply formatting on specified region
                 workSheet.ConditionalFormatting.AddConditionalFormatting("B1:" + workSheet.RowCount, rule);
-                workBook.SaveAs("Budget.xls");
+                
             }
             for (int i = 0; i < 5; i++)
             {
@@ -417,7 +629,14 @@ namespace Finance_App
                 workSheet.FormatString = "0";
                 // Apply formatting on specified region
                 workSheet.ConditionalFormatting.AddConditionalFormatting("A1:" + workSheet.RowCount, rule);
-                workBook.SaveAs("Budget.xls");
+                if (Globals.switchHit == true)
+                {
+                    workBook.SaveAs("Budget Basic - " + comboBox8.Text + ".xlsx");
+                }
+                else
+                {
+                    workBook.SaveAs("Budget Basic.xlsx");
+                }
             }
         }
         public void PopulateDropMenus(ComboBox o)
@@ -1918,7 +2137,8 @@ namespace Finance_App
 
         private void Button17_Click(object sender, EventArgs e)
         {
-            ProgressBar(25);
+            label82.Text = "Creating File.";
+            Globals.switchHit = false;
             Create_Excel_All(Globals.selectAllPeople, Globals.selectAllMonCo, Globals.selectAllMoney, Globals.selectAllLongTitles,
                 Globals.selectAllLongSaves);
         }
@@ -1927,10 +2147,15 @@ namespace Finance_App
         {
             if (textBox78.Text != "")
             {
-                ProgressBar(25);                
+                label82.Text = "Creating File.";
+                AdaptTemp(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
+                    Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
+                    Globals.selectWhereLongSaves + textBox78.Text);
+                ProgressBar(0);
                 Create_Excel_All(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
                     Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
                     Globals.selectWhereLongSaves + textBox78.Text);
+                ProgressBar(0);
             }
             else
             {

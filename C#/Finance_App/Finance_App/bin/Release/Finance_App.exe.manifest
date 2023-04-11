@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Finance_App.exe" size="399832">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Finance_App.exe" size="404440">
       <assemblyIdentity name="Finance_App" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>m0HAKrXwe6O2GO1op3396Ew6cL0QcDs1r9ETDAi4vDI=</dsig:DigestValue>
+        <dsig:DigestValue>svFj/HH9lOrjvQcg8RwRIy5YcEQ6vImXvmxBE3W3yJs=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -179,7 +179,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>o17gzan39IH+3KfvbquawM8qsx9EfDFStMGPkLO2he8=</dsig:DigestValue>
+      <dsig:DigestValue>IK7os7OXuL+ZupkEtgc696dx2Zq2Twq8G1CHYhpVLfI=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Database1_log.ldf" size="8388608" writeableType="applicationData">
@@ -188,7 +188,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>i6EFUyAo11Jqlw1DBKJClTQekC7d80MxwVZcGMbmRRI=</dsig:DigestValue>
+      <dsig:DigestValue>x2g1q5Zg0pvNor1IRnc1+goJm8iaIsmtX34cqIazP30=</dsig:DigestValue>
     </hash>
   </file>
   <file name="Finance_App.exe.config" size="3748">

@@ -221,6 +221,8 @@
             this.textBox64 = new System.Windows.Forms.TextBox();
             this.textBox65 = new System.Windows.Forms.TextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.label82 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button18 = new System.Windows.Forms.Button();
             this.label75 = new System.Windows.Forms.Label();
             this.label70 = new System.Windows.Forms.Label();
@@ -235,8 +237,6 @@
             this.label74 = new System.Windows.Forms.Label();
             this.comboBox8 = new System.Windows.Forms.ComboBox();
             this.button17 = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label82 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -2462,6 +2462,22 @@
             this.tabPage7.Click += new System.EventHandler(this.comboBox8_Click);
             this.tabPage7.Layout += new System.Windows.Forms.LayoutEventHandler(this.tabPage7_Layout);
             // 
+            // label82
+            // 
+            this.label82.AutoSize = true;
+            this.label82.Location = new System.Drawing.Point(257, 170);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(11, 16);
+            this.label82.TabIndex = 147;
+            this.label82.Text = ".";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(257, 140);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(238, 23);
+            this.progressBar1.TabIndex = 146;
+            // 
             // button18
             // 
             this.button18.Font = new System.Drawing.Font("Arial", 14.25F);
@@ -2602,21 +2618,6 @@
             this.button17.Text = "All Users Excel File";
             this.button17.UseVisualStyleBackColor = true;
             this.button17.Click += new System.EventHandler(this.Button17_Click);
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(257, 140);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(238, 23);
-            this.progressBar1.TabIndex = 146;
-            // 
-            // label82
-            // 
-            this.label82.AutoSize = true;
-            this.label82.Location = new System.Drawing.Point(257, 170);
-            this.label82.Name = "label82";
-            this.label82.Size = new System.Drawing.Size(0, 16);
-            this.label82.TabIndex = 147;
             // 
             // Form1
             // 
