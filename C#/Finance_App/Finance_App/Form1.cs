@@ -24,10 +24,8 @@ namespace Finance_App
         {
             InitializeComponent();
         }
-        DateTime now = DateTime.Now;
         public static class Globals
-        {
-            
+        {            
             // Database location string
             public static bool passChecker;
             public static bool bypass;
@@ -92,9 +90,11 @@ namespace Finance_App
             // Supported for XLSX, XLS, XLSM, XLTX, CSV and TSV
             WorkBook workBook = WorkBook.Load("Budget_Template.xlsx");
             WorkSheet sheet = workBook.WorkSheets[0];
+            WorkSheet sheetTwo = workBook.WorkSheets[1];
             try 
             {
-                ProgressBar(0);
+                ProgressBar(25);
+                label82.Text = "Creating File";
                 //Create database objects to populate data from database
                 DataSet ds = new DataSet("DataSetName");
                 SqlConnection con;
@@ -118,6 +118,14 @@ namespace Finance_App
                         sheet["Y5"].Value = table.Rows[i]["City"].ToString().Trim();
                         sheet["AH3"].Value = table.Rows[i]["State"].ToString().Trim();
                         sheet["AH4"].Value = table.Rows[i]["Zip"];
+                        sheetTwo["AH5"].Value = table.Rows[i]["Id"];
+                        sheetTwo["Y2"].Value = table.Rows[i]["First"].ToString().Trim() + " " + table.Rows[i]["Last"].ToString().Trim();
+                        sheetTwo["AH2"].Value = table.Rows[i]["Email"].ToString().Trim();
+                        sheetTwo["Y3"].Value = table.Rows[i]["Address1"].ToString().Trim();
+                        sheetTwo["Y4"].Value = table.Rows[i]["Address2"].ToString().Trim();
+                        sheetTwo["Y5"].Value = table.Rows[i]["City"].ToString().Trim();
+                        sheetTwo["AH3"].Value = table.Rows[i]["State"].ToString().Trim();
+                        sheetTwo["AH4"].Value = table.Rows[i]["Zip"];
                         i++;
                     }
 
@@ -131,7 +139,6 @@ namespace Finance_App
                 daTwo = new SqlDataAdapter(two, conTwo);
                 conTwo.Open();
                 daTwo.Fill(dsTwo);
-                sheet["AH5"].Value = "Id".ToString().Trim();
                 sheet["D12"].Value = "Mortgage".ToString().Trim();
                 sheet["D13"].Value = "Electric".ToString().Trim();
                 sheet["D14"].Value = "Water".ToString().Trim();
@@ -160,7 +167,6 @@ namespace Finance_App
                     int i = 0;
                     for (int j = 2; j <= CountTwo + 1; j++)
                     {
-                        sheet["AH5"].Value = tableTwo.Rows[i]["Id"];
                         sheet["P52"].Value = tableTwo.Rows[i]["MonthlyOne"];
                         sheet["P53"].Value = tableTwo.Rows[i]["MonthlyTwo"];
                         sheet["P54"].Value = tableTwo.Rows[i]["MonthlyThree"];
@@ -186,6 +192,7 @@ namespace Finance_App
                     CountTwo++;
                 }
                 ProgressBar(30);
+                label82.Text = "Creating File.";
                 DataSet dsThree = new DataSet("DataSetName");
                 SqlConnection conThree;
                 SqlDataAdapter daThree;
@@ -194,7 +201,10 @@ namespace Finance_App
                 daThree = new SqlDataAdapter(three, conThree);
                 conThree.Open();
                 daThree.Fill(dsThree);
-
+                sheetTwo["C25"].Value = "Donations".ToString().Trim();
+                sheetTwo["C26"].Value = "Savings Account".ToString().Trim();
+                sheetTwo["C27"].Value = "God Only Knows Fund".ToString().Trim();
+                sheetTwo["C28"].Value = "Spending Account".ToString().Trim();
                 //Loop through contents of dataset
                 foreach (DataTable tableThree in dsThree.Tables)
                 {
@@ -204,11 +214,17 @@ namespace Finance_App
                     {
                         sheet["T27"].Value = tableThree.Rows[i]["Savings"];
                         sheet["T40"].Value = tableThree.Rows[i]["Spending"];
+                        sheetTwo["P25"].Value = tableThree.Rows[i]["Donation"];
+                        sheetTwo["P26"].Value = tableThree.Rows[i]["Savings"];
+                        sheetTwo["P27"].Value = tableThree.Rows[i]["GOKF"];
+                        sheetTwo["P28"].Value = tableThree.Rows[i]["Spending"];
                         i++;
                     }
                     CountThree++;
-                }
+                }                
+                
                 ProgressBar(50);
+                label82.Text = "Creating File..";
                 DataSet dsFour = new DataSet("DataSetName");
                 SqlConnection conFour;
                 SqlDataAdapter daFour;
@@ -235,6 +251,7 @@ namespace Finance_App
                     CountFour++;
                 }
                 ProgressBar(80);
+                label82.Text = "Creating File...";
                 DataSet dsFive = new DataSet("DataSetName");
                 SqlConnection conFive;
                 SqlDataAdapter daFive;
@@ -261,14 +278,15 @@ namespace Finance_App
                     CountFive++;
                 }
                 sheet.Sum();
+                sheetTwo.Sum();
 
-                workBook.SaveAs("Budget - "+ comboBox8.Text +".xlsx");
+                workBook.SaveAs("Budget GUI - "+ comboBox8.Text +".xlsx");
                 con.Close();
                 conTwo.Close();
                 conThree.Close();
                 conFour.Close();
                 conFive.Close();
-
+                label82.Text = "Creating File....";
                 ProgressBar(100);
             }
             catch (Exception ex)
@@ -277,7 +295,8 @@ namespace Finance_App
         }
         private void Create_Excel_All(string one, string two, string three, string four, string five)
         {
-            ProgressBar(0);
+            ProgressBar(25);
+            label82.Text = "Creating File";
             // Create workbook
             WorkBook workbook = WorkBook.Create(ExcelFileFormat.XLSX);
             // Create Seperate sheets for specific databases
@@ -333,6 +352,7 @@ namespace Finance_App
                     Count++;
                 }
                 ProgressBar(25);
+                label82.Text = "Creating File.";
                 DataSet dsTwo = new DataSet("DataSetName");
                 SqlConnection conTwo;
                 SqlDataAdapter daTwo;
@@ -429,6 +449,7 @@ namespace Finance_App
                     CountThree++;
                 }
                 ProgressBar(50);
+                label82.Text = "Creating File..";
                 DataSet dsFour = new DataSet("DataSetName");
                 SqlConnection conFour;
                 SqlDataAdapter daFour;
@@ -504,6 +525,7 @@ namespace Finance_App
                 MessageBox.Show("Spreadsheet was not created!");
             }
             ProgressBar(65);
+            label82.Text = "Creating File...";
             // Auto Size Sheet One
             for (int t = 0; t < sheet.ColumnCount; t++)
             {
@@ -523,13 +545,13 @@ namespace Finance_App
                 sheetTwo.AutoSizeRow(t);
             }
 
-            for (int t = 0; t < sheetThree.ColumnCount; t++)
+            for (int t = 0; t < sheetTwo.ColumnCount; t++)
             {
-                sheetThree.AutoSizeColumn(t);
+                sheetTwo.AutoSizeColumn(t);
             }
-            for (int t = 0; t < sheetThree.RowCount; t++)
+            for (int t = 0; t < sheetTwo.RowCount; t++)
             {
-                sheetThree.AutoSizeRow(t);
+                sheetTwo.AutoSizeRow(t);
             }
 
             for (int t = 0; t < sheetFour.ColumnCount; t++)
@@ -558,6 +580,7 @@ namespace Finance_App
                 workbook.SaveAs("Budget Basic.xlsx");
             }
             ProgressBar(75);
+            label82.Text = "Creating File....";
             // Format Spreadsheet
             FormatSpread();
             ProgressBar(100);
@@ -1164,9 +1187,10 @@ namespace Finance_App
                         // If God Only Knows Fund deposit reaches set cap, take remainder and add it to Spending Section*
                         else if (preCheck >= double.Parse(comboBox6.Text) && radioButton2.Checked)
                         {
-                            double remainder = (input * 0.25) - double.Parse(GOKFBox.Text);
+                            
                             savingsBox.Text = Decimal.Round((decimal)(input * 0.25), 2).ToString().Trim();
                             GOKFBox.Text = (double.Parse(comboBox6.Text) - double.Parse(textBox9.Text)).ToString().Trim();
+                            double remainder = (input * 0.25) - double.Parse(GOKFBox.Text);
                             spendingBox.Text = Decimal.Round((decimal)((input * 0.40) + remainder), 2).ToString().Trim();
                         }
                         // If God Only Knows Fund deposit reaches set cap, take remainder and add it to Spending Section*
@@ -2141,20 +2165,23 @@ namespace Finance_App
             Globals.switchHit = false;
             Create_Excel_All(Globals.selectAllPeople, Globals.selectAllMonCo, Globals.selectAllMoney, Globals.selectAllLongTitles,
                 Globals.selectAllLongSaves);
+            label82.Text = "";
+            ProgressBar(0);
         }
 
         private void Button18_Click(object sender, EventArgs e)
         {
             if (textBox78.Text != "")
             {
+                Globals.switchHit = true;
                 label82.Text = "Creating File.";
                 AdaptTemp(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
                     Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
                     Globals.selectWhereLongSaves + textBox78.Text);
-                ProgressBar(0);
                 Create_Excel_All(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
                     Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
                     Globals.selectWhereLongSaves + textBox78.Text);
+                label82.Text = "";
                 ProgressBar(0);
             }
             else
