@@ -237,6 +237,7 @@
             this.label74 = new System.Windows.Forms.Label();
             this.comboBox8 = new System.Windows.Forms.ComboBox();
             this.button17 = new System.Windows.Forms.Button();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage6.SuspendLayout();
@@ -2861,6 +2862,7 @@
         private System.Windows.Forms.Button button18;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label82;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

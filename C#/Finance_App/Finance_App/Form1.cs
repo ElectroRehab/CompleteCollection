@@ -9,7 +9,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -24,6 +28,65 @@ namespace Finance_App
         {
             InitializeComponent();
         }
+        public static String DateString()
+        {
+            string sYear, sMonth, sDay;
+            int month;
+            DateTime c = DateTime.Now;
+            month = c.Month;
+            if (month == 1)
+            {
+                sMonth = "Jan";
+            }
+            else if (month == 2)
+            {
+                sMonth = "Feb";
+            }
+            else if (month == 3)
+            {
+                sMonth = "Mar";
+            }
+            else if (month == 4)
+            {
+                sMonth = "Apr";
+            }
+            else if (month == 5)
+            {
+                sMonth = "May";
+            }
+            else if (month == 6)
+            {
+                sMonth = "Jun";
+            }
+            else if (month == 7)
+            {
+                sMonth = "Jul";
+            }
+            else if (month == 8)
+            {
+                sMonth = "Aug";
+            }
+            else if (month == 9)
+            {
+                sMonth = "Sep";
+            }
+            else if (month == 10)
+            {
+                sMonth = "Oct";
+            }
+            else if (month == 11)
+            {
+                sMonth = "Nov";
+            }
+            else
+            {
+                sMonth = "Dec";
+            }
+            sYear = c.Year.ToString();
+            sDay = c.Day.ToString();
+                        
+            return sDay + sMonth + sYear;
+        }
         public static class Globals
         {            
             // Database location string
@@ -31,11 +94,13 @@ namespace Finance_App
             public static bool bypass;
             public static bool secondChance = false;
             public static bool switchHit = true;
+            public static bool fileSaver = false;
             public static String boxAnswer;
             public static String currentUser;
             public static String currentUserId;
             public static String first;
             public static String last;
+            public static String savePath;
             public static String splitText;
             public static String dialogOne = "Enter User's Pass Code:";
             public static String dialogTwo = "Verify Pass Code";
@@ -65,25 +130,25 @@ namespace Finance_App
 
 
         }
-        public void ProgressBar(int place)
+        public void SaveDia()
         {
-            
-            if (place == 25)
+            FolderBrowserDialog fold = new FolderBrowserDialog();
+            string desc =("\t\tSelect Folder Or Create \n\t\tNew Folder To Save Into...");
+            fold.Description = desc;
+            DialogResult result = fold.ShowDialog();
+            if (result == DialogResult.OK)
             {
-                progressBar1.Value = place;
-            }
-            else if (place == 50)
-            {                
-                progressBar1.Value = place;
-            }
-            else if (place == 75)
-            {
-                progressBar1.Value = place;
+                Globals.fileSaver = true;
+                Globals.savePath = Path.GetFullPath(fold.SelectedPath);
             }
             else
             {
-                progressBar1.Value = place;
+                Globals.fileSaver = false;
             }
+        }
+        public void ProgressBar(int place)
+        {
+            progressBar1.Value = place;            
         }
         private void AdaptTemp(string one, string two, string three, string four, string five)
         {
@@ -279,8 +344,8 @@ namespace Finance_App
                 }
                 sheet.Sum();
                 sheetTwo.Sum();
-
-                workBook.SaveAs("Budget GUI - "+ comboBox8.Text +".xlsx");
+                string dtn = DateString();
+                workBook.SaveAs(@"" + Globals.savePath + @"\Budget GUI - " + comboBox8.Text + " - " + dtn + ".xlsx");
                 con.Close();
                 conTwo.Close();
                 conThree.Close();
@@ -522,7 +587,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("Spreadsheet was not created!");
+                MessageBox.Show(new Form() { TopMost = true },"Spreadsheet was not created!");
             }
             ProgressBar(65);
             label82.Text = "Creating File...";
@@ -570,14 +635,15 @@ namespace Finance_App
             {
                 sheetFive.AutoSizeRow(t);
             }
+            string dtn = DateString();
             // Save Created Worksheetif (Globals.switchHit == true)
             if (Globals.switchHit == true)
             {
-                workbook.SaveAs("Budget Basic - " + comboBox8.Text + ".xlsx");
+                workbook.SaveAs(@"" + Globals.savePath + @"\Budget Basic - " + comboBox8.Text + " - " + dtn + ".xlsx");
             }
             else
             {
-                workbook.SaveAs("Budget Basic.xlsx");
+                workbook.SaveAs(@"" + Globals.savePath + @"\Budget Basic - " + dtn + ".xlsx");
             }
             ProgressBar(75);
             label82.Text = "Creating File....";
@@ -585,28 +651,29 @@ namespace Finance_App
             FormatSpread();
             ProgressBar(100);
             // Open File Location
-            Process.Start("explorer.exe", ".");
+            Process.Start("explorer.exe", @"" + Globals.savePath);
             label82.Text = "File Created";
             if (Globals.switchHit == true)
             {
-                MessageBox.Show("Spreadsheets are now created!");
+                MessageBox.Show(new Form() { TopMost = true }, "Spreadsheets are now created!");
             }
             else
             {
-                MessageBox.Show("Spreadsheet is now created!");
+                MessageBox.Show(new Form() { TopMost = true }, "Spreadsheet is now created!");
             }
             ProgressBar(0);
         }
         public void FormatSpread()
         {
             WorkBook workBook = new WorkBook();
+            string dtn = DateString();
             if (Globals.switchHit == true)
             {
-                workBook = WorkBook.Load("Budget Basic - " + comboBox8.Text + ".xlsx");
+                workBook = WorkBook.Load(@"" + Globals.savePath + @"\Budget Basic - " + comboBox8.Text + " - " + dtn + ".xlsx");
             }
             else
             {
-                workBook = WorkBook.Load("Budget Basic.xlsx");
+                workBook = WorkBook.Load(@"" + Globals.savePath + @"\Budget Basic - " + dtn + ".xlsx");
             }
             for (int i = 0; i < 5; i++)
             {
@@ -654,11 +721,11 @@ namespace Finance_App
                 workSheet.ConditionalFormatting.AddConditionalFormatting("A1:" + workSheet.RowCount, rule);
                 if (Globals.switchHit == true)
                 {
-                    workBook.SaveAs("Budget Basic - " + comboBox8.Text + ".xlsx");
+                    workBook.SaveAs(@"" + Globals.savePath + @"\Budget Basic - " + comboBox8.Text + " - " + dtn + ".xlsx");
                 }
                 else
                 {
-                    workBook.SaveAs("Budget Basic.xlsx");
+                    workBook.SaveAs(@"" + Globals.savePath + @"\Budget Basic - " + dtn + ".xlsx");
                 }
             }
         }
@@ -720,7 +787,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Connection");
+                    MessageBox.Show(new Form() { TopMost = true }, "No Connection");
                 }
                 // Attempt to populate fields from Money Database
                 try
@@ -753,7 +820,7 @@ namespace Finance_App
                                 t3.Text = ("");
                                 t4.Text = ("");
                                 t5.Text = ("");
-                                MessageBox.Show("Incorrect Pass Code");
+                                MessageBox.Show(new Form() { TopMost = true },"Incorrect Pass Code");
                             }
                         }
                     }
@@ -761,7 +828,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Connection");
+                    MessageBox.Show(new Form() { TopMost = true },"No Connection");
                 }
             }
             else
@@ -792,7 +859,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Connection");
+                    MessageBox.Show(new Form() { TopMost = true },"No Connection");
                 }
             }
         }
@@ -823,7 +890,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
         }
         public void SaveInfo()
@@ -853,7 +920,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
             // Attempt to populate fields from Money Database
             try
@@ -879,7 +946,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
         }
         public double ExpCalc()
@@ -965,7 +1032,7 @@ namespace Finance_App
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(new Form() { TopMost = true },ex.Message);
                 }
 
                 try
@@ -994,7 +1061,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Money Input");
+                    MessageBox.Show(new Form() { TopMost = true },"No Money Input");
                 }
                 try
                 {
@@ -1025,7 +1092,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Title Inputs");
+                    MessageBox.Show(new Form() { TopMost = true },"No Title Inputs");
                 }
                 try
                 {
@@ -1056,7 +1123,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Money Title Inputs");
+                    MessageBox.Show(new Form() { TopMost = true },"No Money Title Inputs");
                 }
                 try
                 {
@@ -1116,22 +1183,22 @@ namespace Finance_App
                     cmd.ExecuteNonQuery();
                     // Close Database
                     cn.Close();
-                    MessageBox.Show("User Account Created");
+                    MessageBox.Show(new Form() { TopMost = true },"User Account Created");
                 }
                 catch
                 {
-                    MessageBox.Show("No Costs Inputted");
+                    MessageBox.Show(new Form() { TopMost = true },"No Costs Inputted");
                 }
             }
             else
             {
                 if (!textBox13.Text.Contains("@"))
                 {
-                    MessageBox.Show("        Invalid Email Address, \n                 Try Again.");
+                    MessageBox.Show(new Form() { TopMost = true },"        Invalid Email Address, \n                 Try Again.");
                 }
                 else
                 {
-                    MessageBox.Show("Passcode must be 4 characters in length.");
+                    MessageBox.Show(new Form() { TopMost = true },"Passcode must be 4 characters in length.");
                 }
             }
         }
@@ -1148,12 +1215,12 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("Please Enter Only Numbers");
+                    MessageBox.Show(new Form() { TopMost = true },"Please Enter Only Numbers");
                 }
                 // Check to see if user's input is not a negative
                 if (input < 0)
                 {
-                    MessageBox.Show("Income must be a positive number");
+                    MessageBox.Show(new Form() { TopMost = true },"Income must be a positive number");
                 }
                 else
                 {
@@ -1211,19 +1278,19 @@ namespace Finance_App
                     }
                     else
                     {
-                        MessageBox.Show("Select Radio Button to add remainder");
+                        MessageBox.Show(new Form() { TopMost = true },"Select Radio Button to add remainder");
                     }
                 }
             }
             // Alert user that they need to select an account prior to completing any calculations
             else
             {
-                MessageBox.Show("Select User\nSet Cap God Only Knows Fund");
+                MessageBox.Show(new Form() { TopMost = true },"Select User\nSet Cap God Only Knows Fund");
             }
         }
         private void Button2_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Confirm Adding Fields Together?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(new Form() { TopMost = true },"Confirm Adding Fields Together?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 // Initiate SQL items for when the text is changed within the ComboBox
                 try
@@ -1244,20 +1311,20 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Connection");
+                    MessageBox.Show(new Form() { TopMost = true },"No Connection");
                 }
                 DepoInfo(textBox6, textBox7, textBox8, textBox9, textBox10);
 
             }
             else
             {
-                MessageBox.Show("Action Cancelled");
+                MessageBox.Show(new Form() { TopMost = true },"Action Cancelled");
             }
         }
         // Undo last transaction from Deposit
         private void Button3_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Confirm Undoing Last Transaction?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(new Form() { TopMost = true },"Confirm Undoing Last Transaction?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 try
                 {
@@ -1277,7 +1344,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Connection");
+                    MessageBox.Show(new Form() { TopMost = true },"No Connection");
                 }
                 DepoInfo(textBox6, textBox7, textBox8, textBox9, textBox10);
             }
@@ -1287,12 +1354,12 @@ namespace Finance_App
             // Ensure a user is selected to do calculations
             if (textBox30.Text == "")
             {
-                MessageBox.Show("Select A User.");
+                MessageBox.Show(new Form() { TopMost = true },"Select A User.");
             }
             // User is available to complete calculations
             else
             {
-                if (MessageBox.Show("Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show(new Form() { TopMost = true },"Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     try
                     {
@@ -1323,7 +1390,7 @@ namespace Finance_App
                     }
                     catch
                     {
-                        MessageBox.Show("Calculations could not be performed");
+                        MessageBox.Show(new Form() { TopMost = true },"Calculations could not be performed");
                     }
                     try
                     {
@@ -1342,7 +1409,7 @@ namespace Finance_App
                     }
                     catch
                     {
-                        MessageBox.Show("No ConnectionThere");
+                        MessageBox.Show(new Form() { TopMost = true },"No ConnectionThere");
                     }
 
                 }
@@ -1353,12 +1420,12 @@ namespace Finance_App
             // Ensure a user is selected to do calculations
             if (textBox47.Text == "")
             {
-                MessageBox.Show("Select A User.");
+                MessageBox.Show(new Form() { TopMost = true },"Select A User.");
             }
             // User is available to complete calculations
             else
             {
-                if (MessageBox.Show("Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show(new Form() { TopMost = true },"Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     try
                     {
@@ -1388,7 +1455,7 @@ namespace Finance_App
                     }
                     catch
                     {
-                        MessageBox.Show("Calculations could not be performed");
+                        MessageBox.Show(new Form() { TopMost = true },"Calculations could not be performed");
                     }
                     try
                     {
@@ -1407,7 +1474,7 @@ namespace Finance_App
                     }
                     catch
                     {
-                        MessageBox.Show("No ConnectionThere");
+                        MessageBox.Show(new Form() { TopMost = true },"No ConnectionThere");
                     }
 
                 }
@@ -1415,7 +1482,7 @@ namespace Finance_App
         }
         private void Button6_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Confirm Updaing User?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (MessageBox.Show(new Form() { TopMost = true },"Confirm Updaing User?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 try
                 {
@@ -1432,7 +1499,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Connection");
+                    MessageBox.Show(new Form() { TopMost = true },"No Connection");
                 }
                 // Attempt to populate fields from Money Database
                 try
@@ -1460,7 +1527,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Connection");
+                    MessageBox.Show(new Form() { TopMost = true },"No Connection");
                 }
             }
         }
@@ -1497,18 +1564,18 @@ namespace Finance_App
                         // Delete user from LongTermSaves Database
                         Globals.sqlStatement = "DELETE FROM LongTermSaves WHERE Id=@id";
                         DelUser();
-                        MessageBox.Show("User Successfully Deleted");
+                        MessageBox.Show(new Form() { TopMost = true },"User Successfully Deleted");
                     }
                     else
                     {
-                        MessageBox.Show("Incorrect Password");
+                        MessageBox.Show(new Form() { TopMost = true },"Incorrect Password");
                     }
                 }
                 cnn.Close();
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
         }
         private void Button8_Click(object sender, EventArgs e)
@@ -1516,12 +1583,12 @@ namespace Finance_App
             // Ensure a user is selected to do calculations
             if (textBox66.Text == "")
             {
-                MessageBox.Show("Select A User.");
+                MessageBox.Show(new Form() { TopMost = true },"Select A User.");
             }
             // User is available to complete calculations
             else
             {
-                if (MessageBox.Show("Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show(new Form() { TopMost = true },"Confirm Comparing Expenses to Income?", "CONFIRM", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     try
                     {
@@ -1547,7 +1614,7 @@ namespace Finance_App
                     }
                     catch
                     {
-                        MessageBox.Show("Calculations could not be performed");
+                        MessageBox.Show(new Form() { TopMost = true },"Calculations could not be performed");
                     }
                     try
                     {
@@ -1562,7 +1629,7 @@ namespace Finance_App
                     }
                     catch
                     {
-                        MessageBox.Show("No Connection");
+                        MessageBox.Show(new Form() { TopMost = true },"No Connection");
                     }
 
                 }
@@ -1585,7 +1652,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
             // Attempt to populate fields from Money Database
             SaveInfo();
@@ -1607,7 +1674,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
             // Attempt to populate fields from Money Database
             SaveInfo();
@@ -1629,7 +1696,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
             // Attempt to populate fields from Money Database
             SaveInfo();
@@ -1651,7 +1718,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
             // Attempt to populate fields from Money Database
             SaveInfo();
@@ -1673,7 +1740,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
             // Attempt to populate fields from Money Database
             SaveInfo();
@@ -1695,7 +1762,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
             // Attempt to populate fields from Money Database
             SaveInfo();
@@ -1710,7 +1777,7 @@ namespace Finance_App
                     double spendingSubtract = double.Parse(textBox67.Text) - double.Parse(textBox71.Text);
                     if (spendingSubtract < 0)
                     {
-                        MessageBox.Show("Not enough funds to complete transfer.");
+                        MessageBox.Show(new Form() { TopMost = true },"Not enough funds to complete transfer.");
                     }
                     else
                     {
@@ -1726,7 +1793,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Connection");
+                    MessageBox.Show(new Form() { TopMost = true },"No Connection");
                 }
                 if (Globals.passChecker == true && Globals.currentUser != "")
                 {
@@ -1740,7 +1807,7 @@ namespace Finance_App
             }
             else
             {
-                MessageBox.Show("Select User");
+                MessageBox.Show(new Form() { TopMost = true },"Select User");
             }
         }
         private void Button16_Click(object sender, EventArgs e)
@@ -1753,7 +1820,7 @@ namespace Finance_App
                     double savingSubtract = double.Parse(textBox69.Text) - double.Parse(textBox71.Text);
                     if (savingSubtract < 0)
                     {
-                        MessageBox.Show("Not enough funds to complete transfer.");
+                        MessageBox.Show(new Form() { TopMost = true },"Not enough funds to complete transfer.");
                     }
                     else
                     {
@@ -1770,7 +1837,7 @@ namespace Finance_App
                 }
                 catch
                 {
-                    MessageBox.Show("No Connection");
+                    MessageBox.Show(new Form() { TopMost = true },"No Connection");
                 }
                 if (Globals.passChecker == true && Globals.currentUser != "")
                 {
@@ -1784,7 +1851,7 @@ namespace Finance_App
             }
             else
             {
-                MessageBox.Show("Select User");
+                MessageBox.Show(new Form() { TopMost = true },"Select User");
             }
         }
         // Check to see users available in database
@@ -1851,7 +1918,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
             try
             {
@@ -1882,7 +1949,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("Calculations could not be performed");
+                MessageBox.Show(new Form() { TopMost = true },"Calculations could not be performed");
             }
         }
         private void ComboBox3_Click(object sender, EventArgs e)
@@ -1939,7 +2006,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
 
             try
@@ -1971,7 +2038,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("Calculations could not be performed");
+                MessageBox.Show(new Form() { TopMost = true },"Calculations could not be performed");
             }
 
         }
@@ -2017,7 +2084,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
             // Attempt to populate fields from Money Database
             try
@@ -2045,7 +2112,7 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show("No Connection");
+                MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
         }
         private void ChangeTabs(object sender, EventArgs e)
@@ -2161,33 +2228,54 @@ namespace Finance_App
 
         private void Button17_Click(object sender, EventArgs e)
         {
-            label82.Text = "Creating File.";
-            Globals.switchHit = false;
-            Create_Excel_All(Globals.selectAllPeople, Globals.selectAllMonCo, Globals.selectAllMoney, Globals.selectAllLongTitles,
-                Globals.selectAllLongSaves);
-            label82.Text = "";
-            ProgressBar(0);
+            SaveDia();
+            if (Globals.fileSaver == true)
+            {
+                label82.Text = "Creating File.";
+                Globals.switchHit = false;
+                Create_Excel_All(Globals.selectAllPeople, Globals.selectAllMonCo, Globals.selectAllMoney, Globals.selectAllLongTitles,
+                    Globals.selectAllLongSaves);
+                label82.Text = "";
+                ProgressBar(0);
+            }
+            else
+            {
+                MessageBox.Show(new Form() { TopMost = true },"Select a valid folder - File NOT Saved!");
+                Globals.fileSaver = true;
+            }
         }
 
         private void Button18_Click(object sender, EventArgs e)
         {
             if (textBox78.Text != "")
             {
-                Globals.switchHit = true;
-                label82.Text = "Creating File.";
-                AdaptTemp(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
-                    Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
-                    Globals.selectWhereLongSaves + textBox78.Text);
-                Create_Excel_All(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
-                    Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
-                    Globals.selectWhereLongSaves + textBox78.Text);
-                label82.Text = "";
-                ProgressBar(0);
+                SaveDia();
+                if (Globals.fileSaver == true)
+                {
+                    Globals.switchHit = true;
+                    
+                    label82.Text = "Creating File.";
+                    AdaptTemp(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
+                        Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
+                        Globals.selectWhereLongSaves + textBox78.Text);
+                    Create_Excel_All(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
+                        Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
+                        Globals.selectWhereLongSaves + textBox78.Text);
+                    label82.Text = "";
+                    ProgressBar(0);
+                }
+                else
+                {
+                    MessageBox.Show(new Form() { TopMost = true },"Select a valid folder - File NOT Saved!");
+                    Globals.fileSaver = true;
+                }
             }
             else
             {
-                MessageBox.Show("No User currently available");
+                MessageBox.Show(new Form() { TopMost = true },"No User currently available");
             }
         }
+
+
     }
 }
