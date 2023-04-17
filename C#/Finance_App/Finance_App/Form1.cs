@@ -27,66 +27,7 @@ namespace Finance_App
         public Form1()
         {
             InitializeComponent();
-        }
-        public static String DateString()
-        {
-            string sYear, sMonth, sDay;
-            int month;
-            DateTime c = DateTime.Now;
-            month = c.Month;
-            if (month == 1)
-            {
-                sMonth = "Jan";
-            }
-            else if (month == 2)
-            {
-                sMonth = "Feb";
-            }
-            else if (month == 3)
-            {
-                sMonth = "Mar";
-            }
-            else if (month == 4)
-            {
-                sMonth = "Apr";
-            }
-            else if (month == 5)
-            {
-                sMonth = "May";
-            }
-            else if (month == 6)
-            {
-                sMonth = "Jun";
-            }
-            else if (month == 7)
-            {
-                sMonth = "Jul";
-            }
-            else if (month == 8)
-            {
-                sMonth = "Aug";
-            }
-            else if (month == 9)
-            {
-                sMonth = "Sep";
-            }
-            else if (month == 10)
-            {
-                sMonth = "Oct";
-            }
-            else if (month == 11)
-            {
-                sMonth = "Nov";
-            }
-            else
-            {
-                sMonth = "Dec";
-            }
-            sYear = c.Year.ToString();
-            sDay = c.Day.ToString();
-                        
-            return sDay + sMonth + sYear;
-        }
+        }        
         public static class Globals
         {            
             // Database location string
@@ -100,8 +41,22 @@ namespace Finance_App
             public static String currentUserId;
             public static String first;
             public static String last;
-            public static String savePath;
+            public static String savePath = @"C:\users";
             public static String splitText;
+            public static string[] monthArray = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+            public static string[] moCostInfo = {"@mOne", "@mTwo", "@mThree", "@mFour", "@mFive", "@mSix", "@mSeven", "@mEight", 
+                "@mNine", "@mTen", "@mEleven", "@mTwelve", "@mThirteen", "@mFourteen", "@mFifteen", "@mSixteen", "@mSeventeen", 
+                "@mEighteen", "@mNineteen", "@mTwenty"};
+            public static string[] longSaveArray = { "@saveOne", "@saveTwo", "@saveThree", "@saveFour", "@saveFive", "@saveSix" };
+            public static string[] longTitleArray = { "@itemOne", "@itemTwo", "@itemThree", "@itemFour", "@itemFive", "@itemSix" };
+            public static string[] moneyArray = { "@donate", "@save", "@gokf", "@spend", "@pass" };
+            public static string[] peopleArray = { "@firstName", "@lastName", "@email", "@address1", "@address2", "@city", "@state", "@zip" };
+            public static string[] alphabetAUArray = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+                    "P", "Q", "R", "S", "T", "U"};
+            public static string[] monthCostArray = {"Id", "MonthlyOne", "MonthlyTwo", "MonthlyThree", "MonthlyFour", "MonthlyFive",
+                    "MonthlySix", "MonthlySeven", "MonthlyEight", "MonthlyNine", "MonthlyTen", "MonthlyEleven", "MonthlyTwelve",
+                    "MonthlyThirteen", "MonthlyFourteen", "MonthlyFifteen", "MonthlySixteen", "MonthlySeventeen", "MonthlyEighteen",
+                    "MonthlyNineteen", "MonthlyTwenty"};
             public static String dialogOne = "Enter User's Pass Code:";
             public static String dialogTwo = "Verify Pass Code";
             public static String dialogThree = "Change Title of Selection:";
@@ -125,31 +80,64 @@ namespace Finance_App
             public static String selectWhereMoney = "SELECT * FROM Money WHERE Id = ";
             public static String selectWhereLongTitles = "SELECT * FROM LongTermTitles WHERE Id = ";
             public static String selectWhereLongSaves = "SELECT * FROM LongTermSaves WHERE Id = ";
-
             public static String sqlStatement;
-
-
         }
+        // Create an instance of the current date into a string to be used in save filename
+        public static String DateString()
+        {
+
+            string sYear, sMonth, sDay;
+            int month;
+            DateTime c = DateTime.Now;
+            month = c.Month;
+            sMonth = Globals.monthArray[month - 1];
+            sYear = c.Year.ToString();
+            sDay = c.Day.ToString();
+
+            return sDay + sMonth + sYear;
+        }
+        public void SizeLoop(WorkSheet w)
+        {
+            // Auto Size Sheets
+            for (int t = 0; t < w.ColumnCount; t++)
+            {
+                w.AutoSizeColumn(t);
+            }
+            for (int t = 0; t < w.RowCount; t++)
+            {
+                w.AutoSizeRow(t);
+            }
+        }
+        //Save File Dialog
         public void SaveDia()
         {
+            // Create instance for selecting folder to save Excel Files
             FolderBrowserDialog fold = new FolderBrowserDialog();
+            // Description line of pop-up window.
             string desc =("\t\tSelect Folder Or Create \n\t\tNew Folder To Save Into...");
             fold.Description = desc;
+            // Open default directory to save file in
+            fold.SelectedPath = Globals.savePath;
             DialogResult result = fold.ShowDialog();
+            // Determine if user selected a legit folder.
             if (result == DialogResult.OK)
             {
+                // Ensure user's files will go to a specific location
                 Globals.fileSaver = true;
                 Globals.savePath = Path.GetFullPath(fold.SelectedPath);
             }
             else
             {
+                // Incorrect choice or invalid folder.
                 Globals.fileSaver = false;
             }
         }
+        // Display Progress Bar depending on the percentage completed when it comes to creating Excel File(s).
         public void ProgressBar(int place)
         {
             progressBar1.Value = place;            
         }
+        // Create detailed individual Excel Spreadsheet of financial information
         private void AdaptTemp(string one, string two, string three, string four, string five)
         {
             // Supported for XLSX, XLS, XLSM, XLTX, CSV and TSV
@@ -169,6 +157,7 @@ namespace Finance_App
                 da = new SqlDataAdapter(one, con);
                 con.Open();
                 da.Fill(ds);
+                // Popluate user's fields within new Spreadsheet. 
                 foreach (DataTable table in ds.Tables)
                 {
                     int Count = table.Rows.Count;
@@ -196,6 +185,7 @@ namespace Finance_App
 
                     Count++;
                 }
+                // Populate the titles of each monthly costs
                 DataSet dsTwo = new DataSet("DataSetName");
                 SqlConnection conTwo;
                 SqlDataAdapter daTwo;
@@ -225,7 +215,7 @@ namespace Finance_App
                 sheet["Q20"].Value = "Cell Phone".ToString().Trim();
                 sheet["Q21"].Value = "Child Care".ToString().Trim();
 
-                //Loop through contents of dataset
+                // Populate the numbers of each monthly costs
                 foreach (DataTable tableTwo in dsTwo.Tables)
                 {
                     int CountTwo = tableTwo.Rows.Count;
@@ -447,7 +437,7 @@ namespace Finance_App
                 sheetTwo["S1"].Value = "Internet & Cable".ToString().Trim();
                 sheetTwo["T1"].Value = "Cell Phone".ToString().Trim();
                 sheetTwo["U1"].Value = "Child Care".ToString().Trim();
-
+                
                 //Loop through contents of dataset
                 foreach (DataTable tableTwo in dsTwo.Tables)
                 {
@@ -455,29 +445,13 @@ namespace Finance_App
                     int i = 0;
                     for (int j = 2; j <= CountTwo + 1; j++)
                     {
-                        sheetTwo["A" + j].Value = tableTwo.Rows[i]["Id"];
-                        sheetTwo["B" + j].Value = tableTwo.Rows[i]["MonthlyOne"];
-                        sheetTwo["C" + j].Value = tableTwo.Rows[i]["MonthlyTwo"];
-                        sheetTwo["D" + j].Value = tableTwo.Rows[i]["MonthlyThree"];
-                        sheetTwo["E" + j].Value = tableTwo.Rows[i]["MonthlyFour"];
-                        sheetTwo["F" + j].Value = tableTwo.Rows[i]["MonthlyFive"];
-                        sheetTwo["G" + j].Value = tableTwo.Rows[i]["MonthlySix"];
-                        sheetTwo["H" + j].Value = tableTwo.Rows[i]["MonthlySeven"];
-                        sheetTwo["I" + j].Value = tableTwo.Rows[i]["MonthlyEight"];
-                        sheetTwo["J" + j].Value = tableTwo.Rows[i]["MonthlyNine"];
-                        sheetTwo["K" + j].Value = tableTwo.Rows[i]["MonthlyTen"];
-                        sheetTwo["L" + j].Value = tableTwo.Rows[i]["MonthlyEleven"];
-                        sheetTwo["M" + j].Value = tableTwo.Rows[i]["MonthlyTwelve"];
-                        sheetTwo["N" + j].Value = tableTwo.Rows[i]["MonthlyThirteen"];
-                        sheetTwo["O" + j].Value = tableTwo.Rows[i]["MonthlyFourteen"];
-                        sheetTwo["P" + j].Value = tableTwo.Rows[i]["MonthlyFifteen"];
-                        sheetTwo["Q" + j].Value = tableTwo.Rows[i]["MonthlySixteen"];
-                        sheetTwo["R" + j].Value = tableTwo.Rows[i]["MonthlySeventeen"];
-                        sheetTwo["S" + j].Value = tableTwo.Rows[i]["MonthlyEighteen"];
-                        sheetTwo["T" + j].Value = tableTwo.Rows[i]["MonthlyNineteen"];
-                        sheetTwo["U" + j].Value = tableTwo.Rows[i]["MonthlyTwenty"];
+                        for (int k = 0; k < Globals.alphabetAUArray.Length; k++)
+                        {
+                            sheetTwo[Globals.alphabetAUArray[k] + j].Value = tableTwo.Rows[i][Globals.monthCostArray[k]];                            
+                        }
                         i++;
                     }
+
                     CountTwo++;
                 }
 
@@ -591,50 +565,13 @@ namespace Finance_App
             }
             ProgressBar(65);
             label82.Text = "Creating File...";
-            // Auto Size Sheet One
-            for (int t = 0; t < sheet.ColumnCount; t++)
-            {
-                sheet.AutoSizeColumn(t);
-            }
-            for (int t = 0; t < sheet.RowCount; t++)
-            {
-                sheet.AutoSizeRow(t);
-            }
+            // Format Basic Excel Spreadsheet Output.
+            SizeLoop(sheet);
+            SizeLoop(sheetTwo);
+            SizeLoop(sheetThree);
+            SizeLoop(sheetFour);
+            SizeLoop(sheetFive);
 
-            for (int t = 0; t < sheetTwo.ColumnCount; t++)
-            {
-                sheetTwo.AutoSizeColumn(t);
-            }
-            for (int t = 0; t < sheetTwo.RowCount; t++)
-            {
-                sheetTwo.AutoSizeRow(t);
-            }
-
-            for (int t = 0; t < sheetTwo.ColumnCount; t++)
-            {
-                sheetTwo.AutoSizeColumn(t);
-            }
-            for (int t = 0; t < sheetTwo.RowCount; t++)
-            {
-                sheetTwo.AutoSizeRow(t);
-            }
-
-            for (int t = 0; t < sheetFour.ColumnCount; t++)
-            {
-                sheetFour.AutoSizeColumn(t);
-            }
-            for (int t = 0; t < sheetFour.RowCount; t++)
-            {
-                sheetFour.AutoSizeRow(t);
-            }
-            for (int t = 0; t < sheetFive.ColumnCount; t++)
-            {
-                sheetFive.AutoSizeColumn(t);
-            }
-            for (int t = 0; t < sheetFive.RowCount; t++)
-            {
-                sheetFive.AutoSizeRow(t);
-            }
             string dtn = DateString();
             // Save Created Worksheetif (Globals.switchHit == true)
             if (Globals.switchHit == true)
@@ -663,6 +600,7 @@ namespace Finance_App
             }
             ProgressBar(0);
         }
+        
         public void FormatSpread()
         {
             WorkBook workBook = new WorkBook();
@@ -677,48 +615,14 @@ namespace Finance_App
             }
             for (int i = 0; i < 5; i++)
             {
-                WorkSheet workSheet = workBook.WorkSheets[i];                
-                // Create conditional formatting rule
-                var rule = workSheet.ConditionalFormatting.CreateConditionalFormattingRule(ComparisonOperator.GreaterThanOrEqual, "0");
-                // Set style options
-                //rule.FontFormatting.IsBold = true;
-                rule.FontFormatting.FontColor = "#000000";
-                rule.BorderFormatting.TopBorderType = BorderType.Thin;
-                rule.BorderFormatting.TopBorderColor = "#000000";
-                rule.BorderFormatting.BottomBorderType = BorderType.Thin;
-                rule.BorderFormatting.BottomBorderColor = "#000000";
-                rule.BorderFormatting.LeftBorderType = BorderType.Thin;
-                rule.BorderFormatting.LeftBorderColor = "#000000";
-                rule.BorderFormatting.RightBorderType = BorderType.Thin;
-                rule.BorderFormatting.RightBorderColor = "#000000";
-                rule.PatternFormatting.BackgroundColor = "#4DFF00";
-                workSheet.FormatString = "0.00";
-                
-                // Apply formatting on specified region
-                workSheet.ConditionalFormatting.AddConditionalFormatting("B1:" + workSheet.RowCount, rule);
-                
+                WorkSheet workSheet = workBook.WorkSheets[i];
+                ExtraFormatSpread(true, workSheet);                
             }
             for (int i = 0; i < 5; i++)
             {
                 WorkSheet workSheet = workBook.WorkSheets[i];
-
-                // Create conditional formatting rule
-                var rule = workSheet.ConditionalFormatting.CreateConditionalFormattingRule(ComparisonOperator.GreaterThanOrEqual, "0");
-                // Set style options
-                //rule.FontFormatting.IsBold = true;
-                rule.FontFormatting.FontColor = "#000000";
-                rule.BorderFormatting.TopBorderType = BorderType.Thin;
-                rule.BorderFormatting.TopBorderColor = "#000000";
-                rule.BorderFormatting.BottomBorderType = BorderType.Thin;
-                rule.BorderFormatting.BottomBorderColor = "#000000";
-                rule.BorderFormatting.LeftBorderType = BorderType.Thin;
-                rule.BorderFormatting.LeftBorderColor = "#000000";
-                rule.BorderFormatting.RightBorderType = BorderType.Thin;
-                rule.BorderFormatting.RightBorderColor = "#000000";
-                rule.PatternFormatting.BackgroundColor = "#4DFF00";
-                workSheet.FormatString = "0";
-                // Apply formatting on specified region
-                workSheet.ConditionalFormatting.AddConditionalFormatting("A1:" + workSheet.RowCount, rule);
+                ExtraFormatSpread(false, workSheet);
+                
                 if (Globals.switchHit == true)
                 {
                     workBook.SaveAs(@"" + Globals.savePath + @"\Budget Basic - " + comboBox8.Text + " - " + dtn + ".xlsx");
@@ -727,6 +631,34 @@ namespace Finance_App
                 {
                     workBook.SaveAs(@"" + Globals.savePath + @"\Budget Basic - " + dtn + ".xlsx");
                 }
+            }
+        }
+        public void ExtraFormatSpread(bool num, WorkSheet sheet)
+        {
+            // Create conditional formatting rule
+            var rule = sheet.ConditionalFormatting.CreateConditionalFormattingRule(ComparisonOperator.GreaterThanOrEqual, "0");
+            rule.FontFormatting.FontColor = "#000000";
+            rule.BorderFormatting.TopBorderType = BorderType.Thin;
+            rule.BorderFormatting.TopBorderColor = "#000000";
+            rule.BorderFormatting.BottomBorderType = BorderType.Thin;
+            rule.BorderFormatting.BottomBorderColor = "#000000";
+            rule.BorderFormatting.LeftBorderType = BorderType.Thin;
+            rule.BorderFormatting.LeftBorderColor = "#000000";
+            rule.BorderFormatting.RightBorderType = BorderType.Thin;
+            rule.BorderFormatting.RightBorderColor = "#000000";
+            rule.PatternFormatting.BackgroundColor = "#4DFF00";
+
+            if (num == true)
+            {
+                // Apply formatting on specified region
+                sheet.FormatString = "0.00";
+                sheet.ConditionalFormatting.AddConditionalFormatting("B1:" + sheet.RowCount, rule);
+            }
+            else
+            {
+                // Apply formatting on specified region
+                sheet.FormatString = "0";
+                sheet.ConditionalFormatting.AddConditionalFormatting("A1:" + sheet.RowCount, rule);
             }
         }
         public void PopulateDropMenus(ComboBox o)
@@ -998,14 +930,25 @@ namespace Finance_App
                     SqlConnection cn = new SqlConnection(Globals.connectionString);
                     SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
                     // Determine what field parameters are
-                    cmd.Parameters.Add(new SqlParameter("@firstName", SqlDbType.Char, 30));
-                    cmd.Parameters.Add(new SqlParameter("@lastName", SqlDbType.Char, 30));
-                    cmd.Parameters.Add(new SqlParameter("@email", SqlDbType.Char, 50));
-                    cmd.Parameters.Add(new SqlParameter("@address1", SqlDbType.Char, 50));
-                    cmd.Parameters.Add(new SqlParameter("@address2", SqlDbType.Char, 50));
-                    cmd.Parameters.Add(new SqlParameter("@city", SqlDbType.Char, 50));
-                    cmd.Parameters.Add(new SqlParameter("@state", SqlDbType.Char, 2));
-                    cmd.Parameters.Add(new SqlParameter("@zip", SqlDbType.Char, 10));
+                    for (int i = 0; i < Globals.peopleArray.Length; i++)
+                    {
+                        if (i == 0 || i == 1)
+                        {
+                            cmd.Parameters.Add(new SqlParameter(Globals.peopleArray[i], SqlDbType.Char, 30));
+                        }
+                        else if (i == 2 || i == 3 || i == 4 || i == 5)
+                        {
+                            cmd.Parameters.Add(new SqlParameter(Globals.peopleArray[i], SqlDbType.Char, 50));
+                        }
+                        else if (i == 6)
+                        {
+                            cmd.Parameters.Add(new SqlParameter(Globals.peopleArray[i], SqlDbType.Char, 2));
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(new SqlParameter(Globals.peopleArray[i], SqlDbType.Char, 10));
+                        }
+                    }
                     // Set user inputted values within the database
                     cmd.Parameters["@firstname"].Value = textBox11.Text.Trim();
                     cmd.Parameters["@lastname"].Value = textBox12.Text.Trim();
@@ -1042,17 +985,19 @@ namespace Finance_App
                     SqlConnection cn = new SqlConnection(Globals.connectionString);
                     SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
                     // Determine what field parameters are
-                    cmd.Parameters.Add(new SqlParameter("@donate", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@save", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@gokf", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@spend", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@pass", SqlDbType.Char, 4));
-                    // Set 0 for the values within the database
-                    cmd.Parameters["@donate"].Value = "0.00";
-                    cmd.Parameters["@save"].Value = "0.00";
-                    cmd.Parameters["@gokf"].Value = "0.00";
-                    cmd.Parameters["@spend"].Value = "0.00";
-                    cmd.Parameters["@pass"].Value = textBox3.Text;
+                    for(int i = 0; i < Globals.moneyArray.Length; i++)
+                    {
+                        if (i == 4)
+                        {
+                            cmd.Parameters.Add(new SqlParameter(Globals.moneyArray[i], SqlDbType.Char, 4));
+                            cmd.Parameters[Globals.moneyArray[i]].Value = textBox3.Text;
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add(new SqlParameter(Globals.moneyArray[i], SqlDbType.Float, 53));
+                            cmd.Parameters[Globals.moneyArray[i]].Value = "0.00";
+                        }
+                    }
                     // Open Database
                     cn.Open();
                     // Run SQL Statement
@@ -1070,19 +1015,11 @@ namespace Finance_App
                     SqlConnection cn = new SqlConnection(Globals.connectionString);
                     SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
                     // Determine what field parameters are
-                    cmd.Parameters.Add(new SqlParameter("@itemOne", SqlDbType.Char, 25));
-                    cmd.Parameters.Add(new SqlParameter("@itemTwo", SqlDbType.Char, 25));
-                    cmd.Parameters.Add(new SqlParameter("@itemThree", SqlDbType.Char, 25));
-                    cmd.Parameters.Add(new SqlParameter("@itemFour", SqlDbType.Char, 25));
-                    cmd.Parameters.Add(new SqlParameter("@itemFive", SqlDbType.Char, 25));
-                    cmd.Parameters.Add(new SqlParameter("@itemSix", SqlDbType.Char, 25));
-                    // Set 0 for the values within the database
-                    cmd.Parameters["@itemOne"].Value = "SetItemOne";
-                    cmd.Parameters["@itemTwo"].Value = "SetItemTwo";
-                    cmd.Parameters["@itemThree"].Value = "SetItemThree";
-                    cmd.Parameters["@itemFour"].Value = "SetItemFour";
-                    cmd.Parameters["@itemFive"].Value = "SetItemFive";
-                    cmd.Parameters["@itemSix"].Value = "SetItemSix";
+                    for(int i = 0; i < Globals.longTitleArray.Length; i++)
+                    {
+                        cmd.Parameters.Add(new SqlParameter(Globals.longTitleArray[i], SqlDbType.Char, 25));
+                        cmd.Parameters[Globals.longTitleArray[i]].Value = "SetItemOne";
+                    }
                     // Open Database
                     cn.Open();
                     // Run SQL Statement
@@ -1100,20 +1037,11 @@ namespace Finance_App
                     Globals.sqlStatement = "INSERT INTO LongTermSaves(SaveOne,SaveTwo,SaveThree,SaveFour,SaveFive,SaveSix) Values(@saveOne,@saveTwo,@saveThree,@saveFour,@saveFive,@saveSix)";
                     SqlConnection cn = new SqlConnection(Globals.connectionString);
                     SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
-                    // Determine what field parameters are
-                    cmd.Parameters.Add(new SqlParameter("@saveOne", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@saveTwo", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@saveThree", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@saveFour", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@saveFive", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@saveSix", SqlDbType.Float, 53));
-                    // Set 0 for the values within the database
-                    cmd.Parameters["@saveOne"].Value = "0.00";
-                    cmd.Parameters["@saveTwo"].Value = "0.00";
-                    cmd.Parameters["@saveThree"].Value = "0.00";
-                    cmd.Parameters["@saveFour"].Value = "0.00";
-                    cmd.Parameters["@saveFive"].Value = "0.00";
-                    cmd.Parameters["@saveSix"].Value = "0.00";
+                    for (int i = 0; i < Globals.longSaveArray.Length; i++)
+                    {
+                        cmd.Parameters.Add(new SqlParameter(Globals.longSaveArray[i], SqlDbType.Float, 53));
+                        cmd.Parameters[Globals.longSaveArray[i]].Value = "0.00";
+                    }
                     // Open Database
                     cn.Open();
                     // Run SQL Statement
@@ -1136,47 +1064,11 @@ namespace Finance_App
                     SqlConnection cn = new SqlConnection(Globals.connectionString);
                     SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
                     // Determine what field parameters are
-                    cmd.Parameters.Add(new SqlParameter("@mOne", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mTwo", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mThree", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mFour", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mFive", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mSix", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mSeven", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mEight", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mNine", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mTen", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mEleven", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mTwelve", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mThirteen", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mFourteen", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mFifteen", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mSixteen", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mSeventeen", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mEighteen", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mNineteen", SqlDbType.Float, 53));
-                    cmd.Parameters.Add(new SqlParameter("@mTwenty", SqlDbType.Float, 53));
-                    // Set 0 for the values within the database
-                    cmd.Parameters["@mOne"].Value = "0.00";
-                    cmd.Parameters["@mTwo"].Value = "0.00";
-                    cmd.Parameters["@mThree"].Value = "0.00";
-                    cmd.Parameters["@mFour"].Value = "0.00";
-                    cmd.Parameters["@mFive"].Value = "0.00";
-                    cmd.Parameters["@mSix"].Value = "0.00";
-                    cmd.Parameters["@mSeven"].Value = "0.00";
-                    cmd.Parameters["@mEight"].Value = "0.00";
-                    cmd.Parameters["@mNine"].Value = "0.00";
-                    cmd.Parameters["@mTen"].Value = "0.00";
-                    cmd.Parameters["@mEleven"].Value = "0.00";
-                    cmd.Parameters["@mTwelve"].Value = "0.00";
-                    cmd.Parameters["@mThirteen"].Value = "0.00";
-                    cmd.Parameters["@mFourteen"].Value = "0.00";
-                    cmd.Parameters["@mFifteen"].Value = "0.00";
-                    cmd.Parameters["@mSixteen"].Value = "0.00";
-                    cmd.Parameters["@mSeventeen"].Value = "0.00";
-                    cmd.Parameters["@mEighteen"].Value = "0.00";
-                    cmd.Parameters["@mNineteen"].Value = "0.00";
-                    cmd.Parameters["@mTwenty"].Value = "0.00";
+                    for (int i = 0; i < Globals.moCostInfo.Length; i++)
+                    {
+                        cmd.Parameters.Add(new SqlParameter(Globals.moCostInfo[i], SqlDbType.Float, 53));
+                        cmd.Parameters[Globals.moCostInfo[i]].Value = "0.00";
+                    }
                     // Open Database
                     cn.Open();
                     // Run SQL Statement
@@ -1504,26 +1396,7 @@ namespace Finance_App
                 // Attempt to populate fields from Money Database
                 try
                 {
-                    SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                    cnn.Open();
-                    // Run SQL statement
-                    SqlCommand cmd = new SqlCommand(Globals.peopleSelect, cnn);
-                    // Use ID populated to confirm proper insertion
-                    cmd.Parameters.AddWithValue("@id", textBox59.Text);
-                    // Read through database and insert fields into TextBoxes
-                    using (SqlDataReader sdr = cmd.ExecuteReader())
-                    {
-                        sdr.Read();
-                        textBox52.Text = sdr["First"].ToString().Trim().Trim();
-                        textBox53.Text = sdr["Last"].ToString().Trim().Trim();
-                        textBox54.Text = sdr["Email"].ToString().Trim().Trim();
-                        textBox55.Text = sdr["Address1"].ToString().Trim().Trim();
-                        textBox56.Text = sdr["Address2"].ToString().Trim().Trim();
-                        textBox57.Text = sdr["City"].ToString().Trim().Trim();
-                        comboBox4.Text = sdr["State"].ToString().Trim().Trim();
-                        textBox58.Text = sdr["Zip"].ToString().Trim().Trim();
-                    }
-                    cnn.Close();
+                    PopUser(textBox52, textBox53, textBox54, textBox55, textBox56, textBox57, textBox58, textBox59, Globals.peopleSelect, comboBox4);
                 }
                 catch
                 {
@@ -2089,31 +1962,36 @@ namespace Finance_App
             // Attempt to populate fields from Money Database
             try
             {
-                SqlConnection cnn = new SqlConnection(Globals.connectionString);
-                cnn.Open();
-                // Run SQL statement
-                SqlCommand cmd = new SqlCommand(Globals.peopleSelect, cnn);
-                // Use ID populated to confirm proper insertion
-                cmd.Parameters.AddWithValue("@id", textBox59.Text);
-                // Read through database and insert fields into TextBoxes
-                using (SqlDataReader sdr = cmd.ExecuteReader())
-                {
-                    sdr.Read();
-                    textBox52.Text = sdr["First"].ToString().Trim().Trim();
-                    textBox53.Text = sdr["Last"].ToString().Trim().Trim();
-                    textBox54.Text = sdr["Email"].ToString().Trim().Trim();
-                    textBox55.Text = sdr["Address1"].ToString().Trim().Trim();
-                    textBox56.Text = sdr["Address2"].ToString().Trim().Trim();
-                    textBox57.Text = sdr["City"].ToString().Trim().Trim();
-                    comboBox4.Text = sdr["State"].ToString().Trim().Trim();
-                    textBox58.Text = sdr["Zip"].ToString().Trim().Trim();
-                }
-                cnn.Close();
+                PopUser(textBox52, textBox53, textBox54, textBox55, textBox56, textBox57, textBox58, textBox59, Globals.peopleSelect, comboBox4);
             }
             catch
             {
                 MessageBox.Show(new Form() { TopMost = true },"No Connection");
             }
+        }
+        private void PopUser(TextBox t1, TextBox t2, TextBox t3, TextBox t4, TextBox t5, TextBox t6, TextBox t7, TextBox t8,
+            string cocon, ComboBox c)
+        {
+            SqlConnection cnn = new SqlConnection(Globals.connectionString);
+            cnn.Open();
+            // Run SQL statement
+            SqlCommand cmd = new SqlCommand(cocon, cnn);
+            // Use ID populated to confirm proper insertion
+            cmd.Parameters.AddWithValue("@id", t8.Text);
+            // Read through database and insert fields into TextBoxes
+            using (SqlDataReader sdr = cmd.ExecuteReader())
+            {
+                sdr.Read();
+                t1.Text = sdr["First"].ToString().Trim().Trim();
+                t2.Text = sdr["Last"].ToString().Trim().Trim();
+                t3.Text = sdr["Email"].ToString().Trim().Trim();
+                t4.Text = sdr["Address1"].ToString().Trim().Trim();
+                t5.Text = sdr["Address2"].ToString().Trim().Trim();
+                t6.Text = sdr["City"].ToString().Trim().Trim();
+                c.Text = sdr["State"].ToString().Trim().Trim();
+                t7.Text = sdr["Zip"].ToString().Trim().Trim();
+            }
+            cnn.Close();
         }
         private void ChangeTabs(object sender, EventArgs e)
         {
