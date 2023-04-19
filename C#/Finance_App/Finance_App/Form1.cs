@@ -10,6 +10,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,6 +58,9 @@ namespace Finance_App
                     "MonthlySix", "MonthlySeven", "MonthlyEight", "MonthlyNine", "MonthlyTen", "MonthlyEleven", "MonthlyTwelve",
                     "MonthlyThirteen", "MonthlyFourteen", "MonthlyFifteen", "MonthlySixteen", "MonthlySeventeen", "MonthlyEighteen",
                     "MonthlyNineteen", "MonthlyTwenty"};
+            public static string[] paymentTitles = {"Mortgage", "Electric", "Water", "Gas", "Trash", "Vehicle Payment", "Vehicle Insurance",
+                    "Medical Insurance", "Dental Insurance", "Groceries", "Hulu", "Netflix", "Amazon Prime", "Disney Plus", 
+                    "Other Streaming Services", "Dining Out", "Vehicle Gas", "Internet & Cable", "Cell Phone", "Child Care"};
             public static String dialogOne = "Enter User's Pass Code:";
             public static String dialogTwo = "Verify Pass Code";
             public static String dialogThree = "Change Title of Selection:";
@@ -69,14 +73,17 @@ namespace Finance_App
             public static String longTermSelect = "SELECT * FROM LongTermTitles WHERE Id = @id";
             public static String moneySelect = "SELECT * FROM Money WHERE Id = @id";
             public static String monthSelect = "SELECT * FROM MonthlyCosts WHERE Id = @id";
+            public static String monthSelectTitles = "SELECT * FROM MonthlyCostsTitles WHERE Id = @id";
             public static String peopleSelect = "SELECT * FROM People WHERE Id = @id";
             public static String selectAllPeople = "SELECT * FROM People";
             public static String selectAllMonCo = "SELECT * FROM MonthlyCosts";
+            public static String selectAllMonTitle = "SELECT * FROM MonthlyCostsTitles";
             public static String selectAllMoney = "SELECT * FROM Money";
             public static String selectAllLongTitles = "SELECT * FROM LongTermTitles";
             public static String selectAllLongSaves = "SELECT * FROM LongTermSaves";
             public static String selectWherePeople = "SELECT * FROM People WHERE Id = ";
             public static String selectWhereMonCo = "SELECT * FROM MonthlyCosts WHERE Id = ";
+            public static String selectWhereTitles = "SELECT * FROM MonthlyCostsTitles WHERE Id = ";
             public static String selectWhereMoney = "SELECT * FROM Money WHERE Id = ";
             public static String selectWhereLongTitles = "SELECT * FROM LongTermTitles WHERE Id = ";
             public static String selectWhereLongSaves = "SELECT * FROM LongTermSaves WHERE Id = ";
@@ -138,7 +145,7 @@ namespace Finance_App
             progressBar1.Value = place;            
         }
         // Create detailed individual Excel Spreadsheet of financial information
-        private void AdaptTemp(string one, string two, string three, string four, string five)
+        private void AdaptTemp(string one, string two, string three, string four, string five, string six)
         {
             // Supported for XLSX, XLS, XLSM, XLTX, CSV and TSV
             WorkBook workBook = WorkBook.Load("Budget_Template.xlsx");
@@ -185,6 +192,8 @@ namespace Finance_App
 
                     Count++;
                 }
+
+                
                 // Populate the titles of each monthly costs
                 DataSet dsTwo = new DataSet("DataSetName");
                 SqlConnection conTwo;
@@ -194,27 +203,6 @@ namespace Finance_App
                 daTwo = new SqlDataAdapter(two, conTwo);
                 conTwo.Open();
                 daTwo.Fill(dsTwo);
-                sheet["D12"].Value = "Mortgage".ToString().Trim();
-                sheet["D13"].Value = "Electric".ToString().Trim();
-                sheet["D14"].Value = "Water".ToString().Trim();
-                sheet["D15"].Value = "Gas".ToString().Trim();
-                sheet["D16"].Value = "Trash".ToString().Trim();
-                sheet["D17"].Value = "Vehicle Payment".ToString().Trim();
-                sheet["D18"].Value = "Vehicle Insurance".ToString().Trim();
-                sheet["D19"].Value = "Medical Insurance".ToString().Trim();
-                sheet["D20"].Value = "Dental Insurance".ToString().Trim();
-                sheet["D21"].Value = "Groceries".ToString().Trim();
-                sheet["Q12"].Value = "Hulu".ToString().Trim();
-                sheet["Q13"].Value = "Netflix".ToString().Trim();
-                sheet["Q14"].Value = "Amazon Prime".ToString().Trim();
-                sheet["Q15"].Value = "Disney Plus".ToString().Trim();
-                sheet["Q16"].Value = "Other Streaming Services".ToString().Trim();
-                sheet["Q17"].Value = "Dining Out".ToString().Trim();
-                sheet["Q18"].Value = "Vehicle Gas".ToString().Trim();
-                sheet["Q19"].Value = "Internet & Cable".ToString().Trim();
-                sheet["Q20"].Value = "Cell Phone".ToString().Trim();
-                sheet["Q21"].Value = "Child Care".ToString().Trim();
-
                 // Populate the numbers of each monthly costs
                 foreach (DataTable tableTwo in dsTwo.Tables)
                 {
@@ -332,6 +320,47 @@ namespace Finance_App
                     }
                     CountFive++;
                 }
+                // Populate the titles of each monthly costs
+                DataSet dsSix = new DataSet("DataSetName");
+                SqlConnection conSix;
+                SqlDataAdapter daSix;
+                //Open Connection & Fill DataSet
+                conSix = new SqlConnection(Globals.connectionString);
+                daSix = new SqlDataAdapter(six, conSix);
+                conSix.Open();
+                daSix.Fill(dsSix);
+                foreach (DataTable tableSix in dsSix.Tables)
+                {
+                    int CountSix = tableSix.Rows.Count;
+                    int i = 0;
+                    for (int j = 2; j <= CountSix + 1; j++)
+                    {
+                        sheet["D12"].Value = tableSix.Rows[i]["MonthlyOne"];
+                        sheet["D13"].Value = tableSix.Rows[i]["MonthlyTwo"];
+                        sheet["D14"].Value = tableSix.Rows[i]["MonthlyThree"];
+                        sheet["D15"].Value = tableSix.Rows[i]["MonthlyFour"];
+                        sheet["D16"].Value = tableSix.Rows[i]["MonthlyFive"];
+                        sheet["D17"].Value = tableSix.Rows[i]["MonthlySix"];
+                        sheet["D18"].Value = tableSix.Rows[i]["MonthlySeven"];
+                        sheet["D19"].Value = tableSix.Rows[i]["MonthlyEight"];
+                        sheet["D20"].Value = tableSix.Rows[i]["MonthlyNine"];
+                        sheet["D21"].Value = tableSix.Rows[i]["MonthlyTen"];
+                        sheet["Q12"].Value = tableSix.Rows[i]["MonthlyEleven"];
+                        sheet["Q13"].Value = tableSix.Rows[i]["MonthlyTwelve"];
+                        sheet["Q14"].Value = tableSix.Rows[i]["MonthlyThirteen"];
+                        sheet["Q15"].Value = tableSix.Rows[i]["MonthlyFourteen"];
+                        sheet["Q16"].Value = tableSix.Rows[i]["MonthlyFifteen"];
+                        sheet["Q17"].Value = tableSix.Rows[i]["MonthlySixteen"];
+                        sheet["Q18"].Value = tableSix.Rows[i]["MonthlySeventeen"];
+                        sheet["Q19"].Value = tableSix.Rows[i]["MonthlyEighteen"];
+                        sheet["Q20"].Value = tableSix.Rows[i]["MonthlyNineteen"];
+                        sheet["Q21"].Value = tableSix.Rows[i]["MonthlyTwenty"];
+                        i++;
+
+                    }
+                    CountSix++;
+                }
+
                 sheet.Sum();
                 sheetTwo.Sum();
                 string dtn = DateString();
@@ -341,6 +370,7 @@ namespace Finance_App
                 conThree.Close();
                 conFour.Close();
                 conFive.Close();
+                conSix.Close();
                 label82.Text = "Creating File....";
                 ProgressBar(100);
             }
@@ -348,7 +378,7 @@ namespace Finance_App
             {
             }
         }
-        private void Create_Excel_All(string one, string two, string three, string four, string five)
+        private void Create_Excel_All(string one, string two, string three, string four, string five, string six)
         {
             ProgressBar(25);
             label82.Text = "Creating File";
@@ -408,53 +438,107 @@ namespace Finance_App
                 }
                 ProgressBar(25);
                 label82.Text = "Creating File.";
-                DataSet dsTwo = new DataSet("DataSetName");
-                SqlConnection conTwo;
-                SqlDataAdapter daTwo;
-                //Open Connection & Fill DataSet
-                conTwo = new SqlConnection(Globals.connectionString);
-                daTwo = new SqlDataAdapter(two, conTwo);
-                conTwo.Open();
-                daTwo.Fill(dsTwo);
-                sheetTwo["A1"].Value = "Id".ToString().Trim();
-                sheetTwo["B1"].Value = "Mortgage".ToString().Trim();
-                sheetTwo["C1"].Value = "Electric".ToString().Trim();
-                sheetTwo["D1"].Value = "Water".ToString().Trim();
-                sheetTwo["E1"].Value = "Gas".ToString().Trim();
-                sheetTwo["F1"].Value = "Trash".ToString().Trim();
-                sheetTwo["G1"].Value = "Vehicle Payment".ToString().Trim();
-                sheetTwo["H1"].Value = "Vehicle Insurance".ToString().Trim();
-                sheetTwo["I1"].Value = "Medical Insurance".ToString().Trim();
-                sheetTwo["J1"].Value = "Dental Insurance".ToString().Trim();
-                sheetTwo["K1"].Value = "Groceries".ToString().Trim();
-                sheetTwo["L1"].Value = "Hulu".ToString().Trim();
-                sheetTwo["M1"].Value = "Netflix".ToString().Trim();
-                sheetTwo["N1"].Value = "Amazon Prime".ToString().Trim();
-                sheetTwo["O1"].Value = "Disney Plus".ToString().Trim();
-                sheetTwo["P1"].Value = "Other Streaming Services".ToString().Trim();
-                sheetTwo["Q1"].Value = "Dining Out".ToString().Trim();
-                sheetTwo["R1"].Value = "Vehicle Gas".ToString().Trim();
-                sheetTwo["S1"].Value = "Internet & Cable".ToString().Trim();
-                sheetTwo["T1"].Value = "Cell Phone".ToString().Trim();
-                sheetTwo["U1"].Value = "Child Care".ToString().Trim();
-                
-                //Loop through contents of dataset
-                foreach (DataTable tableTwo in dsTwo.Tables)
+                if (Globals.switchHit == false)
                 {
-                    int CountTwo = tableTwo.Rows.Count;
-                    int i = 0;
-                    for (int j = 2; j <= CountTwo + 1; j++)
+                    DataSet dsTwo = new DataSet("DataSetName");
+                    SqlConnection conTwo;
+                    SqlDataAdapter daTwo;
+                    //Open Connection & Fill DataSet
+                    conTwo = new SqlConnection(Globals.connectionString);
+                    daTwo = new SqlDataAdapter(two, conTwo);
+                    conTwo.Open();
+                    daTwo.Fill(dsTwo);
+                    sheetTwo["A1"].Value = "Id".ToString().Trim();
+                    sheetTwo["B1"].Value = "Mortgage".ToString().Trim();
+                    sheetTwo["C1"].Value = "Electric".ToString().Trim();
+                    sheetTwo["D1"].Value = "Water".ToString().Trim();
+                    sheetTwo["E1"].Value = "Gas".ToString().Trim();
+                    sheetTwo["F1"].Value = "Trash".ToString().Trim();
+                    sheetTwo["G1"].Value = "Vehicle Payment".ToString().Trim();
+                    sheetTwo["H1"].Value = "Vehicle Insurance".ToString().Trim();
+                    sheetTwo["I1"].Value = "Medical Insurance".ToString().Trim();
+                    sheetTwo["J1"].Value = "Dental Insurance".ToString().Trim();
+                    sheetTwo["K1"].Value = "Groceries".ToString().Trim();
+                    sheetTwo["L1"].Value = "Hulu".ToString().Trim();
+                    sheetTwo["M1"].Value = "Netflix".ToString().Trim();
+                    sheetTwo["N1"].Value = "Amazon Prime".ToString().Trim();
+                    sheetTwo["O1"].Value = "Disney Plus".ToString().Trim();
+                    sheetTwo["P1"].Value = "Other Streaming Services".ToString().Trim();
+                    sheetTwo["Q1"].Value = "Dining Out".ToString().Trim();
+                    sheetTwo["R1"].Value = "Vehicle Gas".ToString().Trim();
+                    sheetTwo["S1"].Value = "Internet & Cable".ToString().Trim();
+                    sheetTwo["T1"].Value = "Cell Phone".ToString().Trim();
+                    sheetTwo["U1"].Value = "Child Care".ToString().Trim();
+
+                    //Loop through contents of dataset
+                    foreach (DataTable tableTwo in dsTwo.Tables)
                     {
-                        for (int k = 0; k < Globals.alphabetAUArray.Length; k++)
+                        int CountTwo = tableTwo.Rows.Count;
+                        int i = 0;
+                        for (int j = 2; j <= CountTwo + 1; j++)
                         {
-                            sheetTwo[Globals.alphabetAUArray[k] + j].Value = tableTwo.Rows[i][Globals.monthCostArray[k]];                            
+                            for (int k = 0; k < Globals.alphabetAUArray.Length; k++)
+                            {
+                                sheetTwo[Globals.alphabetAUArray[k] + j].Value = tableTwo.Rows[i][Globals.monthCostArray[k]];
+                            }
+                            i++;
                         }
-                        i++;
+
+                        CountTwo++;
                     }
-
-                    CountTwo++;
                 }
+                else
+                {
+                    DataSet dsTwo = new DataSet("DataSetName");
+                    SqlConnection conTwo;
+                    SqlDataAdapter daTwo;
+                    //Open Connection & Fill DataSet
+                    conTwo = new SqlConnection(Globals.connectionString);
+                    daTwo = new SqlDataAdapter(two, conTwo);
+                    conTwo.Open();
+                    daTwo.Fill(dsTwo);
+                    //Loop through contents of dataset
+                    foreach (DataTable tableTwo in dsTwo.Tables)
+                    {
+                        int CountTwo = tableTwo.Rows.Count;
+                        int i = 0;
+                        for (int j = 2; j <= CountTwo + 1; j++)
+                        {
+                            for (int k = 0; k < Globals.alphabetAUArray.Length; k++)
+                            {
+                                sheetTwo[Globals.alphabetAUArray[k] + j].Value = tableTwo.Rows[i][Globals.monthCostArray[k]];
+                            }
+                            i++;
+                        }
 
+                        CountTwo++;
+                    }
+                    DataSet dsSix = new DataSet("DataSetName");
+                    SqlConnection conSix;
+                    SqlDataAdapter daSix;
+                    //Open Connection & Fill DataSet
+                    conSix = new SqlConnection(Globals.connectionString);
+                    daSix = new SqlDataAdapter(six, conSix);
+                    conSix.Open();
+                    daSix.Fill(dsSix);
+                    //Loop through contents of dataset
+                    foreach (DataTable tableSix in dsSix.Tables)
+                    {
+                        int CountSix = tableSix.Rows.Count;
+                        int i = 0;
+                        for (int j = 1; j <= CountSix; j++)
+                        {
+                            for (int k = 0; k < Globals.alphabetAUArray.Length; k++)
+                            {
+                                sheetTwo[Globals.alphabetAUArray[k] + j].Value = tableSix.Rows[i][Globals.monthCostArray[k]];
+                            }
+                            i++;
+                        }
+
+                        CountSix++;
+                    }
+                    sheetTwo["A1"].Value = "Id".ToString().Trim();
+                }
                 DataSet dsThree = new DataSet("DataSetName");
                 SqlConnection conThree;
                 SqlDataAdapter daThree;
@@ -557,7 +641,7 @@ namespace Finance_App
                         i++;
                     }
                     CountFive++;
-                }
+                }                
             }
             catch
             {
@@ -1075,11 +1159,39 @@ namespace Finance_App
                     cmd.ExecuteNonQuery();
                     // Close Database
                     cn.Close();
-                    MessageBox.Show(new Form() { TopMost = true },"User Account Created");
+                   
                 }
                 catch
                 {
                     MessageBox.Show(new Form() { TopMost = true },"No Costs Inputted");
+                }
+                try
+                {
+                    // Setup user with new Money Fields in Database
+                    Globals.sqlStatement = "INSERT INTO MonthlyCostsTitles(MonthlyOne,MonthlyTwo,MonthlyThree,MonthlyFour,MonthlyFive,MonthlySix," +
+                        "MonthlySeven,MonthlyEight,MonthlyNine,MonthlyTen,MonthlyEleven,MonthlyTwelve,MonthlyThirteen,MonthlyFourteen," +
+                        "MonthlyFifteen,MonthlySixteen,MonthlySeventeen,MonthlyEighteen,MonthlyNineteen,MonthlyTwenty) " +
+                        "Values(@mOne,@mTwo,@mThree,@mFour,@mFive,@mSix,@mSeven,@mEight,@mNine,@mTen,@mEleven,@mTwelve,@mThirteen," +
+                        "@mFourteen,@mFifteen,@mSixteen,@mSeventeen,@mEighteen,@mNineteen,@mTwenty)";
+                    SqlConnection cn = new SqlConnection(Globals.connectionString);
+                    SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
+                    // Determine what field parameters are
+                    for (int i = 0; i < Globals.moCostInfo.Length; i++)
+                    {
+                        cmd.Parameters.Add(new SqlParameter(Globals.moCostInfo[i], SqlDbType.Char, 25));
+                        cmd.Parameters[Globals.moCostInfo[i]].Value = Globals.paymentTitles[i].ToString();
+                    }
+                    // Open Database
+                    cn.Open();
+                    // Run SQL Statement
+                    cmd.ExecuteNonQuery();
+                    // Close Database
+                    cn.Close();
+                    MessageBox.Show(new Form() { TopMost = true }, "User Account Created");
+                }
+                catch
+                {
+                    MessageBox.Show(new Form() { TopMost = true }, "No Costs Inputted");
                 }
             }
             else
@@ -1436,6 +1548,9 @@ namespace Finance_App
                         DelUser();
                         // Delete user from LongTermSaves Database
                         Globals.sqlStatement = "DELETE FROM LongTermSaves WHERE Id=@id";
+                        DelUser();
+                        // Delete user from LongTermSaves Database
+                        Globals.sqlStatement = "DELETE FROM MonthlyCostsTitles WHERE Id=@id";
                         DelUser();
                         MessageBox.Show(new Form() { TopMost = true },"User Successfully Deleted");
                     }
@@ -1795,6 +1910,35 @@ namespace Finance_App
             }
             try
             {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.monthSelectTitles, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox30.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button19.Text = sdr["MonthlyOne"].ToString().Trim().Trim();
+                    button20.Text = sdr["MonthlyTwo"].ToString().Trim().Trim();
+                    button21.Text = sdr["MonthlyThree"].ToString().Trim().Trim();
+                    button22.Text = sdr["MonthlyFour"].ToString().Trim().Trim();
+                    button23.Text = sdr["MonthlyFive"].ToString().Trim().Trim();
+                    button24.Text = sdr["MonthlySix"].ToString().Trim().Trim();
+                    button25.Text = sdr["MonthlySeven"].ToString().Trim().Trim();
+                    button26.Text = sdr["MonthlyEight"].ToString().Trim().Trim();
+                    button27.Text = sdr["MonthlyNine"].ToString().Trim().Trim();
+                    button28.Text = sdr["MonthlyTen"].ToString().Trim().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show(new Form() { TopMost = true }, "No Connection");
+            }
+            try
+            {
                 // Combine all the expenses into a single variable.
                 double expensesCalc = ExpCalc();
                 // Main Expense Totals
@@ -1880,6 +2024,46 @@ namespace Finance_App
             catch
             {
                 MessageBox.Show(new Form() { TopMost = true },"No Connection");
+            }
+
+            try
+            {
+                SqlConnection cnn = new SqlConnection(Globals.connectionString);
+                cnn.Open();
+                // Run SQL statement
+                SqlCommand cmd = new SqlCommand(Globals.monthSelectTitles, cnn);
+                // Use ID populated to confirm proper insertion
+                cmd.Parameters.AddWithValue("@id", textBox47.Text);
+                // Read through database and insert fields into TextBoxes
+                using (SqlDataReader sdr = cmd.ExecuteReader())
+                {
+                    sdr.Read();
+                    button29.Text = sdr["MonthlyOne"].ToString().Trim().Trim();
+                    button30.Text = sdr["MonthlyTwo"].ToString().Trim().Trim();
+                    button31.Text = sdr["MonthlyThree"].ToString().Trim().Trim();
+                    button32.Text = sdr["MonthlyFour"].ToString().Trim().Trim();
+                    button33.Text = sdr["MonthlyFive"].ToString().Trim().Trim();
+                    button34.Text = sdr["MonthlySix"].ToString().Trim().Trim();
+                    button35.Text = sdr["MonthlySeven"].ToString().Trim().Trim();
+                    button36.Text = sdr["MonthlyEight"].ToString().Trim().Trim();
+                    button37.Text = sdr["MonthlyNine"].ToString().Trim().Trim();
+                    button38.Text = sdr["MonthlyTen"].ToString().Trim().Trim();
+                    button29.Text = sdr["MonthlyEleven"].ToString().Trim().Trim();
+                    button30.Text = sdr["MonthlyTwelve"].ToString().Trim().Trim();
+                    button31.Text = sdr["MonthlyThirteen"].ToString().Trim().Trim();
+                    button32.Text = sdr["MonthlyFourteen"].ToString().Trim().Trim();
+                    button33.Text = sdr["MonthlyFifteen"].ToString().Trim().Trim();
+                    button34.Text = sdr["MonthlySixteen"].ToString().Trim().Trim();
+                    button35.Text = sdr["MonthlySeventeen"].ToString().Trim().Trim();
+                    button36.Text = sdr["MonthlyEighteen"].ToString().Trim().Trim();
+                    button37.Text = sdr["MonthlyNineteen"].ToString().Trim().Trim();
+                    button38.Text = sdr["MonthlyTwenty"].ToString().Trim().Trim();
+                }
+                cnn.Close();
+            }
+            catch
+            {
+                MessageBox.Show(new Form() { TopMost = true }, "No Connection");
             }
 
             try
@@ -2112,7 +2296,7 @@ namespace Finance_App
                 label82.Text = "Creating File.";
                 Globals.switchHit = false;
                 Create_Excel_All(Globals.selectAllPeople, Globals.selectAllMonCo, Globals.selectAllMoney, Globals.selectAllLongTitles,
-                    Globals.selectAllLongSaves);
+                    Globals.selectAllLongSaves, Globals.selectAllMonTitle);
                 label82.Text = "";
                 ProgressBar(0);
             }
@@ -2135,10 +2319,10 @@ namespace Finance_App
                     label82.Text = "Creating File.";
                     AdaptTemp(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
                         Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
-                        Globals.selectWhereLongSaves + textBox78.Text);
+                        Globals.selectWhereLongSaves + textBox78.Text, Globals.selectWhereTitles + textBox78.Text);
                     Create_Excel_All(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
                         Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
-                        Globals.selectWhereLongSaves + textBox78.Text);
+                        Globals.selectWhereLongSaves + textBox78.Text, Globals.selectWhereTitles + textBox78.Text);
                     label82.Text = "";
                     ProgressBar(0);
                 }
@@ -2153,7 +2337,111 @@ namespace Finance_App
                 MessageBox.Show(new Form() { TopMost = true },"No User currently available");
             }
         }
+        private void UpdateButtonData(int arraySet, System.Windows.Forms.Button b, TextBox t)
+        {
+            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
+            b.Text = Globals.boxAnswer;
+            SqlConnection conn = new SqlConnection(Globals.connectionString);
+            conn.Open();
 
+            string updateQuery = "UPDATE MonthlyCostsTitles SET " + Globals.monthCostArray[arraySet] + "='" + b.Text.ToString().Trim() + "' WHERE Id = " + t.Text;
+            SqlCommand cmd = new SqlCommand(updateQuery, conn);
 
+            cmd.ExecuteNonQuery();
+            conn.Close();
+        }
+        private void button19_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(1, button19, textBox30);
+            
+        }
+        private void button20_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(2, button20, textBox30);
+        }
+        private void button21_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(3, button21, textBox30);
+        }
+        private void button22_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(4, button22, textBox30);
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(5, button23, textBox30);
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(6, button24, textBox30);
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(7, button25, textBox30);
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(8, button26, textBox30);
+        }
+
+        private void button27_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(9, button27, textBox30);
+        }
+
+        private void button28_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(10, button28, textBox30);
+        }
+        private void button29_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(11, button29, textBox47);
+        }
+        private void button30_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(12, button30, textBox47);
+        }
+        private void button31_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(13, button31, textBox47);
+        }
+        private void button32_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(14, button32, textBox47);
+        }
+
+        private void button33_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(15, button33, textBox47);
+        }
+
+        private void button34_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(16, button34, textBox47);
+        }
+
+        private void button35_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(17, button35, textBox47);
+        }
+
+        private void button36_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(18, button36, textBox47);
+        }
+
+        private void button37_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(19, button37, textBox47);
+        }
+
+        private void button38_Click(object sender, EventArgs e)
+        {
+            UpdateButtonData(20, button38, textBox47);
+        }
     }
 }
