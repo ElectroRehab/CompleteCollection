@@ -13,6 +13,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI.WebControls;
@@ -88,6 +89,7 @@ namespace Finance_App
             public static String selectWhereLongTitles = "SELECT * FROM LongTermTitles WHERE Id = ";
             public static String selectWhereLongSaves = "SELECT * FROM LongTermSaves WHERE Id = ";
             public static String sqlStatement;
+            public static DataSet ds = new DataSet("DataSetName");
         }
         // Create an instance of the current date into a string to be used in save filename
         public static String DateString()
@@ -144,8 +146,22 @@ namespace Finance_App
         {
             progressBar1.Value = place;            
         }
+        public void ExcelSheetTables(string tab)
+        {
+            //Create database objects to populate data from database
+            DataSet ds = new DataSet("DataSetName");
+            SqlConnection con;
+            SqlDataAdapter da;
+            //Open Connection & Fill DataSet
+            con = new SqlConnection(Globals.connectionString);
+            da = new SqlDataAdapter(tab, con);
+            con.Open();
+            Globals.ds = ds;
+            da.Fill(Globals.ds);
+            con.Close();
+        }
         // Create detailed individual Excel Spreadsheet of financial information
-        private void AdaptTemp(string one, string two, string three, string four, string five, string six)
+        private void SingleGui(string one, string two, string three, string four, string five, string six)
         {
             // Supported for XLSX, XLS, XLSM, XLTX, CSV and TSV
             WorkBook workBook = WorkBook.Load("Budget_Template.xlsx");
@@ -155,17 +171,9 @@ namespace Finance_App
             {
                 ProgressBar(25);
                 label82.Text = "Creating File";
-                //Create database objects to populate data from database
-                DataSet ds = new DataSet("DataSetName");
-                SqlConnection con;
-                SqlDataAdapter da;
-                //Open Connection & Fill DataSet
-                con = new SqlConnection(Globals.connectionString);
-                da = new SqlDataAdapter(one, con);
-                con.Open();
-                da.Fill(ds);
+                ExcelSheetTables(one);
                 // Popluate user's fields within new Spreadsheet. 
-                foreach (DataTable table in ds.Tables)
+                foreach (DataTable table in Globals.ds.Tables)
                 {
                     int Count = table.Rows.Count;
                     int i = 0;
@@ -192,19 +200,9 @@ namespace Finance_App
 
                     Count++;
                 }
-
-                
-                // Populate the titles of each monthly costs
-                DataSet dsTwo = new DataSet("DataSetName");
-                SqlConnection conTwo;
-                SqlDataAdapter daTwo;
-                //Open Connection & Fill DataSet
-                conTwo = new SqlConnection(Globals.connectionString);
-                daTwo = new SqlDataAdapter(two, conTwo);
-                conTwo.Open();
-                daTwo.Fill(dsTwo);
+                ExcelSheetTables(two);
                 // Populate the numbers of each monthly costs
-                foreach (DataTable tableTwo in dsTwo.Tables)
+                foreach (DataTable tableTwo in Globals.ds.Tables)
                 {
                     int CountTwo = tableTwo.Rows.Count;
                     int i = 0;
@@ -235,21 +233,14 @@ namespace Finance_App
                     CountTwo++;
                 }
                 ProgressBar(30);
-                label82.Text = "Creating File.";
-                DataSet dsThree = new DataSet("DataSetName");
-                SqlConnection conThree;
-                SqlDataAdapter daThree;
-                //Open Connection & Fill DataSet
-                conThree = new SqlConnection(Globals.connectionString);
-                daThree = new SqlDataAdapter(three, conThree);
-                conThree.Open();
-                daThree.Fill(dsThree);
+                label82.Text = "Creating File."; 
+                ExcelSheetTables(three);
                 sheetTwo["C25"].Value = "Donations".ToString().Trim();
                 sheetTwo["C26"].Value = "Savings Account".ToString().Trim();
                 sheetTwo["C27"].Value = "God Only Knows Fund".ToString().Trim();
                 sheetTwo["C28"].Value = "Spending Account".ToString().Trim();
                 //Loop through contents of dataset
-                foreach (DataTable tableThree in dsThree.Tables)
+                foreach (DataTable tableThree in Globals.ds.Tables)
                 {
                     int CountThree = tableThree.Rows.Count;
                     int i = 0;
@@ -268,16 +259,9 @@ namespace Finance_App
                 
                 ProgressBar(50);
                 label82.Text = "Creating File..";
-                DataSet dsFour = new DataSet("DataSetName");
-                SqlConnection conFour;
-                SqlDataAdapter daFour;
-                //Open Connection & Fill DataSet
-                conFour = new SqlConnection(Globals.connectionString);
-                daFour = new SqlDataAdapter(four, conFour);
-                conFour.Open();
-                daFour.Fill(dsFour);
+                ExcelSheetTables(four);
                 //Loop through contents of dataset
-                foreach (DataTable tableFour in dsFour.Tables)
+                foreach (DataTable tableFour in Globals.ds.Tables)
                 {
                     int CountFour = tableFour.Rows.Count;
                     int i = 0;
@@ -295,16 +279,9 @@ namespace Finance_App
                 }
                 ProgressBar(80);
                 label82.Text = "Creating File...";
-                DataSet dsFive = new DataSet("DataSetName");
-                SqlConnection conFive;
-                SqlDataAdapter daFive;
-                //Open Connection & Fill DataSet
-                conFive = new SqlConnection(Globals.connectionString);
-                daFive = new SqlDataAdapter(five, conFive);
-                conFive.Open();
-                daFive.Fill(dsFive);
+                ExcelSheetTables(five);
                 //Loop through contents of dataset
-                foreach (DataTable tableFive in dsFive.Tables)
+                foreach (DataTable tableFive in Globals.ds.Tables)
                 {
                     int CountFive = tableFive.Rows.Count;
                     int i = 0;
@@ -321,15 +298,8 @@ namespace Finance_App
                     CountFive++;
                 }
                 // Populate the titles of each monthly costs
-                DataSet dsSix = new DataSet("DataSetName");
-                SqlConnection conSix;
-                SqlDataAdapter daSix;
-                //Open Connection & Fill DataSet
-                conSix = new SqlConnection(Globals.connectionString);
-                daSix = new SqlDataAdapter(six, conSix);
-                conSix.Open();
-                daSix.Fill(dsSix);
-                foreach (DataTable tableSix in dsSix.Tables)
+                ExcelSheetTables(six);
+                foreach (DataTable tableSix in Globals.ds.Tables)
                 {
                     int CountSix = tableSix.Rows.Count;
                     int i = 0;
@@ -365,17 +335,12 @@ namespace Finance_App
                 sheetTwo.Sum();
                 string dtn = DateString();
                 workBook.SaveAs(@"" + Globals.savePath + @"\Budget GUI - " + comboBox8.Text + " - " + dtn + ".xlsx");
-                con.Close();
-                conTwo.Close();
-                conThree.Close();
-                conFour.Close();
-                conFive.Close();
-                conSix.Close();
                 label82.Text = "Creating File....";
                 ProgressBar(100);
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
             }
         }
         private void Create_Excel_All(string one, string two, string three, string four, string five, string six)
@@ -395,14 +360,7 @@ namespace Finance_App
             try
             {
                 //Create database objects to populate data from database
-                DataSet ds = new DataSet("DataSetName");
-                SqlConnection con;
-                SqlDataAdapter da;
-                //Open Connection & Fill DataSet
-                con = new SqlConnection(Globals.connectionString);
-                da = new SqlDataAdapter(one, con);
-                con.Open();
-                da.Fill(ds);
+                ExcelSheetTables(one);
                 sheet["A1"].Value = "Id".ToString().Trim().Trim();
                 sheet["B1"].Value = "First Name".ToString().Trim().Trim();
                 sheet["C1"].Value = "Last Name".ToString().Trim();
@@ -416,7 +374,7 @@ namespace Finance_App
                 sheet.ProtectSheet("Password");
                 sheet.CreateFreezePane(0, 1);
                 //Loop through contents of dataset
-                foreach (DataTable table in ds.Tables)
+                foreach (DataTable table in Globals.ds.Tables)
                 {
                     int Count = table.Rows.Count;
                     int i = 0;
@@ -440,14 +398,7 @@ namespace Finance_App
                 label82.Text = "Creating File.";
                 if (Globals.switchHit == false)
                 {
-                    DataSet dsTwo = new DataSet("DataSetName");
-                    SqlConnection conTwo;
-                    SqlDataAdapter daTwo;
-                    //Open Connection & Fill DataSet
-                    conTwo = new SqlConnection(Globals.connectionString);
-                    daTwo = new SqlDataAdapter(two, conTwo);
-                    conTwo.Open();
-                    daTwo.Fill(dsTwo);
+                    ExcelSheetTables(two);
                     sheetTwo["A1"].Value = "Id".ToString().Trim();
                     sheetTwo["B1"].Value = "Mortgage".ToString().Trim();
                     sheetTwo["C1"].Value = "Electric".ToString().Trim();
@@ -471,7 +422,7 @@ namespace Finance_App
                     sheetTwo["U1"].Value = "Child Care".ToString().Trim();
 
                     //Loop through contents of dataset
-                    foreach (DataTable tableTwo in dsTwo.Tables)
+                    foreach (DataTable tableTwo in Globals.ds.Tables)
                     {
                         int CountTwo = tableTwo.Rows.Count;
                         int i = 0;
@@ -489,16 +440,9 @@ namespace Finance_App
                 }
                 else
                 {
-                    DataSet dsTwo = new DataSet("DataSetName");
-                    SqlConnection conTwo;
-                    SqlDataAdapter daTwo;
-                    //Open Connection & Fill DataSet
-                    conTwo = new SqlConnection(Globals.connectionString);
-                    daTwo = new SqlDataAdapter(two, conTwo);
-                    conTwo.Open();
-                    daTwo.Fill(dsTwo);
+                    ExcelSheetTables(two);
                     //Loop through contents of dataset
-                    foreach (DataTable tableTwo in dsTwo.Tables)
+                    foreach (DataTable tableTwo in Globals.ds.Tables)
                     {
                         int CountTwo = tableTwo.Rows.Count;
                         int i = 0;
@@ -513,16 +457,9 @@ namespace Finance_App
 
                         CountTwo++;
                     }
-                    DataSet dsSix = new DataSet("DataSetName");
-                    SqlConnection conSix;
-                    SqlDataAdapter daSix;
-                    //Open Connection & Fill DataSet
-                    conSix = new SqlConnection(Globals.connectionString);
-                    daSix = new SqlDataAdapter(six, conSix);
-                    conSix.Open();
-                    daSix.Fill(dsSix);
+                    ExcelSheetTables(six);
                     //Loop through contents of dataset
-                    foreach (DataTable tableSix in dsSix.Tables)
+                    foreach (DataTable tableSix in Globals.ds.Tables)
                     {
                         int CountSix = tableSix.Rows.Count;
                         int i = 0;
@@ -539,14 +476,7 @@ namespace Finance_App
                     }
                     sheetTwo["A1"].Value = "Id".ToString().Trim();
                 }
-                DataSet dsThree = new DataSet("DataSetName");
-                SqlConnection conThree;
-                SqlDataAdapter daThree;
-                //Open Connection & Fill DataSet
-                conThree = new SqlConnection(Globals.connectionString);
-                daThree = new SqlDataAdapter(three, conThree);
-                conThree.Open();
-                daThree.Fill(dsThree);
+                ExcelSheetTables(three);
                 sheetThree["A1"].Value = "Id".ToString().Trim();
                 sheetThree["B1"].Value = "Donations".ToString().Trim();
                 sheetThree["C1"].Value = "Savings".ToString().Trim();
@@ -555,7 +485,7 @@ namespace Finance_App
                 sheetThree["F1"].Value = "PassCode".ToString().Trim();
 
                 //Loop through contents of dataset
-                foreach (DataTable tableThree in dsThree.Tables)
+                foreach (DataTable tableThree in Globals.ds.Tables)
                 {
                     int CountThree = tableThree.Rows.Count;
                     int i = 0;
@@ -573,14 +503,7 @@ namespace Finance_App
                 }
                 ProgressBar(50);
                 label82.Text = "Creating File..";
-                DataSet dsFour = new DataSet("DataSetName");
-                SqlConnection conFour;
-                SqlDataAdapter daFour;
-                //Open Connection & Fill DataSet
-                conFour = new SqlConnection(Globals.connectionString);
-                daFour = new SqlDataAdapter(four, conFour);
-                conFour.Open();
-                daFour.Fill(dsFour);
+                ExcelSheetTables(four);
                 sheetFour["A1"].Value = "Id".ToString().Trim();
                 sheetFour["B1"].Value = "Item One".ToString().Trim();
                 sheetFour["C1"].Value = "Item Two".ToString().Trim();
@@ -590,7 +513,7 @@ namespace Finance_App
                 sheetFour["G1"].Value = "Item Six".ToString().Trim();
 
                 //Loop through contents of dataset
-                foreach (DataTable tableFour in dsFour.Tables)
+                foreach (DataTable tableFour in Globals.ds.Tables)
                 {
                     int CountFour = tableFour.Rows.Count;
                     int i = 0;
@@ -608,14 +531,7 @@ namespace Finance_App
                     CountFour++;
                 }
 
-                DataSet dsFive = new DataSet("DataSetName");
-                SqlConnection conFive;
-                SqlDataAdapter daFive;
-                //Open Connection & Fill DataSet
-                conFive = new SqlConnection(Globals.connectionString);
-                daFive = new SqlDataAdapter(five, conFive);
-                conFive.Open();
-                daFive.Fill(dsFive);
+                ExcelSheetTables(five);
                 sheetFive["A1"].Value = "Id".ToString().Trim();
                 sheetFive["B1"].Value = "Save One".ToString().Trim().Trim();
                 sheetFive["C1"].Value = "Save Two".ToString().Trim();
@@ -625,7 +541,7 @@ namespace Finance_App
                 sheetFive["G1"].Value = "Save Six".ToString().Trim();
 
                 //Loop through contents of dataset
-                foreach (DataTable tableFive in dsFive.Tables)
+                foreach (DataTable tableFive in Globals.ds.Tables)
                 {
                     int CountFive = tableFive.Rows.Count;
                     int i = 0;
@@ -1623,7 +1539,7 @@ namespace Finance_App
                 }
             }
         }
-        private void Button9_Click(object sender, EventArgs e)
+        private void LongTermUpdates(string updateItem)
         {
             // Create a Message Box that allows users to enter titles
             Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
@@ -1632,7 +1548,7 @@ namespace Finance_App
                 SqlConnection conn = new SqlConnection(Globals.connectionString);
                 conn.Open();
 
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemOne='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
+                Globals.sqlStatement = "UPDATE LongTermTitles SET " + updateItem +"='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
                 SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
 
                 cmd.ExecuteNonQuery();
@@ -1640,120 +1556,35 @@ namespace Finance_App
             }
             catch
             {
-                MessageBox.Show(new Form() { TopMost = true },"No Connection");
+                MessageBox.Show(new Form() { TopMost = true }, "No Connection");
             }
             // Attempt to populate fields from Money Database
             SaveInfo();
+
+        }
+        private void Button9_Click(object sender, EventArgs e)
+        {
+            LongTermUpdates("ItemOne");
         }
         private void Button10_Click(object sender, EventArgs e)
         {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemTwo='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch
-            {
-                MessageBox.Show(new Form() { TopMost = true },"No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            SaveInfo();
+            LongTermUpdates("ItemTwo");
         }
         private void Button11_Click(object sender, EventArgs e)
         {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFour='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch
-            {
-                MessageBox.Show(new Form() { TopMost = true },"No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            SaveInfo();
+            LongTermUpdates("ItemFour");
         }
         private void Button12_Click(object sender, EventArgs e)
         {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemThree='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch
-            {
-                MessageBox.Show(new Form() { TopMost = true },"No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            SaveInfo();
+            LongTermUpdates("ItemThree");
         }
         private void Button13_Click(object sender, EventArgs e)
         {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemSix='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch
-            {
-                MessageBox.Show(new Form() { TopMost = true },"No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            SaveInfo();
+            LongTermUpdates("ItemSix");
         }
         private void Button14_Click(object sender, EventArgs e)
         {
-            // Create a Message Box that allows users to enter titles
-            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
-            try
-            {
-                SqlConnection conn = new SqlConnection(Globals.connectionString);
-                conn.Open();
-
-                Globals.sqlStatement = "UPDATE LongTermTitles SET ItemFive='" + Globals.boxAnswer.Trim().ToString().Trim() + "' WHERE Id = " + textBox66.Text;
-                SqlCommand cmd = new SqlCommand(Globals.sqlStatement, conn);
-
-                cmd.ExecuteNonQuery();
-                conn.Close();
-            }
-            catch
-            {
-                MessageBox.Show(new Form() { TopMost = true },"No Connection");
-            }
-            // Attempt to populate fields from Money Database
-            SaveInfo();
+            LongTermUpdates("ItemFive");
         }
         private void Button15_Click(object sender, EventArgs e)
         {
@@ -2317,7 +2148,7 @@ namespace Finance_App
                     Globals.switchHit = true;
                     
                     label82.Text = "Creating File.";
-                    AdaptTemp(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
+                    SingleGui(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
                         Globals.selectWhereMoney + textBox78.Text, Globals.selectWhereLongTitles + textBox78.Text,
                         Globals.selectWhereLongSaves + textBox78.Text, Globals.selectWhereTitles + textBox78.Text);
                     Create_Excel_All(Globals.selectWherePeople + textBox78.Text, Globals.selectWhereMonCo + textBox78.Text,
