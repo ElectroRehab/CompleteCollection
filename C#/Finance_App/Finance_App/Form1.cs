@@ -44,7 +44,8 @@ namespace Finance_App
             public static String first;
             public static String last;
             public static String savePath = @"C:\users";
-            public static String splitText;
+            public static String splitTextFirst;
+            public static String splitTextLast;
             public static string[] monthArray = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
             public static string[] moCostInfo = {"@mOne", "@mTwo", "@mThree", "@mFour", "@mFive", "@mSix", "@mSeven", "@mEight", 
                 "@mNine", "@mTen", "@mEleven", "@mTwelve", "@mThirteen", "@mFourteen", "@mFifteen", "@mSixteen", "@mSeventeen", 
@@ -69,7 +70,7 @@ namespace Finance_App
             //public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\Database1.mdf;Integrated Security=True";
             public static String connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\01ele\source\repos\Finance\Finance_App\Finance_App\Database1.mdf;Integrated Security=True";
             public static String firstSelect = "SELECT First,Last FROM People";
-            public static String idNameSelect = "SELECT Id FROM People WHERE First = @name";
+            public static String idNameSelect = "SELECT Id FROM People WHERE First = @name AND Last = @last";
             public static String longTermSave = "SELECT * FROM LongTermSaves WHERE Id = @id";
             public static String longTermSelect = "SELECT * FROM LongTermTitles WHERE Id = @id";
             public static String moneySelect = "SELECT * FROM Money WHERE Id = @id";
@@ -702,8 +703,10 @@ namespace Finance_App
                             cmd.Connection = con;
                             con.Open();
                             string[] splitName = o.Text.Split(' ');
-                            Globals.splitText = splitName[0];
-                            cmd.Parameters.AddWithValue("@name", Globals.splitText);
+                            Globals.splitTextFirst = splitName[0];
+                            Globals.splitTextLast = splitName[1];
+                            cmd.Parameters.AddWithValue("@name", Globals.splitTextFirst);
+                            cmd.Parameters.AddWithValue("@last", Globals.splitTextLast);
                             Globals.currentUser = o.Text.ToString().Trim();
 
                             // Insert the ID from People Database
@@ -915,6 +918,7 @@ namespace Finance_App
                 new string[] { "Item1", "Item2", "Item3" }, //String field as ComboBox items (default null)
                 true, //Set visible in taskbar (default false)
                 new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold)); //Set font (default by system)
+            
             returnAnswer = InputBox.ResultValue.Trim();
 
             return returnAnswer;
@@ -1958,8 +1962,10 @@ namespace Finance_App
                         cmd.Connection = con;
                         con.Open();
                         string[] splitName = comboBox5.Text.Split(' ');
-                        Globals.splitText = splitName[0];
-                        cmd.Parameters.AddWithValue("@name", Globals.splitText);
+                        Globals.splitTextFirst = splitName[0];
+                        Globals.splitTextLast = splitName[1];
+                        cmd.Parameters.AddWithValue("@name", Globals.splitTextFirst);
+                        cmd.Parameters.AddWithValue("@last", Globals.splitTextLast);
                         // Insert the ID from People Database
                         using (SqlDataReader sdr = cmd.ExecuteReader())
                         {
@@ -2170,16 +2176,23 @@ namespace Finance_App
         }
         private void UpdateButtonData(int arraySet, System.Windows.Forms.Button b, TextBox t)
         {
-            Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
-            b.Text = Globals.boxAnswer;
-            SqlConnection conn = new SqlConnection(Globals.connectionString);
-            conn.Open();
+            if (t.Text != "")
+            {
+                Globals.boxAnswer = MessageBoard(Globals.dialogThree, Globals.dialogFour, InputBox.Icon.Information, InputBox.Type.TextBoxTitle);
+                b.Text = Globals.boxAnswer;
+                SqlConnection conn = new SqlConnection(Globals.connectionString);
+                conn.Open();
 
-            string updateQuery = "UPDATE MonthlyCostsTitles SET " + Globals.monthCostArray[arraySet] + "='" + b.Text.ToString().Trim() + "' WHERE Id = " + t.Text;
-            SqlCommand cmd = new SqlCommand(updateQuery, conn);
+                string updateQuery = "UPDATE MonthlyCostsTitles SET " + Globals.monthCostArray[arraySet] + "='" + b.Text.ToString().Trim() + "' WHERE Id = " + t.Text;
+                SqlCommand cmd = new SqlCommand(updateQuery, conn);
 
-            cmd.ExecuteNonQuery();
-            conn.Close();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+            else
+            {
+                MessageBox.Show(new Form() { TopMost = true }, "Select a User");
+            }
         }
         private void button19_Click(object sender, EventArgs e)
         {
