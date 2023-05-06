@@ -186,6 +186,10 @@
             this.textBox36 = new System.Windows.Forms.TextBox();
             this.textBox35 = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button39 = new System.Windows.Forms.Button();
+            this.button40 = new System.Windows.Forms.Button();
+            this.textBox79 = new System.Windows.Forms.TextBox();
+            this.textBox80 = new System.Windows.Forms.TextBox();
             this.button16 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.textBox71 = new System.Windows.Forms.TextBox();
@@ -266,11 +270,12 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(1034, 428);
+            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
             this.tabControl1.TabIndex = 24;
             // 
             // tabPage1
             // 
-            this.tabPage1.BackColor = System.Drawing.Color.White;
+            this.tabPage1.BackColor = System.Drawing.SystemColors.Window;
             this.tabPage1.Controls.Add(this.label69);
             this.tabPage1.Controls.Add(this.textBox3);
             this.tabPage1.Controls.Add(this.label8);
@@ -2048,6 +2053,10 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.White;
+            this.tabPage4.Controls.Add(this.button39);
+            this.tabPage4.Controls.Add(this.button40);
+            this.tabPage4.Controls.Add(this.textBox79);
+            this.tabPage4.Controls.Add(this.textBox80);
             this.tabPage4.Controls.Add(this.button16);
             this.tabPage4.Controls.Add(this.button15);
             this.tabPage4.Controls.Add(this.textBox71);
@@ -2089,6 +2098,52 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Long Term Saving Plan";
             this.tabPage4.Layout += new System.Windows.Forms.LayoutEventHandler(this.tabPage4_Layout);
+            // 
+            // button39
+            // 
+            this.button39.BackColor = System.Drawing.Color.White;
+            this.button39.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.button39.Location = new System.Drawing.Point(214, 222);
+            this.button39.Name = "button39";
+            this.button39.Size = new System.Drawing.Size(186, 23);
+            this.button39.TabIndex = 155;
+            this.button39.Text = "Calculate Expenses";
+            this.button39.UseVisualStyleBackColor = false;
+            this.button39.Click += new System.EventHandler(this.button39_Click);
+            // 
+            // button40
+            // 
+            this.button40.BackColor = System.Drawing.Color.White;
+            this.button40.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.button40.ForeColor = System.Drawing.Color.Black;
+            this.button40.Location = new System.Drawing.Point(19, 222);
+            this.button40.Name = "button40";
+            this.button40.Size = new System.Drawing.Size(186, 23);
+            this.button40.TabIndex = 154;
+            this.button40.Text = "Calculate Expenses";
+            this.button40.UseVisualStyleBackColor = false;
+            this.button40.Click += new System.EventHandler(this.Button40_Click);
+            // 
+            // textBox79
+            // 
+            this.textBox79.BackColor = System.Drawing.Color.White;
+            this.textBox79.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox79.Location = new System.Drawing.Point(214, 245);
+            this.textBox79.Name = "textBox79";
+            this.textBox79.Size = new System.Drawing.Size(186, 29);
+            this.textBox79.TabIndex = 153;
+            this.textBox79.Text = "0.00";
+            // 
+            // textBox80
+            // 
+            this.textBox80.BackColor = System.Drawing.Color.White;
+            this.textBox80.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox80.ForeColor = System.Drawing.Color.Black;
+            this.textBox80.Location = new System.Drawing.Point(19, 245);
+            this.textBox80.Name = "textBox80";
+            this.textBox80.Size = new System.Drawing.Size(186, 29);
+            this.textBox80.TabIndex = 152;
+            this.textBox80.Text = "0.00";
             // 
             // button16
             // 
@@ -2148,12 +2203,11 @@
             // 
             // button13
             // 
-            this.button13.BackColor = System.Drawing.Color.Fuchsia;
-            this.button13.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button13.Font = new System.Drawing.Font("Arial", 13F);
-            this.button13.Location = new System.Drawing.Point(214, 252);
+            this.button13.BackColor = System.Drawing.Color.White;
+            this.button13.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.button13.Location = new System.Drawing.Point(214, 146);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(185, 28);
+            this.button13.Size = new System.Drawing.Size(186, 23);
             this.button13.TabIndex = 143;
             this.button13.Text = "Calculate Expenses";
             this.button13.UseVisualStyleBackColor = false;
@@ -2161,13 +2215,12 @@
             // 
             // button14
             // 
-            this.button14.BackColor = System.Drawing.Color.Blue;
-            this.button14.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button14.Font = new System.Drawing.Font("Arial", 13F);
-            this.button14.ForeColor = System.Drawing.Color.White;
-            this.button14.Location = new System.Drawing.Point(19, 252);
+            this.button14.BackColor = System.Drawing.Color.White;
+            this.button14.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.button14.ForeColor = System.Drawing.Color.Black;
+            this.button14.Location = new System.Drawing.Point(20, 145);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(185, 28);
+            this.button14.Size = new System.Drawing.Size(185, 23);
             this.button14.TabIndex = 142;
             this.button14.Text = "Calculate Expenses";
             this.button14.UseVisualStyleBackColor = false;
@@ -2175,12 +2228,11 @@
             // 
             // button11
             // 
-            this.button11.BackColor = System.Drawing.Color.Aqua;
-            this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button11.Font = new System.Drawing.Font("Arial", 13F);
-            this.button11.Location = new System.Drawing.Point(214, 144);
+            this.button11.BackColor = System.Drawing.Color.White;
+            this.button11.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.button11.Location = new System.Drawing.Point(215, 78);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(185, 28);
+            this.button11.Size = new System.Drawing.Size(185, 23);
             this.button11.TabIndex = 141;
             this.button11.Text = "Calculate Expenses";
             this.button11.UseVisualStyleBackColor = false;
@@ -2188,12 +2240,11 @@
             // 
             // button12
             // 
-            this.button12.BackColor = System.Drawing.Color.Lime;
-            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button12.Font = new System.Drawing.Font("Arial", 13F);
-            this.button12.Location = new System.Drawing.Point(19, 144);
+            this.button12.BackColor = System.Drawing.Color.White;
+            this.button12.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.button12.Location = new System.Drawing.Point(20, 78);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(185, 28);
+            this.button12.Size = new System.Drawing.Size(185, 23);
             this.button12.TabIndex = 140;
             this.button12.Text = "Calculate Expenses";
             this.button12.UseVisualStyleBackColor = false;
@@ -2201,12 +2252,11 @@
             // 
             // button10
             // 
-            this.button10.BackColor = System.Drawing.Color.Yellow;
-            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button10.Font = new System.Drawing.Font("Arial", 13F);
-            this.button10.Location = new System.Drawing.Point(214, 39);
+            this.button10.BackColor = System.Drawing.Color.White;
+            this.button10.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.button10.Location = new System.Drawing.Point(215, 11);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(185, 28);
+            this.button10.Size = new System.Drawing.Size(185, 23);
             this.button10.TabIndex = 139;
             this.button10.Text = "Calculate Expenses";
             this.button10.UseVisualStyleBackColor = false;
@@ -2214,12 +2264,11 @@
             // 
             // button9
             // 
-            this.button9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.button9.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.button9.Font = new System.Drawing.Font("Arial", 13F);
-            this.button9.Location = new System.Drawing.Point(19, 39);
+            this.button9.BackColor = System.Drawing.Color.White;
+            this.button9.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.button9.Location = new System.Drawing.Point(20, 11);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(185, 28);
+            this.button9.Size = new System.Drawing.Size(185, 23);
             this.button9.TabIndex = 138;
             this.button9.Text = "Calculate Expenses";
             this.button9.UseVisualStyleBackColor = false;
@@ -2395,9 +2444,9 @@
             // 
             // textBox4
             // 
-            this.textBox4.BackColor = System.Drawing.Color.Fuchsia;
+            this.textBox4.BackColor = System.Drawing.Color.White;
             this.textBox4.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox4.Location = new System.Drawing.Point(214, 292);
+            this.textBox4.Location = new System.Drawing.Point(214, 169);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(186, 29);
             this.textBox4.TabIndex = 115;
@@ -2405,9 +2454,9 @@
             // 
             // textBox5
             // 
-            this.textBox5.BackColor = System.Drawing.Color.Cyan;
+            this.textBox5.BackColor = System.Drawing.Color.White;
             this.textBox5.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox5.Location = new System.Drawing.Point(213, 182);
+            this.textBox5.Location = new System.Drawing.Point(214, 101);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(186, 29);
             this.textBox5.TabIndex = 113;
@@ -2415,9 +2464,9 @@
             // 
             // textBox62
             // 
-            this.textBox62.BackColor = System.Drawing.Color.Yellow;
+            this.textBox62.BackColor = System.Drawing.Color.White;
             this.textBox62.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox62.Location = new System.Drawing.Point(214, 73);
+            this.textBox62.Location = new System.Drawing.Point(214, 35);
             this.textBox62.Name = "textBox62";
             this.textBox62.Size = new System.Drawing.Size(186, 29);
             this.textBox62.TabIndex = 111;
@@ -2425,10 +2474,10 @@
             // 
             // textBox63
             // 
-            this.textBox63.BackColor = System.Drawing.Color.Blue;
+            this.textBox63.BackColor = System.Drawing.Color.White;
             this.textBox63.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox63.ForeColor = System.Drawing.Color.White;
-            this.textBox63.Location = new System.Drawing.Point(19, 292);
+            this.textBox63.ForeColor = System.Drawing.Color.Black;
+            this.textBox63.Location = new System.Drawing.Point(19, 169);
             this.textBox63.Name = "textBox63";
             this.textBox63.Size = new System.Drawing.Size(186, 29);
             this.textBox63.TabIndex = 109;
@@ -2436,9 +2485,9 @@
             // 
             // textBox64
             // 
-            this.textBox64.BackColor = System.Drawing.Color.Lime;
+            this.textBox64.BackColor = System.Drawing.Color.White;
             this.textBox64.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox64.Location = new System.Drawing.Point(18, 182);
+            this.textBox64.Location = new System.Drawing.Point(19, 101);
             this.textBox64.Name = "textBox64";
             this.textBox64.Size = new System.Drawing.Size(186, 29);
             this.textBox64.TabIndex = 107;
@@ -2446,9 +2495,9 @@
             // 
             // textBox65
             // 
-            this.textBox65.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.textBox65.BackColor = System.Drawing.Color.White;
             this.textBox65.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox65.Location = new System.Drawing.Point(19, 73);
+            this.textBox65.Location = new System.Drawing.Point(19, 35);
             this.textBox65.Name = "textBox65";
             this.textBox65.Size = new System.Drawing.Size(186, 29);
             this.textBox65.TabIndex = 105;
@@ -2883,6 +2932,10 @@
         private System.Windows.Forms.Button button31;
         private System.Windows.Forms.Button button30;
         private System.Windows.Forms.Button button29;
+        private System.Windows.Forms.Button button39;
+        private System.Windows.Forms.Button button40;
+        private System.Windows.Forms.TextBox textBox79;
+        private System.Windows.Forms.TextBox textBox80;
     }
 }
 

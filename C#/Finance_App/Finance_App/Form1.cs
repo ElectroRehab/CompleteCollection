@@ -50,10 +50,11 @@ namespace Finance_App
             public static string[] moCostInfo = {"@mOne", "@mTwo", "@mThree", "@mFour", "@mFive", "@mSix", "@mSeven", "@mEight", 
                 "@mNine", "@mTen", "@mEleven", "@mTwelve", "@mThirteen", "@mFourteen", "@mFifteen", "@mSixteen", "@mSeventeen", 
                 "@mEighteen", "@mNineteen", "@mTwenty"};
-            public static string[] longSaveArray = { "@saveOne", "@saveTwo", "@saveThree", "@saveFour", "@saveFive", "@saveSix" };
-            public static string[] longTitleArray = { "@itemOne", "@itemTwo", "@itemThree", "@itemFour", "@itemFive", "@itemSix" };
+            public static string[] longSaveArray = { "@saveOne", "@saveTwo", "@saveThree", "@saveFour", "@saveFive", "@saveSix", "@saveSeven", "@saveEight" };
+            public static string[] longTitleArray = { "@itemOne", "@itemTwo", "@itemThree", "@itemFour", "@itemFive", "@itemSix", "@itemSeven", "@itemEight" };            
             public static string[] moneyArray = { "@donate", "@save", "@gokf", "@spend", "@pass" };
             public static string[] peopleArray = { "@firstName", "@lastName", "@email", "@address1", "@address2", "@city", "@state", "@zip" };
+            public static string[] saveSetItems = { "SetItemOne", "SetItemTwo", "SetItemThree", "SetItemFour", "SetItemFive", "SetItemSix", "SetItemSeven", "SetItemEight" };
             public static string[] alphabetAUArray = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
                     "P", "Q", "R", "S", "T", "U"};
             public static string[] monthCostArray = {"Id", "MonthlyOne", "MonthlyTwo", "MonthlyThree", "MonthlyFour", "MonthlyFive",
@@ -274,6 +275,8 @@ namespace Finance_App
                         sheet["AD15"].Value = tableFour.Rows[i]["ItemFour"].ToString().Trim();
                         sheet["AD16"].Value = tableFour.Rows[i]["ItemFive"].ToString().Trim();
                         sheet["AD17"].Value = tableFour.Rows[i]["ItemSix"].ToString().Trim();
+                        sheet["AD18"].Value = tableFour.Rows[i]["ItemSeven"].ToString().Trim();
+                        sheet["AD19"].Value = tableFour.Rows[i]["ItemEight"].ToString().Trim();
                         i++;
                     }
                     CountFour++;
@@ -294,6 +297,8 @@ namespace Finance_App
                         sheet["P77"].Value = tableFive.Rows[i]["SaveFour"];
                         sheet["P78"].Value = tableFive.Rows[i]["SaveFive"];
                         sheet["P79"].Value = tableFive.Rows[i]["SaveSix"];
+                        sheet["P80"].Value = tableFive.Rows[i]["SaveSeven"];
+                        sheet["P81"].Value = tableFive.Rows[i]["SaveEight"];
                         i++;
                     }
                     CountFive++;
@@ -512,6 +517,8 @@ namespace Finance_App
                 sheetFour["E1"].Value = "Item Four".ToString().Trim();
                 sheetFour["F1"].Value = "Item Five".ToString().Trim();
                 sheetFour["G1"].Value = "Item Six".ToString().Trim();
+                sheetFour["H1"].Value = "Item Seven".ToString().Trim();
+                sheetFour["I1"].Value = "Item Eight".ToString().Trim();
 
                 //Loop through contents of dataset
                 foreach (DataTable tableFour in Globals.ds.Tables)
@@ -527,6 +534,8 @@ namespace Finance_App
                         sheetFour["E" + j].Value = tableFour.Rows[i]["ItemFour"].ToString().Trim();
                         sheetFour["F" + j].Value = tableFour.Rows[i]["ItemFive"].ToString().Trim();
                         sheetFour["G" + j].Value = tableFour.Rows[i]["ItemSix"].ToString().Trim();
+                        sheetFour["H" + j].Value = tableFour.Rows[i]["ItemSeven"].ToString().Trim();
+                        sheetFour["I" + j].Value = tableFour.Rows[i]["ItemEight"].ToString().Trim();
                         i++;
                     }
                     CountFour++;
@@ -540,6 +549,8 @@ namespace Finance_App
                 sheetFive["E1"].Value = "Save Five".ToString().Trim();
                 sheetFive["F1"].Value = "Save Five".ToString().Trim();
                 sheetFive["G1"].Value = "Save Six".ToString().Trim();
+                sheetFive["H1"].Value = "Save Seven".ToString().Trim();
+                sheetFive["I1"].Value = "Save Eight".ToString().Trim();
 
                 //Loop through contents of dataset
                 foreach (DataTable tableFive in Globals.ds.Tables)
@@ -555,6 +566,8 @@ namespace Finance_App
                         sheetFive["E" + j].Value = tableFive.Rows[i]["SaveFour"];
                         sheetFive["F" + j].Value = tableFive.Rows[i]["SaveFive"];
                         sheetFive["G" + j].Value = tableFive.Rows[i]["SaveSix"];
+                        sheetFive["H" + j].Value = tableFive.Rows[i]["SaveSeven"];
+                        sheetFive["I" + j].Value = tableFive.Rows[i]["SaveEight"];
                         i++;
                     }
                     CountFive++;
@@ -849,6 +862,8 @@ namespace Finance_App
                     textBox5.Text = sdr["SaveFour"].ToString().Trim().Trim();
                     textBox63.Text = sdr["SaveFive"].ToString().Trim().Trim();
                     textBox4.Text = sdr["SaveSix"].ToString().Trim().Trim();
+                    textBox80.Text = sdr["SaveSeven"].ToString().Trim().Trim();
+                    textBox79.Text = sdr["SaveEight"].ToString().Trim().Trim();
 
                 }
                 cnn.Close();
@@ -876,6 +891,8 @@ namespace Finance_App
                     button11.Text = sdr["ItemFour"].ToString().Trim().Trim();
                     button14.Text = sdr["ItemFive"].ToString().Trim().Trim();
                     button13.Text = sdr["ItemSix"].ToString().Trim().Trim();
+                    button40.Text = sdr["ItemSeven"].ToString().Trim().Trim();
+                    button39.Text = sdr["ItemEight"].ToString().Trim().Trim();
                 }
                 cnn.Close();
             }
@@ -1015,14 +1032,14 @@ namespace Finance_App
                 try
                 {
                     // Setup user with new Money Fields in Database
-                    Globals.sqlStatement = "INSERT INTO LongTermTitles(ItemOne,ItemTwo,ItemThree,ItemFour,ItemFive,ItemSix) Values(@itemOne,@itemTwo,@itemThree,@itemFour,@itemFive,@itemSix)";
+                    Globals.sqlStatement = "INSERT INTO LongTermTitles(ItemOne,ItemTwo,ItemThree,ItemFour,ItemFive,ItemSix,ItemSeven,ItemEight) Values(@itemOne,@itemTwo,@itemThree,@itemFour,@itemFive,@itemSix,@itemSeven,@itemEight)";
                     SqlConnection cn = new SqlConnection(Globals.connectionString);
                     SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
                     // Determine what field parameters are
                     for(int i = 0; i < Globals.longTitleArray.Length; i++)
                     {
                         cmd.Parameters.Add(new SqlParameter(Globals.longTitleArray[i], SqlDbType.Char, 25));
-                        cmd.Parameters[Globals.longTitleArray[i]].Value = "SetItemOne";
+                        cmd.Parameters[Globals.longTitleArray[i]].Value = Globals.saveSetItems[i];
                     }
                     // Open Database
                     cn.Open();
@@ -1038,7 +1055,7 @@ namespace Finance_App
                 try
                 {
                     // Setup user with new Money Fields in Database
-                    Globals.sqlStatement = "INSERT INTO LongTermSaves(SaveOne,SaveTwo,SaveThree,SaveFour,SaveFive,SaveSix) Values(@saveOne,@saveTwo,@saveThree,@saveFour,@saveFive,@saveSix)";
+                    Globals.sqlStatement = "INSERT INTO LongTermSaves(SaveOne,SaveTwo,SaveThree,SaveFour,SaveFive,SaveSix,SaveSeven,SaveEight) Values(@saveOne,@saveTwo,@saveThree,@saveFour,@saveFive,@saveSix,@saveSeven,@saveEight)";                    
                     SqlConnection cn = new SqlConnection(Globals.connectionString);
                     SqlCommand cmd = new SqlCommand(Globals.sqlStatement, cn);
                     for (int i = 0; i < Globals.longSaveArray.Length; i++)
@@ -1529,7 +1546,7 @@ namespace Finance_App
                         SqlConnection conn = new SqlConnection(Globals.connectionString);
                         conn.Open();
 
-                        string updateQuery = "UPDATE LongTermSaves SET SaveOne='" + textBox65.Text + "',SaveTwo='" + textBox62.Text + "',SaveThree='" + textBox64.Text + "',SaveFour='" + textBox5.Text + "',SaveFive='" + textBox63.Text + "',SaveSix='" + textBox4.Text + "'  WHERE Id = " + textBox66.Text;
+                        string updateQuery = "UPDATE LongTermSaves SET SaveOne='" + textBox65.Text + "',SaveTwo='" + textBox62.Text + "',SaveThree='" + textBox64.Text + "',SaveFour='" + textBox5.Text + "',SaveFive='" + textBox63.Text + "',SaveSix='" + textBox4.Text + "',SaveSeven='" + textBox80.Text + "',SaveEight = '" + textBox79.Text + " WHERE Id = " + textBox66.Text;
                         SqlCommand cmd = new SqlCommand(updateQuery, conn);
 
                         cmd.ExecuteNonQuery();
@@ -1589,6 +1606,14 @@ namespace Finance_App
         private void Button14_Click(object sender, EventArgs e)
         {
             LongTermUpdates("ItemFive");
+        }
+        private void Button40_Click(object sender, EventArgs e)
+        {
+            LongTermUpdates("ItemSeven");
+        }
+        private void button39_Click(object sender, EventArgs e)
+        {
+            LongTermUpdates("ItemEight");
         }
         private void Button15_Click(object sender, EventArgs e)
         {
@@ -2286,6 +2311,6 @@ namespace Finance_App
         private void button38_Click(object sender, EventArgs e)
         {
             UpdateButtonData(20, button38, textBox47);
-        }
+        }        
     }
 }
